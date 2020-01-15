@@ -1,0 +1,22 @@
+{
+  "name": "minor-project",
+  "version": "1.0.0",
+  "description": "Portal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AJSTINGER98/Minor-Project.git"
+  },
+  "author": "Amann&Abhishek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AJSTINGER98/Minor-Project/issues"
+  },
+  "homepage": "https://github.com/AJSTINGER98/Minor-Project#readme",
+  "dependencies": {
+    "ejs": "^3.0.1"
+  }
+}
