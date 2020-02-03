@@ -5,11 +5,17 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
 const methodOverride = require("method-override");
-
-
+const Sup = require("./models/supervisor");
 app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/public")); // __dirname represent the current directory in which we are working
+mongoose.connect("mongodb://localhost:27017/mydb",{ useNewUrlParser: true,useUnifiedTopology: true });
+app.use(express.static(__dirname + "/public"));
+mongoose.set('useFindAndModify', false);   
 app.use(methodOverride("_method"));
+
+//Import routes
+const supRoute = require("./routes/supervisor");
+
+app.use("/supervisor",supRoute);
 
 app.listen(process.env.port||3000,()=>{
     console.log('Running');
