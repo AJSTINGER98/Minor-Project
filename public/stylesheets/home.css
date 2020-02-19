@@ -1,8 +1,8 @@
-form{
+.home-form {
     position: relative;
     top: 45%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     transition: all 0.5s;
     width: 50px;
     height: 50px;
@@ -12,12 +12,13 @@ form{
     padding: 5px;
 }
 
-input{
-    background-color: #e3f2fd ;
+.home-form-input {
+    background-color: #e3f2fd;
     position: absolute;
     top: 0;
     left: 0;
-    width: 90%;;
+    width: 90%;
+    ;
     height: 42.5px;
     line-height: 30px;
     outline: 0;
@@ -28,7 +29,7 @@ input{
     padding: 0 20px 0 10px;
 }
 
-.fa{
+/* .fa {
     box-sizing: border-box;
     padding: 10px;
     width: 42.5px;
@@ -41,15 +42,28 @@ input{
     text-align: center;
     font-size: 1.2em;
     transition: all 1s;
-}
+} */
 
-form:hover{
+.home-form:hover {
     width: 200px;
     cursor: pointer;
 }
 
-form:hover input{
+.home-form:hover input {
     display: inline-block;
+}
+
+.cardTable {
+    padding: 0;
+}
+
+.no-margin {
+    margin-bottom: 0;
+}
+
+.div-center {
+    margin-top: 10%;
+    margin-bottom: 20%;
 }
 
 /*form:hover .fa{
