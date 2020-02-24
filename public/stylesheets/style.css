@@ -65,8 +65,7 @@
     margin-top: 10%;
     margin-bottom: 20%;
 }
-
-/*form:hover .fa{
-    background: #07051a;
-    color: #e3f2fd;
-}*/
+.entry:not(:first-of-type)
+{
+    margin-top: 20px;
+}

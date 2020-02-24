@@ -4,67 +4,95 @@
         <div class="col">
             <div class="card border-dark">
                 <div class="card-header d-inline-block bg-dark text-white">
-                    <span>Header</span>
-                    <span class="float-sm-right search-filter"><button class="btn"><i class="fas fa-filter" style="color: #FFF"></i></button></span>
+                    <span class="h4">Header</span>
+                    <span class="float-sm-right search-filter"><button class="btn"><i class="fas fa-filter"
+                                style="color: #FFF"></i></button></span>
                 </div>
                 <div class="card-body cardTable">
                     <div class=" container my-2 ml-2 mr-2 search-bar">
-                            <input type="text" class="form-control" placeholder= "Search"aria-label="username">    
+                        <input type="text" class="form-control" placeholder="Search" aria-label="username">
                     </div>
                     <table class="table table-hover no-margin">
                         <thead>
                             <tr>
-                                <th>Header1</th>
-                                <th>Header2</th>
-                                <th>Header3</th>
-                                <th>Header4</th>
-                                <th>Header5</th>
+                                <th>Supervisor ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Department</th>
+                                <th>Year of Completion</th>
+                                <th>Field of Expertise</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="myTable">
+                            
                             <tr>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                            </tr>
-                            <tr>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                            </tr>
-                            <tr>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                            </tr>
-                            <tr>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                            </tr>
-                            <tr>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
-                                <td>Body1</td>
+
                             </tr>
                         </tbody>
                     </table>
-                    <div class="card-footer bg-dark text-white">
-                        <span class="">Add List</span>
-                        <div class="container">
-                            <form action="">
-                                <div class="d-inline-block">
+                    <div class="card-footer bg-dark text-white pb-3">
+                        <div class="">
+                            <span class="h3">Add List</span>
+                            <span class="float-sm-right drop-down-btn"><button class="btn" style="color: #FFF"><i class="fas fa-plus fa-2x"
+                                ></i></button></span>
+                        </div>
+                        <div class="container mt-5 dropDown">
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="input_fname">First Name</label>
+                                        <input type="text" class="form-control" id="input_fname">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="input_lname">Last Name</label>
+                                        <input type="text" class="form-control" id="input_fname">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputDep">Department</label>
+                                        <select id="inputDep" class="form-control">
+                                            <option selected>None</option>
+                                            <option>CSE</option>
+                                            <option>IT</option>
+                                            <option>CCE</option>
 
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputAge">Age</label>
+                                        <select id="inputAge" class="form-control">
+                                            <option selected></option>
+                                        <% for(var i =20; i<100; i++){%> 
+                                            <option><%=i%></option> 
+                                        <%}%>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputYoC">Year of Completion</label>
+                                        <select id="inputYoC" class="form-control">
+                                            <option selected></option>
+                                            <% for(var i = new Date().getFullYear(); i>=new Date().getFullYear()-50; i--){%> 
+                                            <option><%=i%></option> 
+                                            <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label for="inputFoE">Field of Expertise</label>
+                                <div class="controls">
+                                    <div class="form-group">
+                                        <div class="entry input-group">
+                                            <input type="text" name = "fields[]"class="form-control" id="inputFoE" placeholder="Add Expertise">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-secondary btn-add" type="button">
+                                                    <i class="fas fa-plus"></i>   
+                                                </button>                                       
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
                         </div>
