@@ -37,21 +37,21 @@
                                 ></i></button></span>
                         </div>
                         <div class="container mt-5 dropDown">
-                            <form>
+                            <form method="post" action="/supervisor">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="input_fname">First Name</label>
-                                        <input type="text" class="form-control" id="input_fname">
+                                        <input type="text" name= "fname" class="form-control" id="input_fname">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="input_lname">Last Name</label>
-                                        <input type="text" class="form-control" id="input_fname">
+                                        <input type="text" name= "lname" class="form-control" id="input_fname">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="inputDep">Department</label>
-                                        <select id="inputDep" class="form-control">
+                                        <select id="inputDep" name= "dep" class="form-control">
                                             <option selected>None</option>
                                             <option>CSE</option>
                                             <option>IT</option>
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="inputAge">Age</label>
-                                        <select id="inputAge" class="form-control">
+                                        <select id="inputAge" name= "age" class="form-control">
                                             <option selected></option>
                                         <% for(var i =20; i<100; i++){%> 
                                             <option><%=i%></option> 
@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="inputYoC">Year of Completion</label>
-                                        <select id="inputYoC" class="form-control">
+                                        <select id="inputYoC" name= "YoC" class="form-control">
                                             <option selected></option>
                                             <% for(var i = new Date().getFullYear(); i>=new Date().getFullYear()-50; i--){%> 
                                             <option><%=i%></option> 
@@ -82,7 +82,7 @@
                                 <div class="controls">
                                     <div class="form-group">
                                         <div class="entry input-group">
-                                            <input type="text" name = "fields[]"class="form-control" id="inputFoE" placeholder="Add Expertise">
+                                            <input type="text" name = "fields"class="form-control" id="inputFoE" placeholder="Add Expertise">
                                             <span class="input-group-append">
                                                 <button class="btn btn-secondary btn-add" type="button">
                                                     <i class="fas fa-plus"></i>   
