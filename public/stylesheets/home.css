@@ -1,72 +1,114 @@
-.home-form {
-    position: relative;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.5s;
-    width: 50px;
-    height: 50px;
-    background: #e3f2fd;
-    box-sizing: border-box;
-    border-radius: 25px;
-    padding: 5px;
-}
-
-.home-form-input {
-    background-color: #e3f2fd;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 90%;
-    ;
-    height: 42.5px;
-    line-height: 30px;
-    outline: 0;
-    border: 0;
-    display: none;
-    font-size: 1em;
-    /* border-radius: 20px; */
-    padding: 0 20px 0 10px;
-}
-
-/* .fa {
-    box-sizing: border-box;
-    padding: 10px;
-    width: 42.5px;
-    height: 42.5px;
-    position: relative;
-    top: 0;
-    right: 0;
-    border-radius: 0;
-    color: #07051a;
-    text-align: center;
-    font-size: 1.2em;
-    transition: all 1s;
+/* body{
+    background-color: snow;
 } */
 
-.home-form:hover {
-    width: 200px;
-    cursor: pointer;
+#mainNavbar{
+    font-size: 1.2rem;
+    font-weight: 100;
 }
 
-.home-form:hover input {
-    display: inline-block;
+#mainNavbar .navbar-brand{
+    font-size: 1.7rem;
+    font-weight: bolder;
+    letter-spacing: 0.2rem;
 }
 
-.cardTable {
-    padding: 0;
+/* TRANSITION EFFECT FOR ICONS ON NAVBAR */
+#mainNavbar .effect{
+    letter-spacing: 0;
 }
 
-.no-margin {
-    margin-bottom: 0;
+#mainNavbar .effect:hover,
+.effect::after{
+  letter-spacing: 5px;
 }
 
-.div-center {
-    margin-top: 10%;
-    margin-bottom: 20%;
+#mainNavbar .effect::after,
+.effect::before{
+  backface-visibility: hidden;
+  border: 1px solid rgba(255,255,255,0);
+  bottom: 0px;
+  content: " ";
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  transition: all 280ms ease-in-out;
+  width: 0;
 }
 
-/*form:hover .fa{
-    background: #07051a;
-    color: #e3f2fd;
-}*/
+
+#mainNavbar .effect:hover::after,
+.effect:hover::before{
+  backface-visibility: hidden;
+  border-color: #fff;
+  transition: width 350ms ease-in-out;
+  width: 70%;
+}
+
+#mainNavbar .effect:hover::before{
+    bottom: auto;
+    top: 0;
+    width: 70%;
+}
+
+/*SCROLLING EFFECT FOR NAVBAR */
+.navbar.scrolled {
+    background-color: black;
+    transition: background-color 500ms;
+}
+
+/* Home Image */
+/* .himg{
+    opacity: 0.85;
+} */
+
+/* Spacing between content */
+.content{
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+/* Thumbnails on Home Page */
+.bimg{
+    border-radius: 25%;
+    width: 270px;
+    height: 270px;
+    border : 1px solid grey;
+}
+
+.scroll-left-200{
+    width: 100%;
+    text-align: right;
+}
+.scroll-right-200{
+    width: 100%;
+    text-align: left;
+}
+
+.scroll-left-600{
+    width: 100%;
+    text-align: right;
+}
+.scroll-right-600{
+    width: 100%;
+    text-align: left;
+}
+
+.scroll-left-800{
+    width: 100%;
+    text-align: right;
+}
+.scroll-right-800{
+    width: 100%;
+    text-align: left;
+}
+
+.scroll-left-1100{
+    width: 100%;
+    text-align: right;
+}
+.scroll-right-1100{
+    width: 100%;
+    text-align: left;
+}
+
