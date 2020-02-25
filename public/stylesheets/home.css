@@ -1,0 +1,114 @@
+/* body{
+    background-color: snow;
+} */
+
+#mainNavbar{
+    font-size: 1.2rem;
+    font-weight: 100;
+}
+
+#mainNavbar .navbar-brand{
+    font-size: 1.7rem;
+    font-weight: bolder;
+    letter-spacing: 0.2rem;
+}
+
+/* TRANSITION EFFECT FOR ICONS ON NAVBAR */
+#mainNavbar .effect{
+    letter-spacing: 0;
+}
+
+#mainNavbar .effect:hover,
+.effect::after{
+  letter-spacing: 5px;
+}
+
+#mainNavbar .effect::after,
+.effect::before{
+  backface-visibility: hidden;
+  border: 1px solid rgba(255,255,255,0);
+  bottom: 0px;
+  content: " ";
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  transition: all 280ms ease-in-out;
+  width: 0;
+}
+
+
+#mainNavbar .effect:hover::after,
+.effect:hover::before{
+  backface-visibility: hidden;
+  border-color: #fff;
+  transition: width 350ms ease-in-out;
+  width: 70%;
+}
+
+#mainNavbar .effect:hover::before{
+    bottom: auto;
+    top: 0;
+    width: 70%;
+}
+
+/*SCROLLING EFFECT FOR NAVBAR */
+.navbar.scrolled {
+    background-color: black;
+    transition: background-color 500ms;
+}
+
+/* Home Image */
+/* .himg{
+    opacity: 0.85;
+} */
+
+/* Spacing between content */
+.content{
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+/* Thumbnails on Home Page */
+.bimg{
+    border-radius: 25%;
+    width: 270px;
+    height: 270px;
+    border : 1px solid grey;
+}
+
+.scroll-left-200{
+    width: 100%;
+    text-align: right;
+}
+.scroll-right-200{
+    width: 100%;
+    text-align: left;
+}
+
+.scroll-left-600{
+    width: 100%;
+    text-align: right;
+}
+.scroll-right-600{
+    width: 100%;
+    text-align: left;
+}
+
+.scroll-left-800{
+    width: 100%;
+    text-align: right;
+}
+.scroll-right-800{
+    width: 100%;
+    text-align: left;
+}
+
+.scroll-left-1100{
+    width: 100%;
+    text-align: right;
+}
+.scroll-right-1100{
+    width: 100%;
+    text-align: left;
+}
+
