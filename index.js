@@ -7,28 +7,25 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
 const methodOverride = require("method-override");
-// const autoIncrement = require('mongoose-auto-increment');
-
 
 
 //Set ejs as default viewing template
 app.set("view engine", "ejs");
 
 
+const mongoURI = 'mongodb://localhost:27017/mydb';
+
 //Connect to database
-mongoose.connect("mongodb://localhost:27017/mydb",{ useNewUrlParser: true,useUnifiedTopology: true });
+mongoose.connect(mongoURI,{ useNewUrlParser: true,useUnifiedTopology: true });
 mongoose.set('useFindAndModify', false);
+
+
+
 
 
 //Import models
 const supervisor = require("./models/supervisor");
 
-//Auto Increment
-// var connection = mongoose.createConnection("mongodb://localhost:27017/mydb",{ useNewUrlParser: true,useUnifiedTopology: true });
-// autoIncrement.initialize(connection);
-
-//Auto Increment Parameters
-// supervisorSchema.plugin(autoIncrement.plugin, { model: "supervisor", field: "spID" });
 
 //Add default directories
 app.use(express.static(__dirname + "/public"));
@@ -45,14 +42,18 @@ app.use(express.urlencoded({extended: false}));
 
 
 
+
+
 //Import routes
 const supRoute = require("./routes/supervisor");
 const dashRoute = require("./routes/dashboard");
+const formRoute = require("./routes/form");
 
 
 //Call all the routes
 app.use("/supervisor",supRoute);
 app.use("/",dashRoute);
+app.use("/",formRoute);
 
 
 //Decide the port of website
