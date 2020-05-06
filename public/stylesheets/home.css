@@ -1,16 +1,22 @@
-/* body{
-    background-color: snow;
-} */
-
+html,body{
+    height: 100%;
+    width: 100%;
+    /* margin: 0px;
+    padding: 0px; */
+}
+/* NavBar */
 #mainNavbar{
     font-size: 1.2rem;
     font-weight: 100;
+    /* background-color: #e3f2fd; */
+    background-color: #66cdaa;
 }
 
-#mainNavbar .navbar-brand{
-    font-size: 1.7rem;
+#mainNavbar .navbar-brand img{
+    height: 50px;
+    /* font-size: 1.7rem;
     font-weight: bolder;
-    letter-spacing: 0.2rem;
+    letter-spacing: 0.2rem; */
 }
 
 /* TRANSITION EFFECT FOR ICONS ON NAVBAR */
@@ -40,7 +46,7 @@
 #mainNavbar .effect:hover::after,
 .effect:hover::before{
   backface-visibility: hidden;
-  border-color: #fff;
+  border-color: #000;
   transition: width 350ms ease-in-out;
   width: 70%;
 }
@@ -110,5 +116,24 @@
 .scroll-right-1100{
     width: 100%;
     text-align: left;
+}
+
+/* Footer */
+#footer{
+    background-image: url("/Images/Black.jpg");
+    background-size: cover;
+    overflow: hidden;
+    height: 310px;
+    width: 100%;
+    color: white;
+    font-size: 1.1em;
+    text-align: center;
+    /* position: relative; */
+}
+
+@media (max-width : 768px){
+    #disp{
+        display: none;
+    }
 }
 

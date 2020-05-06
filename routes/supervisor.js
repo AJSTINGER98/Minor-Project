@@ -11,7 +11,7 @@ router.get("/",(req,res)=>{
 			console.log(err);
 		}
 		else{
-            res.render("supervisor",{supervisor:supervisor});
+           res.render("supervisor",{supervisor:supervisor});
 		}
 	});
 
@@ -37,9 +37,5 @@ router.post("/", (req,res) =>{
     });
 
 });
-
-
-
-
 
 module.exports = router;

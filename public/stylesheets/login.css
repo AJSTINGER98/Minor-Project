@@ -1,6 +1,36 @@
+/* Line on either side of text "or Sign Up Using" */
+h6{
+    position: relative;
+    font-size: 13px;
+    overflow-x: hidden;
+    text-align: center;
+    padding-right: 10px;
+}
+h6:before{
+    position: absolute;
+    top: 50%;
+    width: 48%;
+    height: 1px;
+    content: '';
+    background-color: white;
+    margin-left: -50%;
+}
+h6:after{
+    position: absolute;
+    margin-left: 4px;
+    top: 50%;
+    width: 48%;
+    height: 1px;
+    content: ' ';
+    background-color: white;
+}
+
 body{
-    background: rgb(200,3,189);
-    background: radial-gradient(circle, rgba(200,3,189,1) 20%, rgba(138,25,212,1) 74%, rgba(106,17,238,1) 100%);
+    background: url("/Images/Login.jpg") fixed;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow-y: hidden;
 }
 
 .container{

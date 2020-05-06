@@ -2,14 +2,37 @@ const mongoose = require("mongoose");
 
 
 supervisorSchema = new mongoose.Schema({
-    spID: Number,
-    Name: String,
-    Age: {type: Number, min: 20 , max: 60},
-    Department: String,
-    FoE: [String],
-    YoC: {type: Number, min: new Date().getFullYear()-50 , max: new Date().getFullYear()},
+    spID         : Number,
+    firstName    : String,
+    lastName     : String,
+    email        : String,
+    phone        : String,
+    age          : Number,
+    academicRole : String,
+    department   : String,
+    school       : String,
+    academicQ    :[{
+        degree         : String,
+        specialisation : String,
+        institute      : String,
+        yoc            : Number
+    }],
+    experience   :[{
+        organisation : String,
+        designation  : String,
+        role         : String,
+        tenure       : Number
+    }],
+    research     :[{
+        title    : String,
+        duration : Number,
+        agency   : String,
+        role     : String,
+        amount   : Number
+    }],
+    FoE: [String]
 });
 
 
-module.exports = mongoose.model("supervisor",supervisorSchema);
+module.exports = mongoose.model("Supervisor",supervisorSchema);
 

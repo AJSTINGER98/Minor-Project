@@ -1,53 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="../Utilities/BOOTSTRAP_4.css" type="text/css">
-    <link rel="stylesheet" href="../Utilities/Fontawesome/css/all.css" type="text/css">
-    <link rel="stylesheet" href="../public/stylesheets/login.css" type="text/css">
-  </head>
-  <body>
-      <div class="container">
-        <div class = "d-flex justify-content-center">
-
-                  <div class = "card">
-                    <div class = "card-header">
-                      <h3 class="text-center">Log In</h3>
-                    </div>
-                    <div class ="card-body">
-                      <form action="https://www.google.com" method="GET">
-                        <div class = "input-group form-group">
-                          <div class = "input-group-prepend w-100">
-                            <span class = "input-group-text"><i class="fas fa-user"></i></span>
-                            <input name="user" class = "w-100" type="text" placeholder=" Username" required>
-                          </div>
-                        </div>
-                        <div class = "input-group form-group">
-                          <div class = "input-group-prepend w-100">
-                            <span class = "input-group-text"><i class="fas fa-key"></i></span>
-                            <input name="pass" class = "w-100" type="password" placeholder=" Password" required pattern=".{5,10}" title="The length of the password should be between 5 and 10">
-                          </div>
-                        </div>
-                        <div class = "align-item-center">
-                          <input type="checkbox" name="RememberMe" id="remember"> Remember 
-                        </div>
-                        <div class="form-group text-center">
-                          <input type="submit" value="Login" class="btn btn-primary btn-block">
-                        </div>
-                        <div class="card-footer">
-                          <div class="d-flex justify-content-center">
-                            <p class="text-center">Don't have an account?<br>
-                            <a href="#">Sign Up</a></p>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/BOOTSTRAP_4.css" type="text/css">
+  <link rel="stylesheet" href="/Fontawesome/css/all.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/login.css" type="text/css">
+</head>
+<body>
+  <div class="container">
+    <div class = "d-flex justify-content-center">
+      <div class = "card">
+        <div class = "card-header">
+          <h3 class="text-center">Log In</h3>
+        </div>
+        <div class ="card-body">
+          <form action="https://www.google.com" method="GET">
+            <div class = "input-group form-group">
+              <div class = "input-group-prepend w-100">
+                <span class = "input-group-text"><i class="fas fa-user"></i></span>
+                <input name="user" class = "w-100" type="text" placeholder=" Username" required>
               </div>
+            </div>
+            <div class = "input-group form-group">
+              <div class = "input-group-prepend w-100">
+                <span class = "input-group-text"><i class="fas fa-key"></i></span>
+                <input name="pass" class = "w-100" type="password" placeholder=" Password" required pattern=".{5,10}" title="The length of the password should be between 5 and 10">
+              </div>
+            </div>
+            <div class = "align-item-center pb-2">
+              <input type="checkbox" name="RememberMe" id="remember" class="mx-1">Remember 
+            </div>
+            <div class="form-group text-center">
+              <input type="submit" value="Login" class="btn btn-primary btn-block my-2">
+            </div>
+          </form>
+          <div class="container-fluid" style="text-align: center;">
+            <h6 class="py-2 px-2">Or Sign Up Using</h6>
+            <a href="https://www.facebook.com"><img src="/Images/facebook.png"></a>
+            <a href="https://www.twitter.com"><img src="/Images/twitter.png"></a>
+            <a href="https://www.g"><img src="/Images/google+.png"></a>
+            <hr style="background-color: white;">
+          </div>
+        </div>  
+        <div class="card-footer my-0" >
+          <div class="d-flex justify-content-center">
+                <p class="text-center">Don't have an account?
+                <a href="/signup" class="px-2">Sign Up</a><br>
+                <a href="#" style="color: white;">Forgot Username/Password</a></p>
+          </div>
+        </div>
       </div>
-<script src="../Utilities/JQuery-v.3.js"></script>
-<script src="../Utilities/Popper.min.js"></script>
-<script src="../Utilities/BOOTSTRAP_4.js"></script>
+    </div>
+  </div>
+<script src="/JQuery-v.3.js"></script>
+<script src="/Popper.min.js"></script>
+<script src="/BOOTSTRAP_4.js"></script>
 </body>
 </html>

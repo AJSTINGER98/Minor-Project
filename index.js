@@ -54,6 +54,11 @@ const dashRoute = require("./routes/dashboard");
 app.use("/supervisor",supRoute);
 app.use("/",dashRoute);
 
+// Profile Route
+app.get("/profile",function(req,res){
+    res.render("profile");
+})
+
 
 //Decide the port of website
 app.listen(process.env.port||3000,()=>{

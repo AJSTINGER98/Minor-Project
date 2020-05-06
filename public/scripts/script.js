@@ -1,5 +1,5 @@
+// ------------Supervisor.ejs------------------
 newFunction();
-
 function newFunction() {
     $(document).ready(function () {
         
@@ -28,12 +28,10 @@ function newFunction() {
 
     });
 
-    $(function()
-{
-    $(document).on('click', '.btn-add', function(e)
-    {
-            e.preventDefault();
-
+    // Include add/remove button for Field of Expertise.
+    $(function(){
+    $(document).on('click', '.btn-add', function(e){
+        e.preventDefault();
         var controlForm = $('.controls .form-group:first'),
             currentEntry = $(this).parents('.entry:first'),
             newEntry = $(currentEntry.clone()).appendTo(controlForm);
@@ -43,15 +41,14 @@ function newFunction() {
             .removeClass('btn-add').addClass('btn-remove')
             .removeClass('btn-success').addClass('btn-danger')
             .html('<i class="fas fa-minus"></i>');
-    }).on('click', '.btn-remove', function(e)
-    {
+    }).on('click', '.btn-remove', function(e){
 		$(this).parents('.entry:first').remove();
-
 		e.preventDefault();
 		return false;
-	});
-});
+	    });
+    });
 
+// -------------------Home.ejs-----------------------
     $(function () {
         $(document).scroll(function () {
             var $nav = $("#mainNavbar");
