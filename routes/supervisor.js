@@ -12,29 +12,44 @@ router.get("/",(req,res)=>{
 		}
 		else{
            res.render("supervisor",{supervisor:supervisor});
+            // res.render("supervisor",{ supervisor: supervisor});
 		}
 	});
-
 });
 
 router.post("/", (req,res) =>{
-
-    supData = {
-        Name: req.body.fname + " " + req.body.lname,
-        Age: req.body.age,
-        Department: req.body.dep,
-        FoE: req.body.fields,
-        YoC: req.body.YoC,
-    };
-    console.log(supData);
-    supervisor.create(supData, (err,supervisor) => {
+    supervisor.find({},function(err, sup){
         if(err){
             console.log(err);
-        }
-        else{
-            res.redirect("/supervisor");
-        }
-    });
+		}
+		else{
+            var id;
+            if(sup.length == 0){
+                id = 1;
+            }
+            else{
+                id = sup[sup.length-1].spID +1;
+            }
+            supData = {
+                spID: id,
+                Name: req.body.fname + " " + req.body.lname,
+                Age: req.body.age,
+                Department: req.body.dep,
+                FoE: req.body.fields,
+                YoC: req.body.YoC,
+            };
+            console.log(supData);
+            supervisor.create(supData, (err,supervisor) => {
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.redirect("/supervisor");
+                }
+            });
+		}
+	});
+
 
 });
 

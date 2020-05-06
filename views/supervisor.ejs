@@ -14,7 +14,7 @@
                     <div class=" container my-2 ml-2 mr-2 search-bar">
                         <input type="text" class="form-control" placeholder="Search" aria-label="username">
                     </div>
-                    <table class="table table-hover no-margin">
+                    <table class="table table-hover no-margin text-center">
                         <thead>
                             <tr>
                                 <th>Supervisor ID</th>
@@ -26,10 +26,26 @@
                             </tr>
                         </thead>
                         <tbody class="myTable">
-                            
-                            <tr>
-
-                            </tr>
+                            <%supervisor.forEach(function(sup){%>
+                                <tr>
+                                    <td><%=sup.spID%></td>
+                                    <td><%=sup.Name%></td>
+                                    <td><%=sup.Age%></td>
+                                    <td><%=sup.Department%></td>
+                                    <td><%=sup.YoC%></td>
+                                    <td>
+                                        <% sup.FoE.forEach(field => {%>
+                                            <span>
+                                                <%=field%>
+                                            <%if(field != sup.FoE[sup.FoE.length-1]){%>
+                                                ,
+                                            <%}%>
+                                            </span>
+                                        <% }); %>
+                                        <div class="d-inline-block float-right"><a class = "text-secondary" href="/"><i class="fas fa-chevron-right"></i></a></div>
+                                    </td>
+                                </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                     <div class="card-footer bg-dark text-white pb-3">

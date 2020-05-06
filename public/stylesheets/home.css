@@ -137,3 +137,7 @@ html,body{
     }
 }
 
+/* modals for phd form */
+.modal .modal-dialog {
+    max-width: 800px;
+}
