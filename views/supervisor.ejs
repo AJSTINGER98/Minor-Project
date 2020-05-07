@@ -21,7 +21,6 @@
                                 <th>Name</th>
                                 <th>Age</th>
                                 <th>Department</th>
-                                <th>Year of Completion</th>
                                 <th>Field of Expertise</th>
                             </tr>
                         </thead>
@@ -29,10 +28,9 @@
                             <%supervisor.forEach(function(sup){%>
                                 <tr>
                                     <td><%=sup.spID%></td>
-                                    <td><%=sup.Name%></td>
-                                    <td><%=sup.Age%></td>
-                                    <td><%=sup.Department%></td>
-                                    <td><%=sup.YoC%></td>
+                                    <td><%=sup.firstName%> <%=sup.lastName%></td>
+                                    <td><%=sup.age%></td>
+                                    <td><%=sup.department%></td>
                                     <td>
                                         <% sup.FoE.forEach(field => {%>
                                             <span>
@@ -131,87 +129,101 @@
                                 <br>
                                 <h5 id="title"><em>ACADEMIC QUALIFICATIONS</em></h5>
                                 <br>
-                                
-                                <!-- FOURTH ROW -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="degree">Degree/Title</label>
-                                        <select id="degree" class="form-control" name="supervisor[academicQ].degree" >
-                                            <option>None</option>
-                                            <option>Bachelor of Computer Applications (B.C.A)</option>
-                                            <option>Bachelor of Computer Science (B.C.S)</option>
-                                            <option>Bachelor of Education in AI (B.Ed.AI)</option>
-                                            <option>Bachelor of Electronic Science (B.E.S)</option>
-                                            <option>Bachelor of Engineering (B.E)</option>
-                                            <option>Bachelor of Science (B.Sc)</option>
-                                            <option>Bachelor of Science Education (B.S.E)</option>
-                                            <option>Bachelor of Science Bachelor of Education (B.Sc.B.Ed)</option>
-                                            <option>Bachelor of Science Bachelor of Education (B.Sc.B.Ed)</option>
-                                            <option>Bachelor of Technology (B.Tech)</option>
-                                            <option>Master of Computer Applications (M.C.A)</option>
-                                            <option>Master of Education (M.Ed)</option>
-                                            <option>Master of Science (M.Sc)</option>
-                                            <option>Master of Technology (M.Tech)</option>
-                                            <option>Post Graduate (PG)</option>
-                                            <option>Post Graduate Diploma (P.Diploma)</option>
-                                            <option>Doctor of Philosophy (Ph.D)</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="specialisation">Specialisation</label>
-                                        <input type="text" id="specialisation" class="form-control" name="supervisor[academicQ].specialisation" >
-                                    </div>
-                                </div>
+                                <div class="academic-form">
+                                    <div class="academic-entry">
 
-                                <!-- FIFTH ROW -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-8">
-                                        <label for="institute">Institute</label>
-                                        <input type="text" id="institute" class="form-control" name="supervisor[academicQ].institute" >
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="inputYoC">Year of Completion</label>
-                                        <select id="inputYoC" class="form-control" name= "supervisor[academicQ].yoc" >
-                                            <option selected>None</option>
-                                            <% for(var i = new Date().getFullYear(); i>=new Date().getFullYear()-50; i--){ %> 
-                                            <option><%= i %></option> 
-                                            <% } %>
-                                        </select>
+                                        <!-- FOURTH ROW -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="degree">Degree/Title</label>
+                                                <select id="degree" class="form-control" name="supervisor[academicQ][degree]" >
+                                                    <option>None</option>
+                                                    <option>Bachelor of Computer Applications (B.C.A)</option>
+                                                    <option>Bachelor of Computer Science (B.C.S)</option>
+                                                    <option>Bachelor of Education in AI (B.Ed.AI)</option>
+                                                    <option>Bachelor of Electronic Science (B.E.S)</option>
+                                                    <option>Bachelor of Engineering (B.E)</option>
+                                                    <option>Bachelor of Science (B.Sc)</option>
+                                                    <option>Bachelor of Science Education (B.S.E)</option>
+                                                    <option>Bachelor of Science Bachelor of Education (B.Sc.B.Ed)</option>
+                                                    <option>Bachelor of Science Bachelor of Education (B.Sc.B.Ed)</option>
+                                                    <option>Bachelor of Technology (B.Tech)</option>
+                                                    <option>Master of Computer Applications (M.C.A)</option>
+                                                    <option>Master of Education (M.Ed)</option>
+                                                    <option>Master of Science (M.Sc)</option>
+                                                    <option>Master of Technology (M.Tech)</option>
+                                                    <option>Post Graduate (PG)</option>
+                                                    <option>Post Graduate Diploma (P.Diploma)</option>
+                                                    <option>Doctor of Philosophy (Ph.D)</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="specialisation">Specialisation</label>
+                                                <input type="text" id="specialisation" class="form-control" name="supervisor[academicQ][specialisation]" >
+                                            </div>
+                                        </div>
+        
+                                        <!-- FIFTH ROW -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-8">
+                                                <label for="institute">Institute</label>
+                                                <input type="text" id="institute" class="form-control" name="supervisor[academicQ][institute]" >
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="inputYoC">Year of Completion</label> 
+                                                <select id="inputYoC" class="form-control" name= "supervisor[academicQ][yoc]" >
+                                                    <option selected>None</option>
+                                                    <% for(var i = new Date().getFullYear(); i>=new Date().getFullYear()-50; i--){ %> 
+                                                    <option><%= i %></option> 
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group w-100">
+                                            <button class="btn btn-secondary w-100 btn-academic-add"><i class="fas fa-plus"></i> Add Academic Qualifications</button>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <hr id="suphr">
                                 <br>
-                                <h5 id="title"><em>EXPERIENCE</em></h5>
+                                <h5 id="title"><em>EXPERIENCE<em></h5>
                                 <br>
+                                <div class="experience-form">
+                                    <div class="experience-entry">
 
-                                <!-- SIXTH ROW -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-12">
-                                        <label for="organization">Organization</label>
-                                        <input type="text" id="organization" class="form-control"  name="supervisor[experience].organisation">
-                                    </div>
-                                </div>
-
-                                <!-- SEVENTH ROW -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-5">
-                                        <label for="designation">Designation</label>
-                                        <input type="text" id="designation" class="form-control" name="supervisor[experience].designation" >
-                                    </div>
-                                    <div class="form-group col-md-5">
-                                        <label for="role">Role</label>
-                                        <input type="text" id="role" class="form-control" name="supervisor[experience].role" >
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="tenure">Tenure</label>
-                                        <select id="tenure" class="form-control" name= "supervisor[experience].tenure" >
-                                            <option selected>None</option>
-                                            <option>&lt; 1</option>
-                                            <% for(var i =1; i<40; i++){ %> 
-                                                <option><%= i %></option> 
-                                            <% } %>
-                                        </select>
+                                        <!-- SIXTH ROW -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="organization">Organization</label>
+                                                <input type="text" id="organization" class="form-control"  name="supervisor[experience][organisation]" >
+                                            </div>
+                                        </div>
+        
+                                        <!-- SEVENTH ROW -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-5">
+                                                <label for="designation">Designation</label>
+                                                <input type="text" id="designation" class="form-control" name="supervisor[experience][designation]" >
+                                            </div>
+                                            <div class="form-group col-md-5">
+                                                <label for="role">Role</label>
+                                                <input type="text" id="role" class="form-control" name="supervisor[experience][role]" >
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="tenure">Tenure</label>
+                                                <select id="tenure" class="form-control" name= "supervisor[experience][tenure]" >
+                                                    <option selected>None</option>
+                                                    <option>&lt; 1</option>
+                                                    <% for(var i =1; i<40; i++){ %> 
+                                                        <option><%= i %></option> 
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group w-100">
+                                            <button class="btn btn-secondary w-100 btn-experience-add"><i class="fas fa-plus"></i> Add Experience</button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -220,37 +232,46 @@
                                 <h5 id="title"><em>RESEARCH PROJECT</em></h5>
                                 <br>
 
-                                <!-- EIGHT ROW -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-9">
-                                        <label for="project">Project Title</label>
-                                        <input type="text" id="project" class="form-control" name="supervisor[research].title" >
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="duration">Duration</label>
-                                        <select id="duration" class="form-control" name= "supervisor[research].duration" >
-                                            <option selected>None</option>
-                                            <option>&lt; 1</option>
-                                            <% for(var i =1; i<=15; i++){ %> 
-                                                <option><%= i %></option> 
-                                            <% } %>
-                                        </select>
-                                    </div>
-                                </div>
+                                <div class="research-form">
+                                    <div class="research-entry">
 
-                                <!-- NINTH ROW -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-5">
-                                        <label for="agency">Funding Agency</label>
-                                        <input type="text" id="agency" class="form-control" name="supervisor[research].agency" >
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="rolep">Role</label>
-                                        <input type="text" id="rolep" class="form-control" name="supervisor[research].role" >
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="amount">Amount(INR)</label>
-                                        <input type="text" id="amount" class="form-control" name="supervisor[research].amount" >
+                                        <!-- EIGHT ROW -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-9">
+                                                <label for="project">Project Title</label>
+                                                <input type="text" id="project" class="form-control" name="supervisor[research][title]" >
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="duration">Duration</label>
+                                                <select id="duration" class="form-control" name= "supervisor[research][duration]" >
+                                                    <option selected>None</option>
+                                                    <option>&lt; 1</option>
+                                                    <% for(var i =1; i<=15; i++){ %> 
+                                                        <option><%= i %></option> 
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                        </div>
+        
+                                        <!-- NINTH ROW -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-5">
+                                                <label for="agency">Funding Agency</label>
+                                                <input type="text" id="agency" class="form-control" name="supervisor[research][agency]" >
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="rolep">Role</label> 
+                                                <input type="text" id="rolep" class="form-control" name="supervisor[research][role]" >
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="amount">Amount(INR)</label>
+                                                <input type="text" id="amount" class="form-control" name="supervisor[research][amount]" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group w-100">
+                                            <button class="btn btn-secondary w-100 btn-research-add"><i class="fas fa-plus"></i> Add Research</button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -266,7 +287,7 @@
                                         <div class="entry input-group">
                                             <input type="text" class="form-control" placeholder="Add Expertise" name ="supervisor[FoE]" >
                                             <span class="input-group-append">
-                                                <button class="btn btn-secondary btn-add" type="button">
+                                                <button class="btn btn-secondary btn-foe-add" type="button">
                                                     <i class="fas fa-plus"></i>   
                                                 </button>                                       
                                             </span>

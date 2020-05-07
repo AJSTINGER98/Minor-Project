@@ -30,22 +30,87 @@ function newFunction() {
 
     // Include add/remove button for Field of Expertise.
     $(function(){
-    $(document).on('click', '.btn-add', function(e){
+    $(document).on('click', '.btn-foe-add', function(e){
         e.preventDefault();
         var controlForm = $('.controls .form-group:first'),
             currentEntry = $(this).parents('.entry:first'),
             newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-        newEntry.find('input').val('');
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
+        currentEntry.find('input').val('');
+        controlForm.find('.entry:not(:first) .btn-foe-add')
+            .removeClass('btn-foe-add').addClass('btn-foe-remove')
+            .removeClass('btn-secondary').addClass('btn-danger')
             .html('<i class="fas fa-minus"></i>');
-    }).on('click', '.btn-remove', function(e){
+    }).on('click', '.btn-foe-remove', function(e){
 		$(this).parents('.entry:first').remove();
 		e.preventDefault();
 		return false;
 	    });
+    });
+
+    // Add multiple research field
+
+    $(function(){
+        $(document).on('click','.btn-research-add', function(e){
+            e.preventDefault();
+            var researchForm = $('.research-form');
+                researchEntry = $(this).parents('.research-entry:first');
+                newResearchEntry = $((researchEntry.clone()).appendTo(researchForm));
+            
+            newResearchEntry.find('input').val('');
+            researchForm.find('.research-entry:not(:last) .btn-research-add')
+                .removeClass('btn-research-add').addClass('btn-research-remove')
+                .removeClass('btn-secondary').addClass('btn-danger')
+                .html('<i class="fas fa-minus"></i>');
+        }).on('click', '.btn-research-remove', function(e){
+            $(this).parents('.research-entry:first').remove();
+            e.preventDefault();
+            return false;
+        });
+    });
+
+    //Add multiple experience field
+
+    $(function(){
+        $(document).on('click','.btn-experience-add', function(e){
+            e.preventDefault();
+            var experienceForm = $('.experience-form');
+                experienceEntry = $(this).parents('.experience-entry:first');
+                newExperienceEntry = $((experienceEntry.clone()).appendTo(experienceForm));
+            
+            newExperienceEntry.find('input').val('');
+            experienceForm.find('.experience-entry:not(:last) .btn-experience-add')
+                .removeClass('btn-experience-add').addClass('btn-experience-remove')
+                .removeClass('btn-secondary').addClass('btn-danger')
+                .html('<i class="fas fa-minus"></i>');
+        }).on('click', '.btn-experience-remove', function(e){
+            $(this).parents('.experience-entry:first').remove();
+            e.preventDefault();
+            return false;
+        });
+    });
+
+
+    //Add multiple academic field
+
+
+    $(function(){
+        $(document).on('click','.btn-academic-add', function(e){
+            e.preventDefault();
+            var academicForm = $('.academic-form');
+                academicEntry = $(this).parents('.academic-entry:first');
+                newAcademicEntry = $((academicEntry.clone()).appendTo(academicForm));
+            
+            newAcademicEntry.find('input').val('');
+            academicForm.find('.academic-entry:not(:last) .btn-academic-add')
+                .removeClass('btn-academic-add').addClass('btn-academic-remove')
+                .removeClass('btn-secondary').addClass('btn-danger')
+                .html('<i class="fas fa-minus"></i>');
+        }).on('click', '.btn-academic-remove', function(e){
+            $(this).parents('.academic-entry:first').remove();
+            e.preventDefault();
+            return false;
+        });
     });
 
 // -------------------Home.ejs-----------------------

@@ -38,7 +38,9 @@ app.use(methodOverride("_method"));
 
 //Enable body-parser
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+
+// here setting extended to true allows body parser to convert the data of req.body into object and array form where necessary.
+app.use(express.urlencoded({extended: true}));
 
 
 
@@ -58,7 +60,7 @@ app.use("/",formRoute);
 // Profile Route
 app.get("/profile",function(req,res){
     res.render("profile");
-})
+});
 
 
 //Decide the port of website
