@@ -1,56 +1,62 @@
-//Import all npm modules
-const express = require('express');
+// IMPORT ALL NPM MODULES 
+const path                  = require('path'),
+      flash                 = require('connect-flash'),
+      express               = require('express'),
+      mongoose              = require("mongoose"),
+      passport              = require("passport"),
+      bodyParser            = require("body-parser"),
+      localStrategy         = require("passport-local"),
+      passportLocalMongoose = require("passport-local-mongoose"),
+      methodOverride        = require("method-override");
+
 const app = express();
-const mongoose = require("mongoose");
-const path = require('path');
-const passport = require("passport");
-const localStrategy = require("passport-local");
-const passportLocalMongoose = require("passport-local-mongoose");
-const methodOverride = require("method-override");
 
+// IMPORT MODELS
+const Supervisor = require("./models/supervisor");
 
-//Set ejs as default viewing template
+// SETUP CONNECTION TO DATABASE
+const mongoURI = 'mongodb://localhost:27017/mydb';
+mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify : false});
+
+// SET "EJS" AS DEFAULT VIEWING TEMPLATE
 app.set("view engine", "ejs");
 
+// SETUP BODY PARSER
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-const mongoURI = 'mongodb://localhost:27017/mydb';
+// METHOD OVERRIDE FOR RESTful ROUTING
+app.use(methodOverride("_method"));
 
-//Connect to database
-mongoose.connect(mongoURI,{ useNewUrlParser: true,useUnifiedTopology: true });
-mongoose.set('useFindAndModify', false);
+// SETUP FLASH MESSAGES
+app.use(flash());
 
+// EXPRESS SESSION
+app.use(require("express-session")({
+    secret: "Minor Project",
+    resave : false,
+    saveUninitialized : false
+}));
 
-
-
-
-//Import models
-const supervisor = require("./models/supervisor");
-
-
-//Add default directories
+// SETUP DEFAULT(STATIC) DIRECTORIES
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/Utilities"));
 app.set('views', path.join(__dirname, 'views'));
 
+// PASS LOCAL VARIABLES IN ALL ROUTES
+app.use(function(req,res,next){
+    res.locals.error     = req.flash("error");
+    res.locals.warning   = req.flash("warning");
+    res.locals.success   = req.flash("success");
+    next();
+});
 
-//method-override to implement RESTful Routing
-app.use(methodOverride("_method"));
-
-//Enable body-parser
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-
-
-
-
-
-//Import routes
+// IMPORT ROUTES 
 const supRoute = require("./routes/supervisor");
 const dashRoute = require("./routes/dashboard");
 const formRoute = require("./routes/form");
 
-
-//Call all the routes
+// CALL ROUTES
 app.use("/supervisor",supRoute);
 app.use("/",dashRoute);
 app.use("/",formRoute);
@@ -60,8 +66,7 @@ app.get("/profile",function(req,res){
     res.render("profile");
 })
 
-
-//Decide the port of website
+// INITIALISE PORT TO START SERVER
 app.listen(process.env.port||3000,()=>{
-    console.log('Running');
+    console.log('Server Started');
 });

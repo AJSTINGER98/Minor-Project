@@ -8,10 +8,6 @@ var middlewareObject = {};
 
 const mongoURI = 'mongodb://localhost:27017/mydb';
 
-
-
-
-
 const storage = new GridFsStorage({
     url: mongoURI,
     file: (req, file) => {
@@ -29,7 +25,7 @@ const storage = new GridFsStorage({
           });
       });
     }
-  });
+});
 
 middlewareObject.upload = multer({ storage });
 

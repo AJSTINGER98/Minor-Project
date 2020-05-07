@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
 
-
-supervisorSchema = new mongoose.Schema({
+// SETUP SCHEMA
+var supervisorSchema = new mongoose.Schema({
     spID         : Number,
     firstName    : String,
     lastName     : String,
@@ -33,6 +33,6 @@ supervisorSchema = new mongoose.Schema({
     FoE: [String]
 });
 
-
+// RETURN MODEL
 module.exports = mongoose.model("Supervisor",supervisorSchema);
 

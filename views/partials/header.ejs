@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <!-- Required Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>HomePage</title>
-    <link rel="stylesheet" href="/BOOTSTRAP_4.css" type="text/css">
-    <link rel="stylesheet" href="/HoverEffects/demo.css" type="text/css">
-    <link rel="stylesheet" href="/HoverEffects/style_common.css" type="text/css">
-    <link rel="stylesheet" href="/HoverEffects/style10.css" type="text/css">
-    <link rel="stylesheet" href="/HoverEffects/hover.css" type="text/css">
-    <link rel="stylesheet" href="/Fontawesome/css/all.css" type="text/css">    
-    <link rel="stylesheet" href="/stylesheets/home.css" type="text/css">
-    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
-</head>
+	<head>
+		<!-- Required Meta Tags -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>HomePage</title>
+		<link rel="stylesheet" href="/BOOTSTRAP_4.css" type="text/css">
+		<link rel="stylesheet" href="/HoverEffects/demo.css" type="text/css">
+		<link rel="stylesheet" href="/HoverEffects/style_common.css" type="text/css">
+		<link rel="stylesheet" href="/HoverEffects/style10.css" type="text/css">
+		<link rel="stylesheet" href="/HoverEffects/hover.css" type="text/css">
+		<link rel="stylesheet" href="/Fontawesome/css/all.css" type="text/css">    
+		<link rel="stylesheet" href="/stylesheets/home.css" type="text/css">
+		<link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
+	</head>
 <body>
+	<!-- NAVBAR -->
     <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-light fixed-top py-0">
         <div class="container-fluid">
           <a class="navbar-brand py-0 my-0" href="https://jaipur.manipal.edu/" target="_blank">
@@ -58,3 +59,21 @@
         </div>
     </nav>
    
+	<!-- ALERT MESSAGE CONFIGURATION -->
+	<div class="container" style="padding-top:80px;" >
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+        <% } %>
+        <% if(success && success.length > 0){ %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+        <% } %>
+        <% if(warning && warning.length > 0){ %>
+            <div class="alert alert-warning" role="alert">
+                <%= warning %>
+            </div>
+        <% } %>
+    </div>

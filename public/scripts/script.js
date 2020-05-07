@@ -28,13 +28,13 @@ function newFunction() {
 
     });
 
-    // Include add/remove button for Field of Expertise.
+    // INCLUDE ADD/REMOVE FOR FOE
     $(function(){
     $(document).on('click', '.btn-add', function(e){
         e.preventDefault();
         var controlForm = $('.controls .form-group:first'),
             currentEntry = $(this).parents('.entry:first'),
-            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+            newEntry = $(currentEntry.clone()).prependTo(controlForm);
 
         newEntry.find('input').val('');
         controlForm.find('.entry:not(:last) .btn-add')
@@ -46,6 +46,66 @@ function newFunction() {
 		e.preventDefault();
 		return false;
 	    });
+    });
+
+    // INCLUDE ADD/REMOVE FOR ACADEMICQ FIELDS
+    $(function(){
+        $(document).on('click','.addAQ',function(e){
+            e.preventDefault();
+            var academicForm = $('.academic'),
+                academicEntry = $(this).parents('.academicField'),
+                newacademicEntry = $(academicEntry.clone()).prependTo(academicForm);
+
+                newacademicEntry.find('input').val('');
+                academicForm.find('.academicField:not(:last) .addAQ')
+                .removeClass('addAQ').addClass('delAQ')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('REMOVE');
+        }).on('click','.delAQ',function(e){
+            $(this).parents('.academicField:first').remove();
+            e.preventDefault();
+            return false;
+        });
+    });
+
+    // INCLUDE ADD/REMOVE FOR EXPERIENCE
+    $(function(){
+        $(document).on('click','.addEX',function(e){
+            e.preventDefault();
+            var experienceForm = $('.experience'),
+                experienceEntry = $(this).parents('.experienceField'),
+                newexperienceEntry = $(experienceEntry.clone()).prependTo(experienceForm);
+
+                newexperienceEntry.find('input').val('');
+                experienceForm.find('.experienceField:not(:last) .addEX')
+                .removeClass('addEX').addClass('delEX')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('REMOVE');
+        }).on('click','.delEX',function(e){
+            $(this).parents('.experienceField:first').remove();
+            e.preventDefault();
+            return false;
+        });
+    });
+
+    // INCLUDE ADD/REMOVE FOR RESEARCH
+    $(function(){
+        $(document).on('click','.addRP',function(e){
+            e.preventDefault();
+            var researchForm = $('.research'),
+                researchEntry = $(this).parents('.researchField'),
+                newresearchEntry = $(researchEntry.clone()).prependTo(researchForm);
+
+                newresearchEntry.find('input').val('');
+                researchForm.find('.researchField:not(:last) .addRP')
+                .removeClass('addRP').addClass('delRP')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('REMOVE');
+        }).on('click','.delRP',function(e){
+            $(this).parents('.researchField:first').remove();
+            e.preventDefault();
+            return false;
+        });
     });
 
 // -------------------Home.ejs-----------------------

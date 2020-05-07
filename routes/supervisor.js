@@ -1,56 +1,39 @@
 const express = require("express");
 const router = express.Router();
 
-//Import models
-const supervisor = require("../models/supervisor");
+//IMPORT MODEL
+const Supervisor = require("../models/supervisor");
 
-
+// INDEX ROUTE - Show all Supervisors
 router.get("/",(req,res)=>{
-    supervisor.find({},function(err, supervisor){
+    Supervisor.find({},function(err, allsupervisor){
 		if(err){
+            req.flash('error',"Something went wrong, Please Try Again");
 			console.log(err);
-		}
-		else{
-           res.render("supervisor",{supervisor:supervisor});
-            // res.render("supervisor",{ supervisor: supervisor});
+		} else {
+            res.render("supervisor",{supervisor:allsupervisor});
 		}
 	});
 });
 
+// CREATE ROUTE - Add Supervisor to database
 router.post("/", (req,res) =>{
-    supervisor.find({},function(err, sup){
+    // eval(require('locus')); 
+    console.log(req.body.supervisor);
+    Supervisor.find({},function(err,supervisor){
         if(err){
+            req.flash("Something went wrong,Pleaase try again!!");
             console.log(err);
-		}
-		else{
+        } else {
             var id;
-            if(sup.length == 0){
-                id = 1;
+            if(supervisor.length == 0){
+                id=1;
+            } else {
+                id = supervisor[supervisor.length-1].spID + 1;
             }
-            else{
-                id = sup[sup.length-1].spID +1;
-            }
-            supData = {
-                spID: id,
-                Name: req.body.fname + " " + req.body.lname,
-                Age: req.body.age,
-                Department: req.body.dep,
-                FoE: req.body.fields,
-                YoC: req.body.YoC,
-            };
-            console.log(supData);
-            supervisor.create(supData, (err,supervisor) => {
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    res.redirect("/supervisor");
-                }
-            });
-		}
-	});
-
-
+            var Sup = req.body.supervisor;
+        }
+    });
 });
 
 module.exports = router;
