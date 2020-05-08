@@ -15,7 +15,7 @@ const app = express();
 const Supervisor = require("./models/supervisor");
 
 // SETUP CONNECTION TO DATABASE
-const mongoURI = 'mongodb://localhost:27017/mydb';
+const mongoURI = "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify : false});
 
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE
@@ -23,6 +23,7 @@ app.set("view engine", "ejs");
 
 // SETUP BODY PARSER
 app.use(express.json());
+// Here setting extended to true allows body parser to convert the data of req.body into object and array form where necessary.
 app.use(express.urlencoded({extended: true}));
 
 // METHOD OVERRIDE FOR RESTful ROUTING
@@ -52,19 +53,16 @@ app.use(function(req,res,next){
 });
 
 // IMPORT ROUTES 
-const supRoute = require("./routes/supervisor");
-const dashRoute = require("./routes/dashboard");
-const formRoute = require("./routes/form");
+const supRoute     = require("./routes/supervisor");
+const dashRoute    = require("./routes/dashboard");
+const formRoute    = require("./routes/form");
+const profileRoute = require("./routes/profile");
 
 // CALL ROUTES
+app.use("/supervisor",profileRoute);
 app.use("/supervisor",supRoute);
 app.use("/",dashRoute);
 app.use("/",formRoute);
-
-// Profile Route
-app.get("/profile",function(req,res){
-    res.render("profile");
-})
 
 // INITIALISE PORT TO START SERVER
 app.listen(process.env.port||3000,()=>{

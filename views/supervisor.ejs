@@ -21,28 +21,26 @@
                                 <th>Name</th>
                                 <th>Age</th>
                                 <th>Department</th>
-                                <th>Year of Completion</th>
                                 <th>Field of Expertise</th>
                             </tr>
                         </thead>
                         <tbody class="myTable">
-                            <%supervisor.forEach(function(sup){%>
+                            <% supervisor.forEach(function(sup){ %>
                                 <tr>
                                     <td><%=sup.spID%></td>
-                                    <td><%=sup.Name%></td>
-                                    <td><%=sup.Age%></td>
-                                    <td><%=sup.Department%></td>
-                                    <td><%=sup.YoC%></td>
+                                    <td><%=sup.firstName%> <%=sup.lastName%></td>
+                                    <td><%=sup.age%></td>
+                                    <td><%=sup.department%></td>
                                     <td>
-                                        <% sup.FoE.forEach(field => {%>
+                                        <% sup.FoE.forEach(function(field){ %>
                                             <span>
                                                 <%=field%>
-                                            <%if(field != sup.FoE[sup.FoE.length-1]){%>
+                                            <% if(field != sup.FoE[sup.FoE.length-1]){ %>
                                                 ,
-                                            <%}%>
+                                            <% } %>
                                             </span>
                                         <% }); %>
-                                        <div class="d-inline-block float-right"><a class = "text-secondary" href="/"><i class="fas fa-chevron-right"></i></a></div>
+                                        <div class="d-inline-block float-right"><a class = "text-secondary" href="/supervisor/<%= sup._id %>"><i class="fas fa-chevron-right"></i></a></div>
                                     </td>
                                 </tr>
                             <% }); %>
@@ -139,7 +137,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="degree">Degree/Title</label>
-                                                <select id="degree" class="form-control" name="supervisor[academicQ][degree]" >
+                                                <select id="degree" class="form-control" name="supervisor[academicQ][degree][]" >
                                                     <option>None</option>
                                                     <option>Bachelor of Computer Applications (B.C.A)</option>
                                                     <option>Bachelor of Computer Science (B.C.S)</option>
@@ -162,7 +160,7 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="specialisation">Specialisation</label>
-                                                <input type="text" id="specialisation" class="form-control" name="supervisor[academicQ][specialisation]" >
+                                                <input type="text" id="specialisation" class="form-control" name="supervisor[academicQ][specialisation][]" >
                                             </div>
                                         </div>
                                         
@@ -171,11 +169,11 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-8">
                                                 <label for="institute">Institute</label>
-                                                <input type="text" id="institute" class="form-control" name="supervisor[academicQ][institute]" >
+                                                <input type="text" id="institute" class="form-control" name="supervisor[academicQ][institute][]" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputYoC">Year of Completion</label>
-                                                <select id="inputYoC" class="form-control" name= "supervisor[academicQ][yoc]" >
+                                                <select id="inputYoC" class="form-control" name= "supervisor[academicQ][yoc][]" >
                                                     <option selected>None</option>
                                                     <% for(var i = new Date().getFullYear(); i>=new Date().getFullYear()-50; i--){ %> 
                                                     <option><%= i %></option> 
@@ -201,7 +199,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 <label for="organization">Organization</label>
-                                                <input type="text" id="organization" class="form-control"  name="supervisor[experience][organisation]">
+                                                <input type="text" id="organization" class="form-control"  name="supervisor[experience][organisation][]">
                                             </div>
                                         </div>
 
@@ -209,15 +207,15 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-5">
                                                 <label for="designation">Designation</label>
-                                                <input type="text" id="designation" class="form-control" name="supervisor[experience][designation]" >
+                                                <input type="text" id="designation" class="form-control" name="supervisor[experience][designation][]" >
                                             </div>
                                             <div class="form-group col-md-5">
                                                 <label for="role">Role</label>
-                                                <input type="text" id="role" class="form-control" name="supervisor[experience][role]" >
+                                                <input type="text" id="role" class="form-control" name="supervisor[experience][role][]" >
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="tenure">Tenure</label>
-                                                <select id="tenure" class="form-control" name= "supervisor[experience][tenure]" >
+                                                <select id="tenure" class="form-control" name= "supervisor[experience][tenure][]" >
                                                     <option selected>None</option>
                                                     <option>&lt; 1</option>
                                                     <% for(var i =1; i<40; i++){ %> 
@@ -244,11 +242,11 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-9">
                                                 <label for="project">Project Title</label>
-                                                <input type="text" id="project" class="form-control" name="supervisor[research][title]" >
+                                                <input type="text" id="project" class="form-control" name="supervisor[research][title][]" >
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="duration">Duration</label>
-                                                <select id="duration" class="form-control" name= "supervisor[research][duration]" >
+                                                <select id="duration" class="form-control" name= "supervisor[research][duration][]" >
                                                     <option selected>None</option>
                                                     <option>&lt; 1</option>
                                                     <% for(var i =1; i<=15; i++){ %> 
@@ -262,15 +260,15 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-5">
                                                 <label for="agency">Funding Agency</label>
-                                                <input type="text" id="agency" class="form-control" name="supervisor[research][agency]" >
+                                                <input type="text" id="agency" class="form-control" name="supervisor[research][agency][]" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="rolep">Role</label>
-                                                <input type="text" id="rolep" class="form-control" name="supervisor[research][role]" >
+                                                <input type="text" id="rolep" class="form-control" name="supervisor[research][role][]" >
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="amount">Amount(INR)</label>
-                                                <input type="text" id="amount" class="form-control" name="supervisor[research][amount]" >
+                                                <input type="text" id="amount" class="form-control" name="supervisor[research][amount][]" >
                                             </div>
                                         </div>
                                         <!-- ADD BUTTON -->
@@ -292,7 +290,7 @@
                                         <div class="entry input-group">
                                             <input type="text" class="form-control" placeholder="Add Expertise" name ="supervisor[FoE]" >
                                             <span class="input-group-append">
-                                                <button class="btn btn-secondary btn-add" type="button">
+                                                <button class="btn btn-secondary btn-foe-add" type="button">
                                                     <i class="fas fa-plus"></i>   
                                                 </button>                                       
                                             </span>
@@ -312,6 +310,5 @@
         </div>
     </div>
 </div>
-
 
 <%- include ("partials/footer")%>

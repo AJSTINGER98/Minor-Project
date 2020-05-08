@@ -30,18 +30,18 @@ function newFunction() {
 
     // INCLUDE ADD/REMOVE FOR FOE
     $(function(){
-    $(document).on('click', '.btn-add', function(e){
+    $(document).on('click', '.btn-foe-add', function(e){
         e.preventDefault();
         var controlForm = $('.controls .form-group:first'),
             currentEntry = $(this).parents('.entry:first'),
-            newEntry = $(currentEntry.clone()).prependTo(controlForm);
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-        newEntry.find('input').val('');
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
+        currentEntry.find('input').val('');
+        controlForm.find('.entry:not(:first) .btn-foe-add')
+            .removeClass('btn-foe-add').addClass('btn-foe-remove')
+            .removeClass('btn-secondary').addClass('btn-danger')
             .html('<i class="fas fa-minus"></i>');
-    }).on('click', '.btn-remove', function(e){
+    }).on('click', '.btn-foe-remove', function(e){
 		$(this).parents('.entry:first').remove();
 		e.preventDefault();
 		return false;
@@ -54,7 +54,7 @@ function newFunction() {
             e.preventDefault();
             var academicForm = $('.academic'),
                 academicEntry = $(this).parents('.academicField'),
-                newacademicEntry = $(academicEntry.clone()).prependTo(academicForm);
+                newacademicEntry = $(academicEntry.clone()).appendTo(academicForm);
 
                 newacademicEntry.find('input').val('');
                 academicForm.find('.academicField:not(:last) .addAQ')
@@ -74,7 +74,7 @@ function newFunction() {
             e.preventDefault();
             var experienceForm = $('.experience'),
                 experienceEntry = $(this).parents('.experienceField'),
-                newexperienceEntry = $(experienceEntry.clone()).prependTo(experienceForm);
+                newexperienceEntry = $(experienceEntry.clone()).appendTo(experienceForm);
 
                 newexperienceEntry.find('input').val('');
                 experienceForm.find('.experienceField:not(:last) .addEX')
@@ -94,7 +94,7 @@ function newFunction() {
             e.preventDefault();
             var researchForm = $('.research'),
                 researchEntry = $(this).parents('.researchField'),
-                newresearchEntry = $(researchEntry.clone()).prependTo(researchForm);
+                newresearchEntry = $(researchEntry.clone()).appendTo(researchForm);
 
                 newresearchEntry.find('input').val('');
                 researchForm.find('.researchField:not(:last) .addRP')

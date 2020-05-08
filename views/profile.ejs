@@ -1,4 +1,4 @@
-<%- include("partials/header") %>
+<%- include ("partials/header") %>
 
 <div id="back"></div>
 <div class="container-fluid">
@@ -9,23 +9,23 @@
         </div>
         <div class="col-md-9 pl-1 pr-5">
             <div id="info">
-                <h1 class="display-4">ABHISHEK BHUSHAN</h1>
-                <h6>Assisant Professor</h6>
+                <h1 class="display-4"><%= supervisor.firstName %> <%= supervisor.lastName %></h1>
+                <h6><%= supervisor.academicRole %></h6>
             </div>
             <div class="row">
                 <div id="info" class="col-md-6">
                     <p>
-                        Department of Computer Science and Engineering<br>
-                        School of Computing and Information Technology
+                        Department of <%= supervisor.department %><br>
+                        <%= supervisor.school %>
                     </p>
                 </div>
                 <div id="info1" class="col-md-6 pl-5">
                     <h5>CONTACT INFORMATION </h5>
                     <p>
                         <i class="fas fa-envelope pr-1"></i>
-                        Email - <strong><span>abhishek123@jaipur.manipal.edu</span></strong><br>
+                        Email - <strong><span><%= supervisor.email %></span></strong><br>
                         <i class="fas fa-phone-alt pr-1"></i>
-                        Phone - <strong><span>8475681921</span></strong>
+                        Phone - <strong><span><%= supervisor.phone %></span></strong>
                     </p>
                 </div>
             </div>
@@ -33,10 +33,11 @@
             <div id="info1" class="container">
                 <h5>FIELD OF EXPERTISE </h5>
                 <!-- <p> -->
+                <% supervisor.FoE.forEach(function(field){ %>
                     <ul style="list-style-type:square; margin-left:20px;">
-                        <li>Data Science</li>
-                        <li>Machine Learning</li>
+                        <li><%= field %></li>
                     </ul>
+                <% }); %>
                 <!-- </p> -->
             </div>
             <div id="info1" class="container">
@@ -51,24 +52,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">PhD</th>
-                            <td>Indian School of Sciences</td>
-                            <td>Neural Networks</td>
-                            <td>2015</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">M.Tech</th>
-                            <td>Stanford University</td>
-                            <td>Data Science</td>
-                            <td>2010</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">B.Tech</th>
-                            <td>Indian Institute of Technology, Delhi</td>
-                            <td>Computer Science & Engineering</td>
-                            <td>2005</td>
-                        </tr>
+                        <% supervisor.academicQ.forEach(function(field){ %>
+                            <tr>
+                                <th scope="row"><%= field.degree %></th>
+                                <td><%= field.institute %></td>
+                                <td><%= field.specialisation %></td>
+                                <td><%= field.yoc %></td>
+                            </tr>
+                        <% }); %>
                     </tbody>
                 </table>
             </div>
@@ -84,51 +75,44 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>University College of Engineering, RTU, Kota</t>
-                            <td>Guest Faculty</td>
-                            <td>Teaching</td>
-                            <td>1 Year</td>
-                        </tr>
-                        <tr>
-                            <td>Indian Institute of Technology, Mumbai</td>
-                            <td>Assistant Professor</td>
-                            <td>Teaching</td>
-                            <td>3 Years</td>
-                        </tr>
-                        <tr>
-                            <td>Stanford University</td>
-                            <td>Professor</td>
-                            <td>Teaching and Project Management</td>
-                            <td>7 Years</td>
-                        </tr>
+                        <% supervisor.experience.forEach(function(field){ %>
+                            <tr>
+                                <td><%= field.organisation %></td>
+                                <td><%= field.designation %></td>
+                                <td><%= field.role %></td>
+                                <td><%= field.tenure %></td>
+                            </tr>
+                        <% }); %>
                     </tbody>
                 </table>
             </div>
-           <div id="info1" class="container">
-            <h5>RESEARCH PROJECT</h5>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Project Title</th>
-                        <th scope="col">Duration</th>
-                        <th scope="col">Funding Agency</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Amount(INR)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Municipal Solid Waste Conversion to Fuel and Energy</td>
-                        <td>3 Year</td>
-                        <td>BEIL, India</td>
-                        <td>Principal Investigator</td>
-                        <td>46,60,000</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <div id="info1" class="container">
+                <h5>RESEARCH PROJECT</h5>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Project Title</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Funding Agency</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Amount(INR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% supervisor.research.forEach(function(field){ %>
+                            <tr>
+                                <td><%= field.title %></td>
+                                <td><%= field.duration %></td>
+                                <td><%= field.agency %></td>
+                                <td><%= field.role %></td>
+                                <td><%= field.amount %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-<%- include("partials/footer") %>
+
+<%- include ("partials/footer") %>
