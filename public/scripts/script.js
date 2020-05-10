@@ -107,83 +107,39 @@ function newFunction() {
             return false;
         });
     });
+} // End of newFunction();
 
 // -------------------Home.ejs-----------------------
-    $(function () {
-        $(document).scroll(function () {
-            var $nav = $("#mainNavbar");
-            $nav.toggleClass("scrolled", $(this).scrollTop() > $nav.height());
-        });
-    });
 
+    // GROW SHADOW EFFECT ON COURSE SECTION
+    $("#course2 .card").addClass("hvr-grow-shadow");
+
+    // SHRINK EFFECT ON CATEGORY SECTION
+    $("#category2 .card").addClass("hvr-shrink");
+
+    // SCROLL EFFECT FOR EACH SECTION
     $(document).ready(function(){
-        $('.scroll-left-200').scrollSlide({
-            direction   : 'left',
-            scrollstart : 200
-        });
-
-        $('.scroll-right-200').scrollSlide({
-            direction   : 'right',
-            scrollstart : 200
-        });
-
-        $('.scroll-left-600').scrollSlide({
-            direction   : 'left',
-            scrollstart : 600
-        });
-
-        $('.scroll-right-600').scrollSlide({
-            direction   : 'right',
-            scrollstart : 600
-        });
-        $('.scroll-left-800').scrollSlide({
-            direction   : 'left',
-            scrollstart : 800
-        });
-
-        $('.scroll-right-800').scrollSlide({
-            direction   : 'right',
-            scrollstart : 800
-        });
-
-        $('.scroll-left-1100').scrollSlide({
-            direction   : 'left',
-            scrollstart : 1100
-        });
-
-        $('.scroll-right-1100').scrollSlide({
-            direction   : 'right',
-            scrollstart : 1100
+        $(".navbar-nav .nav-item a").on('click', function(event) {
+          if (this.hash !== "") {
+            // event.preventDefault();
+            var hash = this.hash;
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top - 50
+            },1500, function(){
+                window.location.hash = hash;
+                });
+            } 
         });
     });
 
-    $(document).ready(function() { 
-        $(document.querySelectorAll("#animate")).click(function() { 
-            $(".scroll-right-200").stop(true,true).fadeIn();
-            $(".scroll-left-200").stop(true,true).fadeIn();
-            $(".scroll-left-600").stop(true,true).fadeIn();
-            $(".scroll-right-600").stop(true,true).fadeIn();
-            $(".scroll-left-800").stop(true,true).fadeIn();
-            $(".scroll-right-800").stop(true,true).fadeIn();
-            $(".scroll-left-1100").stop(true,true).fadeIn();
-            $(".scroll-right-1100").stop(true,true).fadeIn();
-            $("html, body").animate({ 
-                scrollTop: $( 
-                  'html, body').get(0).scrollHeight 
-            },2000); 
-        }); 
-    }); 
-}
-
-//display name of file on file upload
-
-$("[type=file]").on("change", function(){
-    // Name of file and placeholder
-    var file = this.files[0].name;
-    var dflt = $(this).attr("placeholder");
-    if($(this).val()!=""){
-      $(this).next().text(file);
-    } else {
-      $(this).next().text(dflt);
-    }
-  });
+    //DISPLAY NAME OF FILES ON FILE UPLOAD(PDH FORMS)
+    $("[type=file]").on("change", function(){
+        // Name of file and placeholder
+        var file = this.files[0].name;
+        var dflt = $(this).attr("placeholder");
+        if($(this).val()!=""){
+        $(this).next().text(file);
+        } else {
+        $(this).next().text(dflt);
+        }
+    });
