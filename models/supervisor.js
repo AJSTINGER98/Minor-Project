@@ -3,6 +3,8 @@ var mongoose = require("mongoose");
 // SETUP SCHEMA
 var supervisorSchema = new mongoose.Schema({
     spID         : Number,
+    image        : String,
+    title        : String,
     firstName    : String,
     lastName     : String,
     email        : String,
@@ -15,20 +17,20 @@ var supervisorSchema = new mongoose.Schema({
         degree         : String,
         specialisation : String,
         institute      : String,
-        yoc            : Number
+        yoc            : String
     }],
     experience   :[{
         organisation : String,
         designation  : String,
         role         : String,
-        tenure       : Number
+        tenure       : String
     }],
     research     :[{
         title    : String,
-        duration : Number,
+        duration : String,
         agency   : String,
         role     : String,
-        amount   : Number
+        amount   : String
     }],
     FoE: [String]
 });
