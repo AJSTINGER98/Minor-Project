@@ -1,31 +1,26 @@
 html,body{
     height: 100%;
     width: 100%;
-    /* margin: 0px;
-    padding: 0px; */
 }
-/*---------------- NavBar --------------------*/
+/*---------------- NAVBAR --------------------*/
 #mainNavbar{
     font-size: 1rem;
     font-weight: 100;
-    /* background-color: #e3f2fd; */
     background-color: #66cdaa;
+    /* background-color: #e3f2fd; */
+    /* background: transparent; */
 }
 
 #mainNavbar .navbar-brand img{
     height: 50px;
-    /* font-size: 1.7rem;
-    font-weight: bolder;
-    letter-spacing: 0.2rem; */
 }
 
-/* ---------------- ALERTS POS ------------------- */
-#alert-pos{
-    position: relative;
-    top: 80px;
+#myNav{
+    font-size: 1em;
+    font-weight: 600;
 }
 
-/* ---- TRANSITION EFFECT FOR ICONS ON NAVBAR ---- */
+/*  TRANSITION EFFECT FOR ICONS ON NAVBAR  */
 #mainNavbar .effect{
     letter-spacing: 0;
 }
@@ -48,7 +43,6 @@ html,body{
   width: 0;
 }
 
-
 #mainNavbar .effect:hover::after,
 .effect:hover::before{
   backface-visibility: hidden;
@@ -63,66 +57,145 @@ html,body{
     width: 70%;
 }
 
-/* -----------SCROLLING EFFECT FOR NAVBAR ---------- */
+/* SCROLLING EFFECT FOR NAVBAR */
 .navbar.scrolled {
     background-color: black;
     transition: background-color 500ms;
 }
+/* ----------------- END ------------------ */
 
-/* Home Image */
-/* .himg{
-    opacity: 0.85;
-} */
-
-/* Spacing between content */
-.content{
-    margin-top: 60px;
-    margin-bottom: 60px;
+/* -------------- ALERTS POS -----------------*/
+#alert-pos{
+    position: relative;
+    top: 80px;
 }
+/* -------------- END ------------- */
 
-/* Thumbnails on Home Page */
-.bimg{
-    border-radius: 25%;
-    width: 270px;
-    height: 270px;
-    border : 1px solid grey;
-}
+/* ------------------ CARAOUSEL STYLING ----------------- */
 
-.scroll-left-200{
+.img-fluid{
+    padding: 0;
+    display: block;
+    margin: 50px auto 0px auto;
     width: 100%;
-    text-align: right;
-}
-.scroll-right-200{
-    width: 100%;
-    text-align: left;
+    height: 680px;
 }
 
-.scroll-left-600{
-    width: 100%;
-    text-align: right;
-}
-.scroll-right-600{
-    width: 100%;
-    text-align: left;
-}
-
-.scroll-left-800{
-    width: 100%;
-    text-align: right;
-}
-.scroll-right-800{
-    width: 100%;
-    text-align: left;
+.carousel-inner .carousel-item .carousel-caption{
+    background: rgba(0, 0, 0, 0.6); 
+    color: yellowgreen; 
+    width:fit-content;
+    padding : 10px 10px;
+    margin: 20px auto;
+    transform: skewX(-20deg);
 }
 
-.scroll-left-1100{
-    width: 100%;
-    text-align: right;
+.carousel-inner .carousel-item .carousel-caption h4{
+    transform: skewX(20deg);
 }
-.scroll-right-1100{
-    width: 100%;
-    text-align: left;
+
+.carousel-inner .carousel-item .carousel-caption h4 a{
+    color: white;
 }
+
+.carousel-inner .carousel-item .carousel-caption h4 a:hover{
+    color: blue;
+    text-decoration: none;
+}
+
+.carousel-indicators li{
+    height: 5px;
+    width : 5px; 
+    padding-left: 10px;
+    /* background-color: black; */
+}
+.carousel ol{
+    margin-left: 300px;
+    margin-bottom: 4px;
+}
+
+/* ---------------- END ------------------- */
+
+/* ------------ COURSE OFFERED ------------ */
+
+#course1 h3{
+    text-align: center;
+    font-family: Bookman,serif;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+#course1 hr{
+    height: 4px;
+    width: 20%;
+    background-color: goldenrod;
+    margin-bottom: 40px;
+}
+
+#course2 .col-md-3{
+    display: flex;
+    justify-content: center;
+}
+
+#course2 img{
+    width: 100%;
+    padding: 5px;
+}
+
+#course2 .card{
+    border-radius: 0;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+#course2 .card-body h5{
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+
+#course2 .card-body p{
+    font-size: 0.8em;
+}
+
+/* ------------------- END ------------------ */
+
+/* ---------------- CATEGORY ---------------- */
+#category1 h3{
+    text-align: center;
+    font-family: Bookman,serif;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+#category1 hr{
+    height: 4px;
+    width: 20%;
+    background-color: goldenrod;
+    margin-bottom: 40px;
+}
+#category2 .col-md-4{
+    text-align: center;
+}
+
+#category2 .card-body h5{
+    color: black;
+    padding-bottom: 5px;
+}
+
+#category2 .card{
+    margin: 20px auto;
+    border-radius: 0;
+}
+
+#category2 img{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    border : 1px solid black;
+    margin: 25px auto 4px auto;
+}
+/* ----------------- END -------------------- */
 
 /* ------------------ Footer --------------------*/
 #footer{
@@ -132,18 +205,29 @@ html,body{
     height: 310px;
     width: 100%;
     color: white;
-    font-size: 1.1em;
+    font-size: 1em;
     text-align: center;
     /* position: relative; */
+}
+
+#footer a{
+    color: white;
+}
+
+#footer a:hover{
+    color: blue;
 }
 
 @media (max-width : 768px){
     #disp{
         display: none;
     }
+    #footer ul{
+        margin-bottom: 25px;
+    }
 }
 
-/* modals for phd form */
+/* ------------ MODAL FOR PHD FORM --------------*/
 .modal .modal-dialog {
     max-width: 800px;
 }
