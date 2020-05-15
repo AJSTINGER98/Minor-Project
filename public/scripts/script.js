@@ -2,23 +2,14 @@
 newFunction();
 function newFunction() {
     $(document).ready(function () {
-        
-        //Search input dropdown
-        
-        $('.search-bar').hide();
-        $('.search-filter').click(function () {
-            $('.search-bar').toggle(400);
-        });
 
-        // Form dropdown
-        
+        // FORM DROPDOWN
         $('.dropDown').hide();
         $('.drop-down-btn').click(function () {
             $('.dropDown').toggle(700);
         });
 
-        //Search Filter 
-
+        // SEARCH FILTER 
         $(".search-bar input").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $(".myTable tr").filter(function () {
@@ -125,7 +116,7 @@ function newFunction() {
             var hash = this.hash;
             $('html, body').animate({
                 scrollTop: $(hash).offset().top - 50
-            },1500, function(){
+            },1000, function(){
                 window.location.hash = hash;
                 });
             } 
@@ -143,3 +134,11 @@ function newFunction() {
         $(this).next().text(dflt);
         }
     });
+
+    // HIDE/SHOW NAVBAR ICONS
+    var pathUrl = window.location.pathname;
+    console.log(pathUrl);
+    if(pathUrl == '/supervisor' || pathUrl == '/scholar'){
+    $("#nv1").hide();
+    $("#nv2").hide();
+    }
