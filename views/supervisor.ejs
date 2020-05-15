@@ -3,54 +3,56 @@
 <div class="container">
     <div class="row d-flex justify-content-center div-center">
         <div class="col">
-            <div class="card border-dark">
-                <div class="card-header d-inline-block bg-dark text-white">
-                    <span class="h4">Header</span>
-                    <span class="float-sm-right search-filter">
-                        <button class="btn"><i class="fas fa-filter" style="color: #FFF;"></i></button>
-                    </span>
-                </div>
+            <!-- HEADING -->
+            <h1 id="sup" class="display-4">SUPERVISORS</h1>
+
+            <!-- SEARCH  BAR -->
+            <div class="container search-bar">
+                <input type="text" class="form-control" placeholder="Search . . ." aria-label="username">
+            </div>
+
+            <!-- TABLE -->
+            <table class="table table-hover no-margin text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Supervisor ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Department</th>
+                        <th>Field of Expertise</th>
+                    </tr>
+                </thead>
+                <tbody class="myTable">
+                    <% supervisor.forEach(function(sup){ %>
+                        <tr>
+                            <td><%=sup.spID%></td>
+                            <td><%sup.title%><%=sup.firstName%> <%=sup.lastName%></td>
+                            <td><%=sup.age%></td>
+                            <td><%=sup.department%></td>
+                            <td>
+                                <% sup.FoE.forEach(function(field){ %>
+                                    <span>
+                                        <%=field%>
+                                    <% if(field != sup.FoE[sup.FoE.length-1]){ %>
+                                        ,
+                                    <% } %>
+                                    </span>
+                                <% }); %>
+                                <div class="d-inline-block float-right"><a class = "text-secondary" href="/supervisor/<%= sup._id %>"><i class="fas fa-chevron-right"></i></a></div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+
+            <!-- ADD SUPERVISOR  -->
+            <div class="card">
                 <div class="card-body cardTable">
-                    <div class=" container my-2 ml-2 mr-2 search-bar">
-                        <input type="text" class="form-control" placeholder="Search" aria-label="username">
-                    </div>
-                    <table class="table table-hover no-margin text-center">
-                        <thead>
-                            <tr>
-                                <th>Supervisor ID</th>
-                                <th>Name</th>
-                                <th>Age</th>
-                                <th>Department</th>
-                                <th>Field of Expertise</th>
-                            </tr>
-                        </thead>
-                        <tbody class="myTable">
-                            <% supervisor.forEach(function(sup){ %>
-                                <tr>
-                                    <td><%=sup.spID%></td>
-                                    <td><%sup.title%><%=sup.firstName%> <%=sup.lastName%></td>
-                                    <td><%=sup.age%></td>
-                                    <td><%=sup.department%></td>
-                                    <td>
-                                        <% sup.FoE.forEach(function(field){ %>
-                                            <span>
-                                                <%=field%>
-                                            <% if(field != sup.FoE[sup.FoE.length-1]){ %>
-                                                ,
-                                            <% } %>
-                                            </span>
-                                        <% }); %>
-                                        <div class="d-inline-block float-right"><a class = "text-secondary" href="/supervisor/<%= sup._id %>"><i class="fas fa-chevron-right"></i></a></div>
-                                    </td>
-                                </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                    <div class="card-footer bg-dark text-white pb-3">
+                    <div class="card-footer bg-dark text-white pb-2">
                         <div class="">
-                            <span class="h3">Add List</span>
+                            <span class="h4">Add Supervisor</span>
                             <span class="float-sm-right drop-down-btn">
-                                <button class="btn" style="color: #FFF;"><i class="fas fa-plus fa-2x"></i></button>
+                                <button class="btn py-0" style="color: #FFF;"><i class="fas fa-plus fa-2x"></i></button>
                             </span>
                         </div>
                         <div class="container mt-5 dropDown">
