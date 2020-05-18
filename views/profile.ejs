@@ -4,12 +4,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 d-flex justify-content-end" style="margin-top: -100px;">
-            <img src="https://cdn2.f-cdn.com/contestentries/1316431/24595406/5ae8a3f2e4e98_thumb900.jpg" class="img-thumbnail" alt="Profile Picture">
+            <img src="/<%= supervisor.image %>" class="img-thumbnail" alt="Profile Picture">
             <br><br>
         </div>
         <div class="col-md-9 pl-1 pr-5">
             <div id="info">
-                <h1 class="display-4"><%= supervisor.firstName %> <%= supervisor.lastName %></h1>
+                <h1 class="display-4"><%= supervisor.title %><%= supervisor.firstName %> <%= supervisor.lastName %></h1>
                 <h6><%= supervisor.academicRole %></h6>
             </div>
             <div class="row">
@@ -23,9 +23,14 @@
                     <h5>CONTACT INFORMATION </h5>
                     <p>
                         <i class="fas fa-envelope pr-1"></i>
-                        Email - <strong><span><%= supervisor.email %></span></strong><br>
+                        Email - <a href="mailto:<%= supervisor.email %>">
+                                    <em><span><%= supervisor.email %></span></em><br>
+                                </a>
                         <i class="fas fa-phone-alt pr-1"></i>
-                        Phone - <strong><span><%= supervisor.phone %></span></strong>
+                        Phone - <strong>+91 - </strong>
+                                <a href="tel:<%= supervisor.phone %>">
+                                    <span><%= supervisor.phone %></span>
+                                </a>
                     </p>
                 </div>
             </div>
@@ -33,11 +38,11 @@
             <div id="info1" class="container">
                 <h5>FIELD OF EXPERTISE </h5>
                 <!-- <p> -->
-                <% supervisor.FoE.forEach(function(field){ %>
-                    <ul style="list-style-type:square; margin-left:20px;">
-                        <li><%= field %></li>
-                    </ul>
-                <% }); %>
+                <ul style="list-style-type:square; margin-left:20px;">
+                    <% supervisor.FoE.forEach(function(field){ %>
+                            <li><%= field %></li>
+                    <% }); %>
+                </ul>
                 <!-- </p> -->
             </div>
             <div id="info1" class="container">
@@ -53,8 +58,9 @@
                     </thead>
                     <tbody>
                         <% supervisor.academicQ.forEach(function(field){ %>
+                            <% var str = field.degree %>
                             <tr>
-                                <th scope="row"><%= field.degree %></th>
+                                <th scope="row"><%= str.slice(str.indexOf("(") + 1, str.length - 1); %></th>
                                 <td><%= field.institute %></td>
                                 <td><%= field.specialisation %></td>
                                 <td><%= field.yoc %></td>
@@ -63,54 +69,59 @@
                     </tbody>
                 </table>
             </div>
-            <div id="info1" class="container">
-                <h5>EXPERIENCE</h5>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Organisation</th>
-                            <th scope="col">Designation</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Tenure</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% supervisor.experience.forEach(function(field){ %>
+            <% if(supervisor['experience'][0]['organisation'].length != 0){ %>
+                <div id="info1" class="container">
+                    <h5>EXPERIENCE</h5>
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td><%= field.organisation %></td>
-                                <td><%= field.designation %></td>
-                                <td><%= field.role %></td>
-                                <td><%= field.tenure %></td>
+                                <th scope="col">Organisation</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Tenure</th>
                             </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-            </div>
-            <div id="info1" class="container">
-                <h5>RESEARCH PROJECT</h5>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Project Title</th>
-                            <th scope="col">Duration</th>
-                            <th scope="col">Funding Agency</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Amount(INR)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% supervisor.research.forEach(function(field){ %>
+                        </thead>
+                        <tbody>
+                            <% supervisor.experience.forEach(function(field){ %>
+                                <tr>
+                                    <td><%= field.organisation %></td>
+                                    <td><%= field.designation %></td>
+                                    <td><%= field.role %></td>
+                                    <td><%= field.tenure %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+
+            <% if(supervisor['research'][0]['title'].length != 0){ %>
+                <div id="info1" class="container">
+                    <h5>RESEARCH PROJECT</h5>
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td><%= field.title %></td>
-                                <td><%= field.duration %></td>
-                                <td><%= field.agency %></td>
-                                <td><%= field.role %></td>
-                                <td><%= field.amount %></td>
+                                <th scope="col">Project Title</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Funding Agency</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Amount(INR)</th>
                             </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            <% supervisor.research.forEach(function(field){ %>
+                                <tr>
+                                    <td><%= field.title %></td>
+                                    <td><%= field.duration %></td>
+                                    <td><%= field.agency %></td>
+                                    <td><%= field.role %></td>
+                                    <td><%= field.amount %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
         </div>
     </div>
 </div>

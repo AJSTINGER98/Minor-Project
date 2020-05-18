@@ -1,6 +1,27 @@
 const express = require("express");
 const router = express.Router();
 
+// -------------MULTER CONFIG -------------------- //
+var multer = require("multer");
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './utilities/Profile_Picture/');
+    },
+    filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+    }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter}).single('image');
+// The Parameter passed inside single should be the same as the "name" of input field "file"
+// ----------------------------------------------- //
+
 //IMPORT MODEL
 const Supervisor = require("../models/supervisor");
 
@@ -34,7 +55,12 @@ router.get("/",(req,res)=>{
 // CREATE ROUTE - Add Supervisor to database
 router.post("/", (req,res) =>{
     // eval(require('locus')); 
-    // console.log(req.body.supervisor);
+    console.log(req.body.supervisor);
+    upload(req,res,function(err){
+        if(err){
+            req.flash("error",err.message);
+            console.log(err);
+        }
     Supervisor.find({},function(err,supervisor){
         if(err){
             req.flash("error","Something went wrong,Pleaase Try Again!!");
@@ -49,7 +75,9 @@ router.post("/", (req,res) =>{
             var Sup = req.body.supervisor;
             supData = {
                 spID: id,
-                firstName: Sup.firstName ,
+                image: "Profile_Picture/"+req.file.filename,
+                title: Sup.title,
+                firstName: Sup.firstName,
                 lastName: Sup.lastName,
                 email: Sup.email,
                 phone: Sup.phone,
@@ -112,7 +140,8 @@ router.post("/", (req,res) =>{
                 }
             });
 		}
-	});
+    });
+});
 });
 
 module.exports = router;
