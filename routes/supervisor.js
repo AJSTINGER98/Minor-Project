@@ -34,7 +34,7 @@ router.get("/",(req,res)=>{
 // CREATE ROUTE - Add Supervisor to database
 router.post("/", (req,res) =>{
     // eval(require('locus')); 
-    console.log(req.body.supervisor);
+    // console.log(req.body.supervisor);
     Supervisor.find({},function(err,supervisor){
         if(err){
             req.flash("error","Something went wrong,Pleaase Try Again!!");
@@ -107,7 +107,7 @@ router.post("/", (req,res) =>{
                     req.flash("error","Something went Wrong,Please Try Again!!!");
                 }
                 else{
-                    req.flash("success","Entity Added Successfully...")
+                    req.flash("success","Entity Added Successfully...");
                     res.redirect("/supervisor");
                 }
             });

@@ -4,15 +4,14 @@ const path                  = require('path'),
       express               = require('express'),
       mongoose              = require("mongoose"),
       passport              = require("passport"),
-      bodyParser            = require("body-parser"),
       localStrategy         = require("passport-local"),
-      passportLocalMongoose = require("passport-local-mongoose"),
-      methodOverride        = require("method-override");
+      methodOverride        = require("method-override"),
+      helmet                = require('helmet');
 
 const app = express();
 
 // IMPORT MODELS
-const Supervisor = require("./models/supervisor");
+const User = require("./models/user");
 
 // SETUP CONNECTION TO DATABASE
 const mongoURI = "mongodb://localhost:27017/mydb";
@@ -20,6 +19,9 @@ mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useF
 
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE
 app.set("view engine", "ejs");
+
+// HELMET PROTECTS APP FROM WELL KNOWN EXPRESS VULNERABILITIES
+app.use(helmet());
 
 // SETUP BODY PARSER
 app.use(express.json());
@@ -39,6 +41,16 @@ app.use(require("express-session")({
     saveUninitialized : false
 }));
 
+//SETUP AUTHENTICATION
+
+
+app.use(passport.initialize());                         //initialize passport
+app.use(passport.session());                            //tell passport to maintain a persistent login session
+passport.use(new localStrategy(User.authenticate()));   //Tell localStrategy to use authenticate() method
+passport.serializeUser(User.serializeUser());           //Determines which data of user is to be stored in the session as session id
+passport.deserializeUser(User.deserializeUser());       //Used to retrieve the whole object of the user using the session id
+
+
 // SETUP DEFAULT(STATIC) DIRECTORIES
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/Utilities"));
@@ -57,12 +69,14 @@ const supRoute     = require("./routes/supervisor");
 const dashRoute    = require("./routes/dashboard");
 const formRoute    = require("./routes/form");
 const profileRoute = require("./routes/profile");
+const authRoute = require("./routes/authentication");
 
 // CALL ROUTES
 app.use("/supervisor",profileRoute);
 app.use("/supervisor",supRoute);
 app.use("/",dashRoute);
 app.use("/",formRoute);
+app.use("/",authRoute);
 
 // INITIALISE PORT TO START SERVER
 app.listen(process.env.port||3000,()=>{
