@@ -1,0 +1,204 @@
+<%- include ("partials/header") %>
+
+<div class="container">
+    <div class="row d-flex justify-content-center div-center">
+        <div class="col">
+            <!-- HEADING -->
+            <h1 id="sup" class="display-4"><i class="fas fa-user-graduate pr-3"></i><em>SCHOLARS</em></h1>
+
+            <!-- SEARCH  BAR -->
+            <div class="container search-bar">
+                <input type="text" class="form-control" placeholder="Search . . ." aria-label="username">
+            </div>
+
+            <!-- TABLE -->
+            <table class="table table-hover no-margin text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Scholar ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Department</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody class="myTable">
+                    <% scholar.forEach(function(sch){ %>
+                        <tr>
+                            <td><%=sch.spID%></td>
+                            <td><%sch.title%><%=sch.firstName%> <%=sch.lastName%></td>
+                            <td><%=sch.age%></td>
+                            <td><%=sch.department%></td>
+                            <td>
+                                <%=sch.email%>
+                                <div class="d-inline-block float-right"><a class = "text-secondary" href="/scholar/<%= sch._id %>"><i class="fas fa-chevron-right"></i></a></div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+
+            <!-- ADD Scholar  -->
+            <div class="card">
+                <div class="card-body cardTable">
+                    <div class="card-footer bg-dark text-white pb-2">
+                        <div class="">
+                            <span class="h4">Add Scholar</span>
+                            <span class="float-sm-right drop-down-btn">
+                                <button class="btn py-0" style="color: #FFF;"><i class="fas fa-plus fa-2x"></i></button>
+                            </span>
+                        </div>
+                        <div class="container mt-5 dropDown">
+                            <form action="/scholar" method="POST" enctype="multipart/form-data">
+
+                                <!-- --------------BASIC INFORMATION--------------- -->
+                                <h5 id="title"><em>BASIC INFORMATION</em></h5>
+                                <br>    
+                                <!-- FIRST ROW -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-2">
+                                        <label for="title">Title</label>
+                                        <select id="title" class="form-control" name= "scholar[title]" required>
+                                            <option selected>None</option>
+                                            <option>Mr.</option>
+                                            <option>Mrs.</option>
+                                            <option>Miss </option>
+                                            <option>Dr.</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <label for="input_fname">First Name</label>
+                                        <input type="text" id="input_fname" class="form-control"  name= "scholar[firstName]" required>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <label for="input_lname">Last Name</label>
+                                        <input type="text" id="input_lname" class="form-control" name= "scholar[lastName]" required>
+                                    </div>
+                                </div>
+
+                                <!-- SECOND ROW -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" class="form-control" name="scholar[email]" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" id="phone" class="form-control"  pattern=".{10}" name="scholar[phone]" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputAge">Age</label>
+                                        <select id="inputAge" class="form-control" name= "scholar[age]" required>
+                                            <option selected>None</option>
+                                            <% for(var i =20; i<=60; i++){ %> 
+                                                <option><%= i %></option> 
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- THIRD ROW -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputDep">Department</label>
+                                        <select id="inputDep" class="form-control"  name= "scholar[department]" required>
+                                            <option selected>None</option>
+                                            <option>Computer Sicence & Engineering</option>
+                                            <option>Information Technology</option>
+                                            <option>Computer & Communication Engineering</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputSchool">School</label>
+                                        <select id="inputSchool" class="form-control" name= "scholar[school]" required>
+                                            <option selected>None</option>
+                                            <option>School of Computing &  Information Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="image">Profile Picture</label>
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" required>
+                                                <label class="custom-file-label" for="image">Choose File</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ---------------ACADEMIC QUALIFICATION----------------- -->
+                                <hr id="suphr">
+                                <br>
+                                <h5 id="title"><em>ACADEMIC QUALIFICATIONS</em></h5>
+                                <br>
+                                <div class="academic">
+                                    <div class="form-group academicField">
+                                        <!-- FOURTH ROW -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="degree">Degree/Title</label>
+                                                <select id="degree" class="form-control" name="scholar[academicQ][degree][]">
+                                                    <option>None</option>
+                                                    <option>Bachelor of Computer Applications (B.C.A)</option>
+                                                    <option>Bachelor of Computer Science (B.C.S)</option>
+                                                    <option>Bachelor of Education in AI (B.Ed.AI)</option>
+                                                    <option>Bachelor of Electronic Science (B.E.S)</option>
+                                                    <option>Bachelor of Engineering (B.E)</option>
+                                                    <option>Bachelor of Science (B.Sc)</option>
+                                                    <option>Bachelor of Science Education (B.S.E)</option>
+                                                    <option>Bachelor of Science Bachelor of Education (B.Sc.B.Ed)</option>
+                                                    <option>Bachelor of Science Bachelor of Education (B.Sc.B.Ed)</option>
+                                                    <option>Bachelor of Technology (B.Tech)</option>
+                                                    <option>Master of Computer Applications (M.C.A)</option>
+                                                    <option>Master of Education (M.Ed)</option>
+                                                    <option>Master of Science (M.Sc)</option>
+                                                    <option>Master of Technology (M.Tech)</option>
+                                                    <option>Post Graduate (PG)</option>
+                                                    <option>Post Graduate Diploma (P.Diploma)</option>
+                                                    <option>Doctor of Philosophy (Ph.D)</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="specialisation">Specialisation</label>
+                                                <input type="text" id="specialisation" class="form-control" name="scholar[academicQ][specialisation][]">
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- FIFTH ROW -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-8">
+                                                <label for="institute">Institute</label>
+                                                <input type="text" id="institute" class="form-control" name="scholar[academicQ][institute][]">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="inputYoC">Year of Completion</label>
+                                                <select id="inputYoC" class="form-control" name= "scholar[academicQ][yoc][]">
+                                                    <option selected>None</option>
+                                                    <% for(var i = new Date().getFullYear(); i>=new Date().getFullYear()-50; i--){ %> 
+                                                    <option><%= i %></option> 
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- ADD BUTTON -->
+                                        <div class="container d-flex justify-content-end pr-0">
+                                            <button class="btn btn-primary addAQ px-4 py-1">ADD</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr id="suphr">
+                                <!-- SUBMIT BUTTON  -->
+                                <div class="form-group d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-success px-4 py-1">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include ("partials/footer") %>

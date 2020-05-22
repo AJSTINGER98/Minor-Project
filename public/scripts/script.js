@@ -138,7 +138,10 @@ function newFunction() {
     // HIDE/SHOW NAVBAR ICONS
     var pathUrl = window.location.pathname;
     console.log(pathUrl);
-    if(pathUrl == '/supervisor' || pathUrl == '/scholar'){
-    $("#nv1").hide();
-    $("#nv2").hide();
+    if(pathUrl == '/'){
+        $("#nv1").show();
+        $("#nv2").show();
+    } else {
+        $("#nv1").hide();
+        $("#nv2").hide();
     }

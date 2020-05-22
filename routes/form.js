@@ -1,36 +1,30 @@
-const express = require('express');
+const express    = require('express');
+const router     = express.Router();
 const middleware = require("../middleware/middleware"); 
-const Grid = require('gridfs-stream');
-const mongoose = require("mongoose");
-
-
-const router = express.Router();
-
-
+const Grid       = require('gridfs-stream');
+const mongoose   = require("mongoose");
 
 //Setting up GridFS
 const conn = mongoose.connection;
 
-//init gfs
+// init gfs
 let gfs;
 
 conn.once("open", () => {
     // init stream
-    gfs = Grid(conn.db, mongoose.mongo);  
-    gfs.collection('uploads');
+	gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+		bucketName: "uploads"
+	});
 });
-
-
-
-
 
 router.post('/upload', middleware.upload.single('file'), (req, res) => {
     res.redirect('/');
     // res.json({ file: req.file });
 });
 
-router.get('/form/:filename', (req, res) => {
-    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+router.get('/form/:filename',(req, res) => {
+    
+    const file = gfs.find({ filename: req.params.filename }).toArray((err, file) => {
       // Check if file
       if (!file || file.length === 0) {
         return res.status(404).json({
@@ -38,21 +32,18 @@ router.get('/form/:filename', (req, res) => {
         });
       }
       // If File exists this will get executed
-      const readstream = gfs.createReadStream(file.filename);
-      return readstream.pipe(res);
+      return gfs.openDownloadStreamByName(req.params.filename).pipe(res);
     });
   });
 
 router.delete('/:id', (req,res) => {
-  console.log(req.params.id);
-  gfs.remove({_id : req.params.id , root: 'uploads'}, function (err) {
-    if (err) {
-      console.log(err);
-    }else{
-      console.log('success');
-    }
-    res.redirect('back');
-  });
+	console.log(req.params.id);
+	gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
+		if (err) 
+			return res.status(404).json({ err: err.message });
+		console.log('success');
+		res.redirect("/");
+	});
 });
 
 module.exports = router;

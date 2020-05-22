@@ -55,12 +55,14 @@ app.use(function(req,res,next){
 // IMPORT ROUTES 
 const supRoute     = require("./routes/supervisor");
 const dashRoute    = require("./routes/dashboard");
-const formRoute    = require("./routes/form");
 const profileRoute = require("./routes/profile");
+// const schRoute     = require("./routes/scholar");
+const formRoute    = require("./routes/form");
 
 // CALL ROUTES
-app.use("/supervisor",profileRoute);
 app.use("/supervisor",supRoute);
+// app.use("/scholar",schRoute);
+app.use("/",profileRoute);
 app.use("/",dashRoute);
 app.use("/",formRoute);
 

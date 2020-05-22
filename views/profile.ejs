@@ -4,32 +4,32 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 d-flex justify-content-end" style="margin-top: -100px;">
-            <img src="/<%= supervisor.image %>" class="img-thumbnail" alt="Profile Picture">
+            <img src="/<%= person.image %>" class="img-thumbnail" alt="Profile Picture">
             <br><br>
         </div>
         <div class="col-md-9 pl-1 pr-5">
             <div id="info">
-                <h1 class="display-4"><%= supervisor.title %><%= supervisor.firstName %> <%= supervisor.lastName %></h1>
-                <h6><%= supervisor.academicRole %></h6>
+                <h1 class="display-4"><%= person.title %><%= person.firstName %> <%= person.lastName %></h1>
+                <h6><%= person.academicRole %></h6>
             </div>
             <div class="row">
                 <div id="info" class="col-md-6">
                     <p>
-                        Department of <%= supervisor.department %><br>
-                        <%= supervisor.school %>
+                        Department of <%= person.department %><br>
+                        <%= person.school %>
                     </p>
                 </div>
                 <div id="info1" class="col-md-6 pl-5">
                     <h5>CONTACT INFORMATION </h5>
                     <p>
                         <i class="fas fa-envelope pr-1"></i>
-                        Email - <a href="mailto:<%= supervisor.email %>">
-                                    <em><span><%= supervisor.email %></span></em><br>
+                        Email - <a href="mailto:<%= person.email %>">
+                                    <em><span><%= person.email %></span></em><br>
                                 </a>
                         <i class="fas fa-phone-alt pr-1"></i>
                         Phone - <strong>+91 - </strong>
-                                <a href="tel:<%= supervisor.phone %>">
-                                    <span><%= supervisor.phone %></span>
+                                <a href="tel:<%= person.phone %>">
+                                    <span><%= person.phone %></span>
                                 </a>
                     </p>
                 </div>
@@ -39,7 +39,7 @@
                 <h5>FIELD OF EXPERTISE </h5>
                 <!-- <p> -->
                 <ul style="list-style-type:square; margin-left:20px;">
-                    <% supervisor.FoE.forEach(function(field){ %>
+                    <% person.FoE.forEach(function(field){ %>
                             <li><%= field %></li>
                     <% }); %>
                 </ul>
@@ -57,7 +57,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% supervisor.academicQ.forEach(function(field){ %>
+                        <% person.academicQ.forEach(function(field){ %>
                             <% var str = field.degree %>
                             <tr>
                                 <th scope="row"><%= str.slice(str.indexOf("(") + 1, str.length - 1); %></th>
@@ -69,7 +69,7 @@
                     </tbody>
                 </table>
             </div>
-            <% if(supervisor['experience'][0]['organisation'].length != 0){ %>
+            <% if(person['experience'][0]['organisation'].length != 0){ %>
                 <div id="info1" class="container">
                     <h5>EXPERIENCE</h5>
                     <table class="table table-hover">
@@ -82,7 +82,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% supervisor.experience.forEach(function(field){ %>
+                            <% person.experience.forEach(function(field){ %>
                                 <tr>
                                     <td><%= field.organisation %></td>
                                     <td><%= field.designation %></td>
@@ -95,7 +95,7 @@
                 </div>
             <% } %>
 
-            <% if(supervisor['research'][0]['title'].length != 0){ %>
+            <% if(person['research'][0]['title'].length != 0){ %>
                 <div id="info1" class="container">
                     <h5>RESEARCH PROJECT</h5>
                     <table class="table table-hover">
@@ -109,7 +109,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% supervisor.research.forEach(function(field){ %>
+                            <% person.research.forEach(function(field){ %>
                                 <tr>
                                     <td><%= field.title %></td>
                                     <td><%= field.duration %></td>
