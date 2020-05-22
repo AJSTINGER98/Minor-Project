@@ -16,12 +16,12 @@ router.get('/signup', (req,res) =>{
 
 router.post('/signup' ,(req,res) =>{
     if(req.body.password === req.body.confirm_password){
-        User.resgister(new User({ 
+        User.register(new User({ 
             username: req.body.username,
             email: req.body.email,
             isAdmin: true,
     
-        }), req.body.password,function(err,user){
+        }), req.body.password, function(err,user){
             if(err){
                 req.flash('error', 'Unable to Sign Up');
                 return res.redirect('/signup');
@@ -52,7 +52,7 @@ router.post('/login', passport.authenticate('local', {
 
 router.get('/logout', (req,res) => {
     req.logout();
-    req.redirect('/login');
+    res.redirect('/login');
 });
 
 module.exports = router;

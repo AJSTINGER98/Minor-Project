@@ -1,32 +1,17 @@
-const express = require("express");
-const router = express.Router();
+const express = require("express"),
+      router = express.Router(),
+      passport = require('passport'),
+      middleware = require("../middleware/middleware");
 
-// -------------MULTER CONFIG -------------------- //
-var multer = require("multer");
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './utilities/Profile_Picture/');
-    },
-    filename: function(req, file, callback) {
-    callback(null, Date.now() + file.originalname);
-    }
-});
-var imageFilter = function (req, file, cb) {
-    // accept image files only
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-        return cb(new Error('Only image files are allowed!'), false);
-    }
-    cb(null, true);
-};
-var upload = multer({ storage: storage, fileFilter: imageFilter}).single('image');
-// The Parameter passed inside single should be the same as the "name" of input field "file"
-// ----------------------------------------------- //
+
+
 
 //IMPORT MODEL
-const Supervisor = require("../models/supervisor");
+const Supervisor = require("../models/supervisor"),
+      User = require('../models/user');
 
 // INDEX ROUTE - Show all Supervisors
-router.get("/",(req,res)=>{
+router.get("/",middleware.isLoggedIn,(req,res)=>{
     Supervisor.find({},function(err, allsupervisor){
 		if(err){
             req.flash('error',"Something went wrong, Please Try Again!!");
@@ -53,17 +38,13 @@ router.get("/",(req,res)=>{
 });
 
 // CREATE ROUTE - Add Supervisor to database
-router.post("/", (req,res) =>{
+router.post("/", middleware.isLoggedIn,(req,res) =>{
     // eval(require('locus')); 
-    console.log(req.body.supervisor);
-    upload(req,res,function(err){
-        if(err){
-            req.flash("error",err.message);
-            console.log(err);
-        }
+    console.log(req.body);
+   
     Supervisor.find({},function(err,supervisor){
         if(err){
-            req.flash("error","Something went wrong,Pleaase Try Again!!");
+            req.flash("error","Something went wrong,Please Try Again!!");
             console.log(err);
         } else {
             var id;
@@ -75,7 +56,8 @@ router.post("/", (req,res) =>{
             var Sup = req.body.supervisor;
             supData = {
                 spID: id,
-                image: "Profile_Picture/"+req.file.filename,
+                image: undefined,
+                // image: "../ "+req.file.filename,
                 title: Sup.title,
                 firstName: Sup.firstName,
                 lastName: Sup.lastName,
@@ -135,13 +117,29 @@ router.post("/", (req,res) =>{
                     req.flash("error","Something went Wrong,Please Try Again!!!");
                 }
                 else{
-                    req.flash("success","Entity Added Successfully...");
-                    res.redirect("/supervisor");
+                    // CREATE A SUPERVISOR ACCOUNT
+                    const password = `${supervisor.firstName}#${supervisor.spID}`;
+                    User.register(new User({
+                        username: supervisor.firstName + supervisor.spID,
+                        email: supervisor.email,
+                        isAdmin: false,
+                        active: false,
+                    }),password,(err,user) =>{
+                        if(err){
+                            req.flash('error', 'Unable to Sign Up');
+                            return res.redirect('/supervisor');
+                        }
+                        else{
+                            req.flash("success","Entity Added Successfully...");
+                            res.redirect("/supervisor");
+                        }
+                    });
+                    // req.flash("success","Entity Added Successfully...");
+                    // res.redirect("/supervisor");
                 }
             });
 		}
     });
-});
 });
 
 module.exports = router;

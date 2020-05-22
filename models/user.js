@@ -7,6 +7,6 @@ var userSchema = new mongoose.Schema({
     isAdmin: Boolean,
 });
 
-userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(passportLocalMongoose,{usernameQueryFields: ["email"]});
 
 module.exports = mongoose.model('User', userSchema);

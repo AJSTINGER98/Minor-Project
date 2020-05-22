@@ -6,7 +6,10 @@ const path                  = require('path'),
       passport              = require("passport"),
       localStrategy         = require("passport-local"),
       methodOverride        = require("method-override"),
-      helmet                = require('helmet');
+      helmet                = require('helmet'),
+      bodyParser            = require('body-parser');
+       
+
 
 const app = express();
 
@@ -20,19 +23,20 @@ mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useF
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE
 app.set("view engine", "ejs");
 
-// HELMET PROTECTS APP FROM WELL KNOWN EXPRESS VULNERABILITIES
-app.use(helmet());
 
 // SETUP BODY PARSER
 app.use(express.json());
 // Here setting extended to true allows body parser to convert the data of req.body into object and array form where necessary.
 app.use(express.urlencoded({extended: true}));
 
+
+
 // METHOD OVERRIDE FOR RESTful ROUTING
 app.use(methodOverride("_method"));
 
 // SETUP FLASH MESSAGES
 app.use(flash());
+
 
 // EXPRESS SESSION
 app.use(require("express-session")({
@@ -56,8 +60,11 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/Utilities"));
 app.set('views', path.join(__dirname, 'views'));
 
+
 // PASS LOCAL VARIABLES IN ALL ROUTES
 app.use(function(req,res,next){
+    // res.locals.currentUser = req.user? req.user.username : undefined;
+    res.locals.currentUser = req.user;
     res.locals.error     = req.flash("error");
     res.locals.warning   = req.flash("warning");
     res.locals.success   = req.flash("success");
@@ -71,12 +78,19 @@ const formRoute    = require("./routes/form");
 const profileRoute = require("./routes/profile");
 const authRoute = require("./routes/authentication");
 
+
+
 // CALL ROUTES
 app.use("/supervisor",profileRoute);
 app.use("/supervisor",supRoute);
 app.use("/",dashRoute);
 app.use("/",formRoute);
 app.use("/",authRoute);
+
+
+
+// HELMET PROTECTS APP FROM WELL KNOWN EXPRESS VULNERABILITIES
+app.use(helmet());
 
 // INITIALISE PORT TO START SERVER
 app.listen(process.env.port||3000,()=>{

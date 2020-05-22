@@ -15,17 +15,17 @@
           <h3 class="text-center">Log In</h3>
         </div>
         <div class ="card-body">
-          <form action="https://www.google.com" method="GET">
+          <form action="/login" method="POST">
             <div class = "input-group form-group">
               <div class = "input-group-prepend w-100">
                 <span class = "input-group-text"><i class="fas fa-user"></i></span>
-                <input name="user" class = "w-100" type="text" placeholder=" Username" required>
+                <input name="username" class = "w-100" type="text" placeholder=" Username" required>
               </div>
             </div>
             <div class = "input-group form-group">
               <div class = "input-group-prepend w-100">
                 <span class = "input-group-text"><i class="fas fa-key"></i></span>
-                <input name="pass" class = "w-100" type="password" placeholder=" Password" required pattern=".{5,10}" title="The length of the password should be between 5 and 10">
+                <input name="password" class = "w-100" type="password" placeholder=" Password" required pattern=".{5,10}" title="The length of the password should be between 5 and 10">
               </div>
             </div>
             <div class = "align-item-center pb-2">

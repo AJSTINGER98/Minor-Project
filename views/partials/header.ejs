@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
 	</head>
 <body>
+
 	<!-- NAVBAR -->
     <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-light fixed-top py-0">
         <div class="container-fluid">
@@ -43,15 +44,28 @@
                 <li class="nav-item">
                 <a class="nav-link effect px-3" id="nv4" href="#footer">CONTACT</a>
                 </li>
+                <%if(currentUser){%>
+                  <li class="nav-item">
+                    <a class="nav-link effect px-3" id="nv4" href="#footer"><%=currentUser.isAdmin%></a>
+                  </li>
+                <%}%>
             </ul>
 
             <ul class="navbar-nav ml-auto" style="font-size: 1.0rem;">
+            <% if(!currentUser){%>
+              
+              <li>
+                <a href="/signup" class="nav-link hvr-wobble-horizontal">Sign Up <i class="fas fa-user-plus"></i></a>
+              </li>
+              <li>
+                <a href="/login" class="nav-link hvr-wobble-horizontal">Login <i class="fas fa-user"></i></a>
+              </li>
+            
+            <%} else{%>
                 <li>
-                  <a href="/signup" class="nav-link hvr-wobble-horizontal">Sign Up <i class="fas fa-user-plus"></i></a>
+                  <a href="/logout" class="nav-link hvr-wobble-horizontal">Logout <i class="fas fa-sign-out-alt"></i></a>
                 </li>
-                <li>
-                  <a href="/login" class="nav-link hvr-wobble-horizontal">Login <i class="fas fa-user"></i></a>
-                </li>
+              <%}%>
             </ul>
 
             <!-- <div class="navbar-nav ml-auto">
