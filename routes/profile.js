@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const middleware = require("../middleware/middleware");
 
 // IMPORT MODEL
 const Supervisor = require("../models/supervisor");
 const Scholar = require("../models/scholar");
 
 // SHOW ROUTE - Display Profile of Individuals
-router.get("/:person/:id",async function(req,res){
+router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
     // find supervisor or scholar
     if(req.params.person == "supervisor"){
         Supervisor.findById(req.params.id,function(err,foundPerson){

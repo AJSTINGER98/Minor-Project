@@ -4,9 +4,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 d-flex justify-content-end" style="margin-top: -100px;">
-            <img src="/<%= person.image %>" class="img-thumbnail" alt="Profile Picture">
+            <% if(person.image) { %>
+                <img src="/<%= person.image %>" class="img-thumbnail" alt="Profile Picture">
+            <% } else if(person.title == "Mrs." || person.title == "Miss" ) { %> 
+                <img src="/Images/Female.jpg" class="img-thumbnail" alt="Profile Picture">
+            <% } else { %>
+                <img src="/Images/Male.jpg" class="img-thumbnail" alt="Profile Picture">
+            <% } %>
             <br><br>
-        </div>
+        </div>   
+
         <div class="col-md-9 pl-1 pr-5">
             <div id="info">
                 <h1 class="display-4"><%= person.title %><%= person.firstName %> <%= person.lastName %></h1>
@@ -35,16 +42,18 @@
                 </div>
             </div>
             <hr style="padding-bottom: 20px; width: 50%;">
-            <div id="info1" class="container">
-                <h5>FIELD OF EXPERTISE </h5>
-                <!-- <p> -->
-                <ul style="list-style-type:square; margin-left:20px;">
-                    <% person.FoE.forEach(function(field){ %>
-                            <li><%= field %></li>
-                    <% }); %>
-                </ul>
-                <!-- </p> -->
-            </div>
+            <% if(person.FoE) { %>
+                <div id="info1" class="container">
+                    <h5>FIELD OF EXPERTISE </h5>
+                    <!-- <p> -->
+                    <ul style="list-style-type:square; margin-left:20px;">
+                        <% person.FoE.forEach(function(field){ %>
+                                <li><%= field %></li>
+                        <% }); %>
+                    </ul>
+                    <!-- </p> -->
+                </div>
+            <% } %>
             <div id="info1" class="container">
                 <h5>ACADEMIC QUALIFICATION</h5>
                 <table class="table table-hover">
@@ -69,7 +78,7 @@
                     </tbody>
                 </table>
             </div>
-            <% if(person['experience'][0]['organisation'].length != 0){ %>
+            <% if(person.experience && person['experience'][0]['organisation'].length != 0){ %>
                 <div id="info1" class="container">
                     <h5>EXPERIENCE</h5>
                     <table class="table table-hover">
@@ -95,7 +104,7 @@
                 </div>
             <% } %>
 
-            <% if(person['research'][0]['title'].length != 0){ %>
+            <% if(person.research && person['research'][0]['title'].length != 0){ %>
                 <div id="info1" class="container">
                     <h5>RESEARCH PROJECT</h5>
                     <table class="table table-hover">

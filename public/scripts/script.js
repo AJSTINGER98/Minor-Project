@@ -1,3 +1,5 @@
+// Global Declaration path Url.
+
 // ------------Supervisor.ejs------------------
 newFunction();
 function newFunction() {
