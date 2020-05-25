@@ -119,7 +119,7 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
                 else{
                     // CREATE A SUPERVISOR ACCOUNT
                     const password = `${supervisor.firstName}#${supervisor.spID}`;
-                    console.log(password);
+                    // console.log(password);
                     User.register(new User({
                         username: supervisor.firstName + supervisor.spID,
                         email: supervisor.email,
