@@ -45,7 +45,7 @@
                 </tbody>
             </table>
 
-            <% if(currentUser) { %>
+            <% if(currentUser && currentUser.isAdmin) { %>
                 <!-- ADD SUPERVISOR  -->
                 <div class="card">
                     <div class="card-body cardTable">

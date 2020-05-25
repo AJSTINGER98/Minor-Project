@@ -2,13 +2,12 @@
 const path                  = require('path'),
       flash                 = require('connect-flash'),
       express               = require('express'),
-      mongoose              = require("mongoose"),
-      passport              = require("passport"),
-      localStrategy         = require("passport-local"),
-      methodOverride        = require("method-override"),
-      helmet                = require('helmet'),
-      bodyParser            = require('body-parser');
-       
+      mongoose              = require('mongoose'),
+      passport              = require('passport'),
+      localStrategy         = require('passport-local'),
+      methodOverride        = require('method-override'),
+      helmet                = require('helmet');
+
 const app = express();
 
 // IMPORT MODELS
@@ -61,7 +60,17 @@ app.use(function(req,res,next){
     next();
 });
 
-// IMPORT ROUTES 
+// SETTING UP GRIDFS
+const conn = mongoose.connection;
+
+conn.once("open", () => {
+  // init stream
+    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads"
+  });
+});
+
+// IMPORT ROUTES
 const supRoute     = require("./routes/supervisor");
 const dashRoute    = require("./routes/dashboard");
 const formRoute    = require("./routes/form");
@@ -72,11 +81,10 @@ const authRoute    = require("./routes/authentication");
 // CALL ROUTES
 app.use("/supervisor",supRoute);
 app.use("/scholar",schRoute);
-app.use("/",dashRoute);
-app.use("/",formRoute);
+app.use("/form",formRoute);
+app.use("/",profileRoute);
 app.use("/",authRoute);
-app.use("/",profileRoute);      // This Route Must be called at the end only else it would conflict with dashRoute and
-                                // will give error.
+app.use("/",dashRoute);
 
 // HELMET PROTECTS APP FROM WELL KNOWN EXPRESS VULNERABILITIES
 app.use(helmet());

@@ -150,6 +150,35 @@
     margin-bottom: 50px;
 }
 
+/* CREATE PROFILE PIC HOVER EFFECT */
+.profile-pic-hover {
+    position:relative;
+    height:281px;
+    width:450px;
+    margin:0 auto;
+  }
+
+.img-bottom {
+position:absolute;
+-webkit-transition: opacity 0.5s ease-in-out;
+-moz-transition: opacity 0.5s ease-in-out;
+-o-transition: opacity 0.5s ease-in-out;
+transition: opacity 0.5s ease-in-out;
+}
+.img-top{
+position:absolute;
+
+}
+
+.img-bottom:hover {
+opacity:0.2;
+}
+
+.custom-file-input{
+    cursor: pointer;
+}
+
+
 @media (max-width : 992px){
     .col-md-3 img{
         height: 155px;

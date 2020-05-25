@@ -4,6 +4,7 @@ const express = require("express"),
 
 // IMPORT MODEL
 const Scholar = require("../models/scholar");
+const User = require("../models/user");
 
 // INDEX ROUTE - Show All Scholars
 router.get("/",(req,res) =>{
@@ -33,9 +34,9 @@ router.get("/",(req,res) =>{
 });
 
 // CREATE ROUTE - Add Scholar to database
-router.post("/",middleware.isLoggedIn,(req,res) =>{
-    console.log(req.body);
-    console.log(req.body.scholar);
+router.post("/",middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
+    // console.log(req.body);
+    // console.log(req.body.scholar);
     Scholar.find({},function(err,scholar){
         if(err){
             req.flash("error","Something went wrong,Pleaase Try Again!!");
@@ -50,11 +51,11 @@ router.post("/",middleware.isLoggedIn,(req,res) =>{
             var Sch = req.body.scholar;
             schData = {
                 scID: id,
-                // image: undefined,
+                image: undefined,
                 title: Sch.title,
-                firstName: Sch.firstName,
-                lastName: Sch.lastName,
-                email: Sch.email,
+                firstName: Sch.firstName.trim(),
+                lastName: Sch.lastName.trim(),
+                email: Sch.email.trim(),
                 phone: Sch.phone,
                 age: Sch.age,
                 department: Sch.department,
@@ -80,8 +81,26 @@ router.post("/",middleware.isLoggedIn,(req,res) =>{
                     req.flash("error","Something went Wrong,Please Try Again!!!");
                 }
                 else{
-                    req.flash("success","Entity Added Successfully...")
-                    res.redirect("/scholar");
+                    // CREATE A SCHOLAR ACCOUNT
+                    const password = `${scholar.firstName}#${scholar.scID}@sc`;
+                    // console.log(password);
+                    User.register(new User({
+                        username: `${scholar.firstName}${scholar.scID}@sc`,
+                        email: scholar.email,
+                        isAdmin: false,
+                        isSupervisor: false,
+                        refID: scholar._id,
+                    }),password,(err,user) =>{
+                        if(err){
+                            req.flash('error', 'Unable to Sign Up');
+                            return res.redirect('/scholar');
+                        } else {
+                            req.flash("success","Entity Added Successfully...");
+                            res.redirect("/scholar");
+                        }
+                    });
+                    // req.flash("success","Entity Added Successfully...");
+                    // res.redirect("/scholar");
                 }
             });
         }

@@ -66,9 +66,14 @@ html,body{
 
 /* -------------- ALERTS POS -----------------*/
 #alert-pos{
-    position: relative;
-    top: 80px;
+    position: absolute;
+    /* top: 20px; */
+    z-index: 1030;
 }
+/* .overlap-alert{
+    position: absolute;
+    z-index: 9999;
+} */
 /* -------------- END ------------- */
 
 /* ------------------ CARAOUSEL STYLING ----------------- */
@@ -231,3 +236,4 @@ html,body{
 .modal .modal-dialog {
     max-width: 800px;
 }
+

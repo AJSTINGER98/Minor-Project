@@ -41,11 +41,7 @@
                 <li class="nav-item">
                 <a class="nav-link effect px-3" id="nv4" href="#footer">CONTACT</a>
                 </li>
-                <%if(currentUser){%>
-                  <li class="nav-item">
-                    <a class="nav-link effect px-3" id="nv4" href="#footer"><%=currentUser.isAdmin%></a>
-                  </li>
-                <%}%>
+                
             </ul>
 
             <ul class="navbar-nav ml-auto" style="font-size: 1.0rem;">
@@ -59,6 +55,11 @@
               </li>
             
             <%} else{%>
+            <%if(currentUser.refID){%>
+                <li>
+                  <a href="<%= currentUser.isSupervisor ? `/supervisor/${currentUser.refID}` : `/scholar/${currentUser.refID}`%>" class="nav-link hvr-wobble-horizontal">Profile</i></a>
+                </li>
+              <%}%>
                 <li>
                   <a href="/logout" class="nav-link hvr-wobble-horizontal">Logout <i class="fas fa-sign-out-alt"></i></a>
                 </li>
@@ -69,19 +70,19 @@
     </nav>
    
 	<!-- ALERT MESSAGE CONFIGURATION -->
-	<div id="alert-pos" class="container">
+	<div id="alert-pos" class="container-fluid d-flex justify-content-center">
         <% if(error && error.length > 0){ %>
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger overlap-alert" role="alert">
                 <%= error %>
             </div>
         <% } %>
         <% if(success && success.length > 0){ %>
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success overlap-alert" role="alert">
                 <%= success %>
             </div>
         <% } %>
         <% if(warning && warning.length > 0){ %>
-            <div class="alert alert-warning" role="alert">
+            <div class="alert alert-warning overlap-alert" role="alert">
                 <%= warning %>
             </div>
         <% } %>

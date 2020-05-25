@@ -9,7 +9,7 @@ const User = require('../models/user');
 
 // RENDER SIGNUP PAGE
 router.get('/signup', (req,res) =>{
-    res.render('signup',{ page: 'signup' });
+    res.render('signup');
 });
 
 // CREATE USER
@@ -40,7 +40,7 @@ router.post('/signup' ,(req,res) =>{
 
 // RENDER LOGIN PAGE
 router.get('/login', (req, res) => {
-    res.render('login', { page: 'login' });
+    res.render('login');
 });
 
 // TEST FOR AUTHENTICATION
