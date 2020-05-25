@@ -18,7 +18,7 @@ conn.once("open", () => {
 });
 
 router.get("/", (req,res) =>{
-    // res.render("home");
+	// res.render("home");
     gfs.find().toArray((err, files) => {
         // Check if files exists.
         if (!files || files.length === 0) {
