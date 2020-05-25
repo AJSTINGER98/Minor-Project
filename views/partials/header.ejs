@@ -44,11 +44,7 @@
                 <li class="nav-item">
                 <a class="nav-link effect px-3" id="nv4" href="#footer">CONTACT</a>
                 </li>
-                <%if(currentUser){%>
-                  <li class="nav-item">
-                    <a class="nav-link effect px-3" id="nv4" href="#footer"><%=currentUser.isAdmin%></a>
-                  </li>
-                <%}%>
+                
             </ul>
 
             <ul class="navbar-nav ml-auto" style="font-size: 1.0rem;">
@@ -62,6 +58,11 @@
               </li>
             
             <%} else{%>
+            <%if(currentUser.refID){%>
+                <li>
+                  <a href="<%= currentUser.isSupervisor ? `/supervisor/${currentUser.refID}` : `/scholar/${currentUser.refID}`%>" class="nav-link hvr-wobble-horizontal">Profile</i></a>
+                </li>
+              <%}%>
                 <li>
                   <a href="/logout" class="nav-link hvr-wobble-horizontal">Logout <i class="fas fa-sign-out-alt"></i></a>
                 </li>

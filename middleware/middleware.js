@@ -5,6 +5,8 @@ const multer          = require('multer'),
       path            = require("path");
 
 const User = require('../models/user');
+const Supervisor = require('../models/supervisor');
+// const Scholar = require('../models/scholar');
 
 var middlewareObject = {};
 
@@ -19,6 +21,7 @@ const storage = new GridFsStorage({
                   return reject(err);
               }
               const filename = buf.toString('hex') + path.extname(file.originalname);
+              console.log(req.user._id);
               const fileInfo = {
                 filename: filename,
                 bucketName: 'uploads'
@@ -28,8 +31,27 @@ const storage = new GridFsStorage({
       });
     }
 });
+// const storageImage = new GridFsStorage({
+//     url: mongoURI,
+//     file: (req, file) => {
+//       return new Promise((resolve, reject) => {
+//           crypto.randomBytes(16, (err,buf) => {
+//               if(err){
+//                   return reject(err);
+//               }
+//               const filename = buf.toString('hex') + path.extname(file.originalname);
+//               const fileInfo = {
+//                 filename: filename,
+//                 bucketName: 'image'
+//               };
+//               resolve(fileInfo);
+//           });
+//       });
+//     }
+// });
 
 middlewareObject.upload = multer({ storage });
+// middlewareObject.uploadImg = multer({ storageImage });
 
 //CHECK AUTHENTICATION
 
@@ -65,6 +87,49 @@ middlewareObject.adminAuth = (req, res , next) => {
   }
 };
 
+//CHECK OWNERSHIP
+
+middlewareObject.checkOwner = (req,res,next) =>{
+  if(req.isAuthenticated()){
+    if(!req.user.isAdmin){
+      if(req.user.isSupervisor){
+        Supervisor.findById(req.params.id , (err,foundSup)=>{
+          if(err || !foundSup){
+            req.flash('error','Supervisor not found');
+            res.redirect('back');
+          }
+          else{
+            if(foundSup._id.equals(req.user.refID)){
+              next();
+            }
+            else{
+              req.flash('error','You are not authorized');
+              req.redirect('back');
+            }
+          }
+        });
+      }
+      else{
+        // Scholar.findById(req.params.id , (err,foundSup)=>{
+        //   if(err || !foundSup){
+        //     req.flash('error','Supervisor not found');
+        //     res.redirect('back');
+        //   }
+        //   else{
+        //     if(foundSup._id.equals(req.user.refID)){
+        //       next();
+        //     }
+        //     else{
+        //       req.flash('error','You are not authorized');
+        //       req.redirect('back');
+        //     }
+        //   }
+        // });
+
+      }
+    }
+  }
+};
 
 
 module.exports = middlewareObject;

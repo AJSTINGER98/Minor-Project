@@ -40,7 +40,7 @@ router.get("/",middleware.isLoggedIn,(req,res)=>{
 // CREATE ROUTE - Add Supervisor to database
 router.post("/", middleware.isLoggedIn,(req,res) =>{
     // eval(require('locus')); 
-    console.log(req.body);
+    // console.log(req.body);
    
     Supervisor.find({},function(err,supervisor){
         if(err){
@@ -59,9 +59,9 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
                 image: undefined,
                 // image: "../ "+req.file.filename,
                 title: Sup.title,
-                firstName: Sup.firstName,
-                lastName: Sup.lastName,
-                email: Sup.email,
+                firstName: Sup.firstName.trim(),
+                lastName: Sup.lastName.trim(),
+                email: Sup.email.trim(),
                 phone: Sup.phone,
                 age: Sup.age,
                 academicRole: Sup.academicRole,
@@ -119,11 +119,13 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
                 else{
                     // CREATE A SUPERVISOR ACCOUNT
                     const password = `${supervisor.firstName}#${supervisor.spID}`;
+                    console.log(password);
                     User.register(new User({
                         username: supervisor.firstName + supervisor.spID,
                         email: supervisor.email,
                         isAdmin: false,
-                        active: false,
+                        isSupervisor: true,
+                        refID: supervisor._id,
                     }),password,(err,user) =>{
                         if(err){
                             req.flash('error', 'Unable to Sign Up');

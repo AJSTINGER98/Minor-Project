@@ -47,12 +47,13 @@ router.get('/form/:filename',middleware.isLoggedIn, (req, res) => {
   });
 
 router.delete('/:id', middleware.isLoggedIn,(req,res) => {
-  console.log(req.params.id);
   
   gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
     if (err) return res.status(404).json({ err: err.message });
-    console.log('success');
-    res.redirect("/");
+    else{
+      console.log('success');
+      res.redirect("/");
+    }
   });
 });
 

@@ -10,7 +10,7 @@ const User = require('../models/user');
 
 
 router.get('/signup', (req,res) =>{
-    res.render('signup',{ page: 'signup' });
+    res.render('signup');
 });
 
 
@@ -41,7 +41,7 @@ router.post('/signup' ,(req,res) =>{
 
 
 router.get('/login', (req, res) => {
-    res.render('login', { page: 'login' });
+    res.render('login');
 });
 
 router.post('/login', passport.authenticate('local', {
