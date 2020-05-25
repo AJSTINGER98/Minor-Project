@@ -6,8 +6,7 @@ const path                  = require('path'),
       passport              = require('passport'),
       localStrategy         = require('passport-local'),
       methodOverride        = require('method-override'),
-      helmet                = require('helmet'),
-      bodyParser            = require('body-parser');
+      helmet                = require('helmet');
 
 const app = express();
 
@@ -15,7 +14,7 @@ const app = express();
 const User = require("./models/user");
 
 // SETUP CONNECTION TO DATABASE
-const mongoURI = "mongodb://localhost:27017/mydb";
+mongoURI = "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE
@@ -60,6 +59,18 @@ app.use(function(req,res,next){
     res.locals.success = req.flash("success");
     next();
 });
+
+//Setting up GridFS
+
+const conn = mongoose.connection;
+
+conn.once("open", () => {
+  // init stream
+    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads"
+  });
+});
+
 
 // IMPORT ROUTES
 const supRoute     = require("./routes/supervisor");

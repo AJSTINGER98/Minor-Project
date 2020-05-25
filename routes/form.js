@@ -1,21 +1,8 @@
 const express    = require('express');
 const middleware = require("../middleware/middleware"); 
-const Grid       = require('gridfs-stream');
 const mongoose   = require("mongoose");
 
 const router = express.Router();
-
-// Setting up GridFS
-const conn = mongoose.connection;
-
-let gfs;
-
-conn.once("open", () => {
-  // init stream
-  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
-    bucketName: "uploads"
-  });
-});
 
 router.post('/upload',middleware.isLoggedIn, middleware.isAdmin,middleware.upload.single('file'), (req, res) => {
 	res.redirect('/');

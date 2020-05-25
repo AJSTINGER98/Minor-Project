@@ -1,6 +1,5 @@
 const multer          = require('multer'),
       GridFsStorage   = require('multer-gridfs-storage'),
-      Grid            = require('gridfs-stream'),
       crypto          = require('crypto'),
       path            = require("path");
 
@@ -9,8 +8,6 @@ const Supervisor = require('../models/supervisor');
 const Scholar = require('../models/scholar');
 
 var middlewareObject = {};
-
-const mongoURI = 'mongodb://localhost:27017/mydb';
 
 const storage = new GridFsStorage({
     url: mongoURI,

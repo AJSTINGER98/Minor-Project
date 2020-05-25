@@ -1,5 +1,4 @@
 const   express  = require('express'),
-        middleware = require("../middleware/middleware"),
         passport = require('passport');
 
 // SETUP ROUTER

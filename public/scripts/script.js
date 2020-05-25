@@ -100,6 +100,20 @@ function newFunction() {
             return false;
         });
     });
+
+    // FADING EFFECT IN ALERT 
+
+    $(document).ready( function(){
+
+        $('.overlap-alert').css('display','none').fadeIn(1000,function(){
+            setTimeout(function(){
+                $('.overlap-alert').fadeOut(1000);
+            },3000);
+        });
+        
+        
+    });
+
 } // End of newFunction();
 
 // -------------------Home.ejs-----------------------
@@ -147,3 +161,5 @@ function newFunction() {
         $("#nv1").hide();
         $("#nv2").hide();
     }
+
+

@@ -7,20 +7,6 @@ const middleware = require("../middleware/middleware");
 const Supervisor = require("../models/supervisor");
 const Scholar = require("../models/scholar");
 
-//Setting up GridFS
-const conn = mongoose.connection;
-
-
-let gfs;
-conn.once("open", () => {
-  // init stream
-  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
-    bucketName: "uploads"
-  });
-});
-
-
-
 // SHOW ROUTE - Display Profile of Individuals
 router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
     if(req.params.person == "supervisor"){
