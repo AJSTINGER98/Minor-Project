@@ -25,12 +25,12 @@ function newFunction() {
     $(function(){
     $(document).on('click', '.btn-foe-add', function(e){
         e.preventDefault();
-        var controlForm = $('.controls .form-group:first'),
-            currentEntry = $(this).parents('.entry:first'),
+        var controlForm = $('.controls .form-group:last'),
+            currentEntry = $(this).parents('.entry:last'),
             newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-        currentEntry.find('input').val('');
-        controlForm.find('.entry:not(:first) .btn-foe-add')
+        newEntry.find('input').val('');
+        controlForm.find('.entry:not(:last) .btn-foe-add')
             .removeClass('btn-foe-add').addClass('btn-foe-remove')
             .removeClass('btn-secondary').addClass('btn-danger')
             .html('<i class="fas fa-minus"></i>');
@@ -50,6 +50,7 @@ function newFunction() {
                 newacademicEntry = $(academicEntry.clone()).appendTo(academicForm);
 
                 newacademicEntry.find('input').val('');
+                newacademicEntry.find('select').val('None');
                 academicForm.find('.academicField:not(:last) .addAQ')
                 .removeClass('addAQ').addClass('delAQ')
                 .removeClass('btn-success').addClass('btn-danger')
@@ -70,6 +71,7 @@ function newFunction() {
                 newexperienceEntry = $(experienceEntry.clone()).appendTo(experienceForm);
 
                 newexperienceEntry.find('input').val('');
+                newexperienceEntry.find('select').val('None');
                 experienceForm.find('.experienceField:not(:last) .addEX')
                 .removeClass('addEX').addClass('delEX')
                 .removeClass('btn-success').addClass('btn-danger')
@@ -89,7 +91,8 @@ function newFunction() {
                 researchEntry = $(this).parents('.researchField'),
                 newresearchEntry = $(researchEntry.clone()).appendTo(researchForm);
 
-                newresearchEntry.find('input').val('');
+                newresearchEntry.find('input').val('None');
+                newresearchEntry.find('select').val('');
                 researchForm.find('.researchField:not(:last) .addRP')
                 .removeClass('addRP').addClass('delRP')
                 .removeClass('btn-success').addClass('btn-danger')
