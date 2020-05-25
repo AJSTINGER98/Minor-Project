@@ -25,8 +25,8 @@ const storage = new GridFsStorage({
               };
               resolve(fileInfo);
           });
-      });
-    }
+	  });
+	}
 });
 
 middlewareObject.upload = multer({ storage });
