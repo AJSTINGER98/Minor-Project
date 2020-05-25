@@ -1,4 +1,4 @@
-/* ----------------Supervisor Page------------------ */
+/* ----------------Supervisor Page / Scholar Page------------------ */
 .search-bar input{
     background-image: url('/Images/search.png');
     background-repeat: no-repeat;
@@ -48,6 +48,7 @@
 
 #sup{
     font-family: FreeMono, monospace;
+    font-weight: 600;
     text-align: center;
     letter-spacing: 0.13em;
     margin-bottom: 20px;

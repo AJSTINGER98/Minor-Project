@@ -1,23 +1,18 @@
-const express = require("express"),
-      router = express.Router(),
-      passport = require('passport'),
+const express    = require("express"),
+      router     = express.Router(),
       middleware = require("../middleware/middleware");
-
-
-
 
 //IMPORT MODEL
 const Supervisor = require("../models/supervisor"),
-      User = require('../models/user');
+      User       = require('../models/user');
 
 // INDEX ROUTE - Show all Supervisors
-router.get("/",middleware.isLoggedIn,(req,res)=>{
+router.get("/",(req,res)=>{
     Supervisor.find({},function(err, allsupervisor){
 		if(err){
             req.flash('error',"Something went wrong, Please Try Again!!");
 			console.log(err);
-		}
-		else{
+		} else {
             supervisorList = [];
             allsupervisor.forEach((supervisor)=>{
                 temp = {
@@ -37,8 +32,8 @@ router.get("/",middleware.isLoggedIn,(req,res)=>{
 	});
 });
 
-// CREATE ROUTE - Add Supervisor to database
-router.post("/", middleware.isLoggedIn,(req,res) =>{
+// CREATE ROUTE - Add Supervisor 
+router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
     // eval(require('locus')); 
     // console.log(req.body);
    
@@ -57,7 +52,6 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
             supData = {
                 spID: id,
                 image: undefined,
-                // image: "../ "+req.file.filename,
                 title: Sup.title,
                 firstName: Sup.firstName.trim(),
                 lastName: Sup.lastName.trim(),
@@ -73,7 +67,7 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
                 FoE: Sup.FoE,
             };
 
-            //Create array of object of Academic Qualifications
+            // Create array of object of Academic Qualifications
             for(var i = 0; i < Sup.academicQ.degree.length;i++){
                 temp = {
                     degree: Sup.academicQ.degree[i],
@@ -85,7 +79,7 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
                 supData.academicQ.push(temp);
             }
 
-            //Create array of object of Experiences
+            // Create array of object of Experiences
             for(i = 0; i < Sup.experience.organisation.length;i++){
                 temp = {
                     organisation: Sup.experience.organisation[i],
@@ -97,7 +91,7 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
                 supData.experience.push(temp);
             }
 
-            //create array of object of Research
+            // Create array of object of Research
             for(i = 0; i < Sup.research.title.length;i++){
                 temp = {
                     title: Sup.research.title[i],
@@ -115,8 +109,7 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
                 if(err){
                     console.log(err);
                     req.flash("error","Something went Wrong,Please Try Again!!!");
-                }
-                else{
+                } else {
                     // CREATE A SUPERVISOR ACCOUNT
                     const password = `${supervisor.firstName}#${supervisor.spID}`;
                     // console.log(password);
@@ -130,8 +123,7 @@ router.post("/", middleware.isLoggedIn,(req,res) =>{
                         if(err){
                             req.flash('error', 'Unable to Sign Up');
                             return res.redirect('/supervisor');
-                        }
-                        else{
+                        } else {
                             req.flash("success","Entity Added Successfully...");
                             res.redirect("/supervisor");
                         }

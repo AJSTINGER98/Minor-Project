@@ -95,7 +95,7 @@
 </div>
 
 <!-- BROWSE BY CATEGORY -->
-<div id="category" class="conatiner-fluid" style="background-color: rgb(230,230,250);">
+<div id="category" class="container-fluid" style="background-color: rgb(230,230,250);">
     <div id="category1" class="container pt-4">
         <h3>BROWSE BY CATEGORY</h3>
         <hr>
@@ -116,7 +116,7 @@
                 <div class="card" style="width: 16rem;">
                     <img class="img-thumbnail" src="/Images/category2.jpg">
                     <div class="card-body">
-                        <a href="#">
+                        <a href="/scholar">
                             <h5 class="card-title hvr-underline-from-center">SCHOLARS</h5>
                         </a>
                     </div>
@@ -137,7 +137,7 @@
 </div>
 
 <!-- PHD FORM MODAL -->
-<%if(currentUser){%>
+<% if(currentUser) { %>
     
     <div class="modal fade" id="phdForm" tabindex="-1" role="dialog" aria-labelledby="phDFormTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -150,19 +150,22 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <div class="row d-flex justify-content-center div-center">
-                            <div class="col-sm-8 form-group">
-                                <form action="/upload" method="POST" enctype="multipart/form-data">
-                                    <div class="custom-file h-50 mb-3">
-                                        <input type="file" name="file" id="file" class="custom-file-input" accept="application/pdf" required>
-                                        <label for="file" class="custom-file-label" placeholder = "Choose File"></label>
-                                    </div>
-                                    <div class="container-fluid w-100">
-                                        <button class="btn btn-primary w-100" >Upload File</button>
-                                    </div>
-                                </form>
+                        <%if(currentUser.isAdmin){%>
+                            <div class="row d-flex justify-content-center div-center">
+                                <div class="col-sm-8 form-group">
+                                    <form action="form/upload" method="POST" enctype="multipart/form-data">
+                                        <div class="custom-file h-50 mb-3">
+                                            <input type="file" name="file" id="file" class="custom-file-input" accept="application/pdf" required>
+                                            <label for="file" class="custom-file-label" placeholder = "Choose File"></label>
+                                        </div>
+                                        <div class="container-fluid w-100">
+                                            <button class="btn btn-primary w-100" >Upload File</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
+                        
+                        <%}%>
                     
                     <% if(files){%> 
                         
@@ -177,13 +180,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer">
-                                    <div class="form-group">
-                                        <form action="/<%=file._id%>?_method=DELETE" method="POST">
-                                            <button class="btn btn-danger w-100" >Delete File</button>
-                                        </form>
+                                <%if(currentUser.isAdmin){%> 
+                                    <div class="card-footer">
+                                        <div class="form-group">
+                                            <form action="/form/<%=file._id%>?_method=DELETE" method="POST">
+                                                <button class="btn btn-danger w-100" >Delete File</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
+                                
+                                <%}%>
                             </div> 
                         <% } %>
                 
@@ -203,7 +209,7 @@
             </div>
         </div>
     </div> 
-<%} else {%>
+<% } else { %>
     <div class="modal fade" id="phdForm" tabindex="-1" role="dialog" aria-labelledby="LoginModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -223,7 +229,7 @@
           </div>
         </div>
       </div>
-<%}%>
+<% } %>
 
 <%- include ("partials/footer")%>
  
