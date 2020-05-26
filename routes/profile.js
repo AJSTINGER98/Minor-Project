@@ -6,6 +6,7 @@ const middleware = require("../middleware/middleware");
 // IMPORT MODEL
 const Supervisor = require("../models/supervisor");
 const Scholar = require("../models/scholar");
+const User = require("../models/user");
 
 // SHOW ROUTE - Display Profile of Individuals
 router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
@@ -77,7 +78,7 @@ router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
 
 // UPLOAD PROFILE PIC IF DOES NOT EXIST
 router.post('/:person/:id/image/upload',middleware.isLoggedIn,middleware.checkOwner, middleware.upload.single('image'),(req,res) =>{
-    console.log(req.file);
+    // console.log(req.file);
     if(req.params.person == "supervisor"){
         Supervisor.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,supervisor) =>{
             if(err){
@@ -134,7 +135,7 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,funct
 
 // UPDATE ROUTE - Store Changes to Database (if any) exists-----------------------------
 router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
-    console.log(req.body);
+    // console.log(req.body);
     data = {
         email : req.body.email,
         phone : req.body.phone,
@@ -186,6 +187,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     // Update FoE
     if(req.body.FoE){
         data.FoE = req.body.FoE;
+        data.FoE.splice(data.FoE.length-1, 1);
     }
 
     if(req.params.person == "supervisor"){
@@ -215,25 +217,44 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
 });
 
 // DELETE ROUTE - (Access only to Admin)
-router.delete("/:person/:id",function(req,res){
+router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(req,res){
     if(req.params.person == "supervisor"){
-        Supervisor.findByIdAndDelete(req.params.id,function(err){
+        Supervisor.findByIdAndDelete(req.params.id,function(err,supervisor){
             if(err){
                 req.flash('error','Could not delete Supervisor');
                 res.redirect("/supervisor/"+req.params.id);
             } else {
-                req.flash('success','Supervisor has been removed');
-                res.redirect("/supervisor");   
+                // console.log(supervisor);
+                User.findOneAndDelete({refID: req.params.id}, (err,supUser)=>{
+                    if(err){
+
+                        req.flash('error','Could not remove User. Please delete Manually');
+                        res.redirect('/supervisor');
+                    } else{
+                        // console.log(supUser);
+                        req.flash('success','Supervisor has been removed');
+                        res.redirect("/supervisor");
+                    }
+                });  
             }
         });
     } else if(req.params.person == "scholar") {
-        Scholar.findByIdAndDelete(req.params.id,function(err){
+        Scholar.findByIdAndDelete(req.params.id,function(err,scholar){
             if(err){
                 req.flash('error','Could not delete Scholar');
                 res.redirect("/scholar/"+req.params.id);  
             } else {
-                req.flash('success','Scholar has been removed');
-                res.redirect("/scholar");
+                // console.log(scholar);
+                User.findOneAndDelete({refID: req.params.id}, (err,schUser)=>{
+                    if(err){
+                        req.flash('error','Could not remove User. Please delete Manually');
+                        res.redirect('/scholar');
+                    } else{
+                        // console.log(schUser);
+                        req.flash('success','Scholar has been removed');
+                        res.redirect("/scholar");
+                    }
+                });
             }
         });
     } else {
@@ -253,7 +274,7 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
                 res.redirect('back');
             }
             else{
-                console.log('success');
+                // console.log('success');
                 Supervisor.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,supervisor) =>{
                     if(err){
                         req.flash('error', "Could not add image");
@@ -272,7 +293,7 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
                 res.redirect('back');
             }
             else{
-                console.log('success');
+                // console.log('success');
                 Scholar.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,scholar) =>{
                     if(err){
                         req.flash('error', "Could not add image");

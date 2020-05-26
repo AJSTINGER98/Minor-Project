@@ -18,7 +18,7 @@ const storage = new GridFsStorage({
                   return reject(err);
               }
               const filename = buf.toString('hex') + path.extname(file.originalname);
-              console.log(req.user._id);
+              // console.log(req.user._id);
               const fileInfo = {
                 filename: filename,
                 bucketName: 'uploads'
@@ -38,7 +38,7 @@ middlewareObject.isLoggedIn = (req , res , next) => {
 		return next();
 	}
 	else{
-		req.flash("error" , "You are not logged in !!");
+		req.flash("warning" , "You are not logged in !!");
 		res.redirect("/login");
 	}
 };
@@ -60,7 +60,10 @@ middlewareObject.isAdmin = (req, res , next) => {
 				}
 			} 
 		});
-	}
+	} else {
+    req.flash('warning','Please Login to continue');
+    res.redirect('/login');
+  }
 };
 
 //CHECK OWNERSHIP
@@ -97,13 +100,19 @@ middlewareObject.checkOwner = (req,res,next) =>{
             }
             else{
               req.flash('error','You are not authorized');
-              req.redirect('back');
+              res.redirect('back');
             }
           }
         });
 
       }
+    } else {
+        req.flash('error','You are not authorized');
+        res.redirect('back');
     }
+  } else {
+      req.flash('warning','Please Login to continue');
+      res.redirect('/login');
   }
 };
 
