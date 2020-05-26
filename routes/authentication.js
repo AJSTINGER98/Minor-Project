@@ -48,7 +48,8 @@ router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true,
-}),(req, res)=> {});
+}),(req, res)=> {
+});
 
 router.get('/logout', (req,res) => {
     req.logout();
