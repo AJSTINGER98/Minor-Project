@@ -1,0 +1,298 @@
+<%- include ("partials/header") %>
+
+<fieldset>
+    <legend>
+        <h1 id="editTitle">EDIT DETAILS</h1>
+    </legend>
+</fieldset>
+
+
+<div id="edit" class="container">
+    <form action="/<%= path %>/<%= person._id %>?_method=PUT" method="POST" enctype="">
+        <!-- --------------BASIC INFORMATION--------------- -->
+        <h5 id="title"><em>BASIC INFORMATION</em></h5>
+        <br>    
+        <!-- FIRST ROW -->
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="title">Title</label>
+                <select id="title" class="form-control" name= "title" disabled>
+                    <option selected><%= person.title %></option>
+                </select>
+            </div>
+            <div class="form-group col-md-5">
+                <label for="input_fname">First Name</label>
+                <input type="text" id="input_fname" class="form-control"  name="firstName" value="<%= person.firstName %>" disabled>
+            </div>
+            <div class="form-group col-md-5">
+                <label for="input_lname">Last Name</label>
+                <input type="text" id="input_lname" class="form-control" name= "lastName" value="<%= person.lastName %>" disabled>
+            </div>
+        </div>
+
+        <!-- SECOND ROW -->
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" name="email" value="<%= person.email %>" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" class="form-control"  pattern=".{10}" name="phone" value="<%= person.phone %>" required>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputAge">Age</label>
+                <select id="inputAge" class="form-control" name="age" required>
+                    <option>None</option>
+                    <% for(var i =20; i<=60; i++){ %> 
+                        <% var isSelected = (person.age == i ) ? "selected" : ""; %>
+                        <option value="<%= i %>" <%= isSelected %>>
+                            <%= i %>
+                        </option> 
+                    <% } %>
+                </select>
+            </div>
+        </div>
+
+        <!-- THIRD ROW -->
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="inputAcademic">Academic Role</label>
+                <select id="inputAcademic" class="form-control" name="academicRole" disabled>
+                    <option selected><%= person.academicRole %></option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputDep">Department</label>
+                <select id="inputDep" class="form-control"  name= "department" disabled>
+                    <option selected><%= person.department %></option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputSchool">School</label>
+                <select id="inputSchool" class="form-control" name= "school" disabled>
+                    <option selected><%= person.school %></option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ---------------ACADEMIC QUALIFICATION----------------- -->
+        <hr id="suphr">
+        <br>
+        <h5 id="title"><em>ACADEMIC QUALIFICATIONS</em></h5>
+        <br>
+        <div class="academic">
+
+            <% var options = ["Bachelor of Computer Applications (B.C.A)","Bachelor of Computer Science (B.C.S)","Bachelor of Education in AI (B.Ed.AI)","Bachelor of Electronic Science (B.E.S)","Bachelor of Engineering (B.E)","Bachelor of Science (B.Sc)","Bachelor of Science Education (B.S.E)","Bachelor of Science Bachelor of Education (B.Sc.B.Ed)","Bachelor of Technology (B.Tech)","Master of Computer Applications (M.C.A)","Master of Education (M.Ed)","Master of Science (M.Sc)","Master of Technology (M.Tech)","Post Graduate (PG)","Post Graduate Diploma (P.Diploma)","Doctor of Philosophy (Ph.D)"] %>
+
+            <% for(var i = 0 ; i < person["academicQ"].length ; i++){ %>
+
+                <div class="form-group academicField">
+                    <!-- FOURTH ROW -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="degree">Degree/Title</label>
+                            <select id="degree" class="form-control" name="academicQ[degree][]">
+                                <option>None</option>
+                                <% for ( var j = 0; j < options.length; j++ ){ %>
+                                    <% var isSelected = ( person.academicQ[i].degree == options[j] ) ? "selected" : ""; %>
+                                    <option value="<%=options[j]%>" <%= isSelected %>>
+                                        <%= options[j] %>
+                                    </option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="specialisation">Specialisation</label>
+                            <input type="text" id="specialisation" class="form-control" name="academicQ[specialisation][]" value="<%= person.academicQ[i].specialisation %>">
+                        </div>
+                    </div>
+                    
+    
+                    <!-- FIFTH ROW -->
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="institute">Institute</label>
+                            <input type="text" id="institute" class="form-control" name="academicQ[institute][]" value="<%= person.academicQ[i].institute %>" >
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputYoC">Year of Completion</label>
+                            <select id="inputYoC" class="form-control" name= "academicQ[yoc][]">
+                                <option>None</option>
+                                <% for(var j = new Date().getFullYear(); j>=new Date().getFullYear()-50; j--){ %> 
+                                    <% var isSelected = (person.academicQ[i].yoc == j ) ? "selected" : ""; %>
+                                    <option value="<%= j %>" <%= isSelected %>>
+                                        <%= j %>
+                                    </option> 
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- ADD BUTTON -->
+                    <div class="container d-flex justify-content-end pr-0">
+                        <button class="btn btn-primary addAQ px-4 py-1">ADD</button>
+                    </div>
+                </div>
+
+            <% } %>
+
+        </div>
+
+        <!-- ----------------EXPERIENCE----------------- -->
+        <% if(person["experience"]){ %>
+            <hr id="suphr">
+            <br>
+            <h5 id="title"><em>EXPERIENCE</em></h5>
+            <br>    
+            <div class="experience">
+
+                <% for(var i = 0 ; i < person["experience"].length ; i++){ %>
+
+                    <div class="form-group experienceField">
+                        <!-- SIXTH ROW -->
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="organization">Organization</label>
+                                <input type="text" id="organization" class="form-control"  name="experience[organisation][]" value="<%= person.experience[i].organisation %>">
+                            </div>
+                        </div>
+
+                        <!-- SEVENTH ROW -->
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <label for="designation">Designation</label>
+                                <input type="text" id="designation" class="form-control" name="experience[designation][]" value="<%= person.experience[i].designation %>">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="role">Role</label>
+                                <input type="text" id="role" class="form-control" name="experience[role][]" value="<%= person.experience[i].role %>">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="tenure">Tenure</label>
+                                <select id="tenure" class="form-control" name= "experience[tenure][]">
+                                    <option>None</option>
+                                    <% if(person.experience[i].tenure == "&lt; 1"){ %>
+                                        <option value="&lt; 1" selected>&lt; 1</option>
+                                    <% } else { %>
+                                        <option value="&lt; 1">&lt; 1</option>
+                                    <% } %>
+                                    <% for(var j = 1; j< 40; j++){ %> 
+                                        <% var isSelected = (person.experience[i].tenure == j ) ? "selected" : ""; %>
+                                        <option value="<%= j %>" <%= isSelected %>>
+                                            <%= j %>
+                                        </option> 
+                                    <% } %>      
+                                </select>
+                            </div>
+                        </div>
+                        <!-- ADD BUTTON -->
+                        <div class="container d-flex justify-content-end pr-0">
+                            <button class="btn btn-primary addEX px-4 py-1">ADD</button>
+                        </div>
+                    </div>
+                    
+                <% } %>
+                
+            </div>
+        <% } %>
+        
+        <!-- --------------------RESEARCH PROJECT---------------- -->
+        <% if(person["research"]){ %>
+            <hr id="suphr">
+            <br>
+            <h5 id="title"><em>RESEARCH PROJECT</em></h5>
+            <br>
+            <div class="research">  
+
+                <% for(var i =0 ; i < person["research"].length ; i++  ){ %>
+
+                    <div class="form-group researchField">
+                        <!-- EIGHT ROW -->
+                        <div class="form-row">
+                            <div class="form-group col-md-9">
+                                <label for="project">Project Title</label>
+                                <input type="text" id="project" class="form-control" name="research[title][]" value="<%= person.research[i].title %>">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="duration">Duration</label>
+                                <select id="duration" class="form-control" name= "research[duration][]">
+                                    <option>None</option>
+                                    <% if(person.research[i].duration == "&lt; 1"){ %>
+                                        <option value="&lt; 1" selected>&lt; 1</option>
+                                    <% } else { %>
+                                        <option value="&lt; 1">&lt; 1</option>
+                                    <% } %>
+                                    <% for(var j = 1; j<= 15 ; j++){ %> 
+                                        <% var isSelected = (person.research[i].duration == j ) ? "selected" : ""; %>
+                                        <option value="<%= j %>" <%= isSelected %>>
+                                            <%= j %>
+                                        </option> 
+                                    <% } %> 
+                                </select>
+                            </div>
+                        </div>
+        
+                        <!-- NINTH ROW -->
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <label for="agency">Funding Agency</label>
+                                <input type="text" id="agency" class="form-control" name="research[agency][]" value="<%= person.research[i].agency %>">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="rolep">Role</label>
+                                <input type="text" id="rolep" class="form-control" name="research[role][]" value="<%= person.research[i].role %>">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="amount">Amount(INR)</label>
+                                <input type="text" id="amount" class="form-control" name="research[amount][]" value="<%= person.research[i].amount %>">
+                            </div>
+                        </div>
+                        <!-- ADD BUTTON -->
+                        <div class="container d-flex justify-content-end pr-0">
+                            <button class="btn btn-primary addRP px-4 py-1">ADD</button>
+                        </div>
+                    </div>
+
+                <% } %>
+            
+            </div>
+        <% } %>
+
+        <!-- ----------------------FOE---------------------- -->
+        <% if(person["FoE"]){ %>
+            <hr id="suphr">
+            <br>
+            <h5 id="title"><em>FIELD OF EXPERTISE</em></h5>
+            <br>
+            <!-- TENTH ROW -->
+            <!-- <label for="inputFoE">Field of Expertise</label> -->
+            <div class="controls">
+
+                <% for(var i =0 ; i < person["FoE"].length ; i++  ){ %>
+
+                    <div class="form-group">
+                        <div class="entry input-group">
+                            <input type="text" class="form-control" placeholder="Add Expertise" name ="FoE" value="<%= person.FoE[i] %>">
+                            <span class="input-group-append">
+                                <button class="btn btn-secondary btn-foe-add" type="button">
+                                    <i class="fas fa-plus"></i>   
+                                </button>                                       
+                            </span>
+                        </div>
+                    </div>
+
+                <% } %>
+
+            </div>
+        <% } %>
+
+        <!-- ----------------------SUBMIT BUTTON -------------------------- -->
+        <hr id="suphr">
+        <!-- SUBMIT BUTTON  -->
+        <div class="form-group d-flex justify-content-center">
+            <button type="submit" class="btn btn-success px-4 py-1 mt-3">Submit</button>
+        </div>
+    </form>
+</div>
+
+<%- include ("partials/footer") %>

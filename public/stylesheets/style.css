@@ -82,6 +82,11 @@
     margin-top: -100px;
 } */
 
+.delete{
+    display: inline;
+    margin-right: 10px;
+}
+
 .col-md-3 img{
     height: 215px;
     width: 215px;
@@ -186,4 +191,34 @@ opacity:0.2;
         margin-top: 50px;
         height: 25%;
     }
+}
+
+/* -------------------EDIT PAGE --------------------- */
+#editTitle{
+    margin-top: 80px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+    /* background: white; */
+    word-spacing: 0.2em;
+    letter-spacing: 0.1em;
+}
+#edit{
+    color: white;
+    border: 2px solid rgba(0,0,0,0.8);
+    border-radius: 10px;
+    padding: 30px 20px 10px 20px;
+    margin-bottom: 20px;
+    background-image: url("/Images/EditBack1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#edit h5{
+    font-weight: 800;
+}
+
+#edit hr{
+    background-color: cadetblue;
 }
