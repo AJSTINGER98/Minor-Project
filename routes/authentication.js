@@ -1,4 +1,5 @@
 const   express  = require('express'),
+        middleware = require('../middleware/middleware'),
         passport = require('passport');
 
 // SETUP ROUTER
@@ -54,6 +55,31 @@ router.post('/login', passport.authenticate('local', {
 router.get('/logout', (req,res) => {
     req.logout();
     res.redirect('/');
+});
+
+//CHANGE PASSWORD
+
+router.get('/changepassword',middleware.isLoggedIn, (req,res) =>{
+    res.render('changepassword');
+});
+
+router.post('/changepassword',middleware.isLoggedIn, (req,res) =>{
+    if(req.body.newPassword === req.body.confirmPassword){
+        req.user.changePassword(req.body.oldPassword , req.body.newPassword, (err,user)=>{
+            if(err){
+                req.flash('error','Old password is incorrect');
+                res.redirect('back');
+            }
+            else{
+                req.flash('success','Password has been changed');
+                res.redirect('/');
+            }
+        });
+
+    } else {
+        req.flash('warning','New Passwords do not match !');
+        res.redirect('back');
+    }
 });
 
 module.exports = router;
