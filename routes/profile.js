@@ -6,6 +6,7 @@ const middleware = require("../middleware/middleware");
 // IMPORT MODEL
 const Supervisor = require("../models/supervisor");
 const Scholar = require("../models/scholar");
+const User = require("../models/user");
 
 // SHOW ROUTE - Display Profile of Individuals
 router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
@@ -75,8 +76,9 @@ router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
     }
 });
 
+// UPLOAD PROFILE PIC IF DOES NOT EXIST
 router.post('/:person/:id/image/upload',middleware.isLoggedIn,middleware.checkOwner, middleware.upload.single('image'),(req,res) =>{
-    console.log(req.file);
+    // console.log(req.file);
     if(req.params.person == "supervisor"){
         Supervisor.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,supervisor) =>{
             if(err){
@@ -106,37 +108,40 @@ router.post('/:person/:id/image/upload',middleware.isLoggedIn,middleware.checkOw
 });
 
 // EDIT ROUTE - Add,Remove or Update Value of Individuals---------------------------
-router.get("/:person/:id/edit",function(req,res){
+router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
     if(req.params.person == "supervisor"){
         Supervisor.findById(req.params.id,function(err,foundSupervisor){
             if(err){
                 req.flash("error","Something Went Wrong!!");
-                res.redirect("/supervisor/"+req.params.id);
+                res.redirect('back');
             } else {
-                res.render("edit",{person : foundSupervisor, path : "supervisor"})
+                res.render("edit",{person : foundSupervisor, path : "supervisor"});
             }
         });
     } else if(req.params.person == "scholar") {
         Scholar.findById(req.params.id,function(err,foundScholar){
             if(err){
                 req.flash("error","Something Went Wrong!!");
-                res.redirect("/scholar/"+req.params.id);
+                res.redirect('back');
             } else {
-                res.render("edit",{person : foundScholar, path : "scholar"})
+                res.render("edit",{person : foundScholar, path : "scholar"});
             }
         });
+    } else{
+        req.flash('error','Profile does not exist!');
+        res.redirect('/');
     }
 });
 
 // UPDATE ROUTE - Store Changes to Database (if any) exists-----------------------------
-router.put("/:person/:id",function(req,res){
-    console.log(req.body);
+router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
+    // console.log(req.body);
     data = {
         email : req.body.email,
         phone : req.body.phone,
         age   : req.body.age,
         academicQ : []
-    }
+    };
 
     // Update Academic Qualifications (if any)
     for(var i = 0; i < req.body.academicQ.degree.length;i++){
@@ -182,13 +187,16 @@ router.put("/:person/:id",function(req,res){
     // Update FoE
     if(req.body.FoE){
         data.FoE = req.body.FoE;
+        data.FoE.splice(data.FoE.length-1, 1);
     }
 
     if(req.params.person == "supervisor"){
         Supervisor.findByIdAndUpdate(req.params.id,{$set:data},function(err,updateSupervisor){
             if(err){
                 req.flash("error","Could Not Submit,Kindly Try Again!!");
+                res.redirect('/supervisor');
             } else {
+                req.flash('success','Profile Updated!');
                 res.redirect("/supervisor/"+req.params.id);
             }
         });
@@ -196,36 +204,67 @@ router.put("/:person/:id",function(req,res){
         Scholar.findByIdAndUpdate(req.params.id,{$set:data},function(err,updateScholar){
             if(err){
                 req.flash("error","Could Not Submit,Kindly Try Again!!");  
+                res.redirect('/scholar');  
             } else {
+                req.flash('success','Profile Updated!');
                 res.redirect("/scholar/"+req.params.id);
             }
         });
+    } else {
+        req.flash('error','Profile does not exist !');
+        res.redirect('/');
     }
 });
 
-// DELETE ROUTE - (Access only to User)
-router.delete("/:person/:id",function(req,res){
+// DELETE ROUTE - (Access only to Admin)
+router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(req,res){
     if(req.params.person == "supervisor"){
-        Supervisor.findByIdAndDelete(req.params.id,function(err){
+        Supervisor.findByIdAndDelete(req.params.id,function(err,supervisor){
             if(err){
+                req.flash('error','Could not delete Supervisor');
                 res.redirect("/supervisor/"+req.params.id);
             } else {
-                res.redirect("/supervisor");   
+                // console.log(supervisor);
+                User.findOneAndDelete({refID: req.params.id}, (err,supUser)=>{
+                    if(err){
+
+                        req.flash('error','Could not remove User. Please delete Manually');
+                        res.redirect('/supervisor');
+                    } else{
+                        // console.log(supUser);
+                        req.flash('success','Supervisor has been removed');
+                        res.redirect("/supervisor");
+                    }
+                });  
             }
         });
     } else if(req.params.person == "scholar") {
-        Scholar.findByIdAndDelete(req.params.id,function(err){
+        Scholar.findByIdAndDelete(req.params.id,function(err,scholar){
             if(err){
+                req.flash('error','Could not delete Scholar');
                 res.redirect("/scholar/"+req.params.id);  
             } else {
-                res.redirect("/scholar")
+                // console.log(scholar);
+                User.findOneAndDelete({refID: req.params.id}, (err,schUser)=>{
+                    if(err){
+                        req.flash('error','Could not remove User. Please delete Manually');
+                        res.redirect('/scholar');
+                    } else{
+                        // console.log(schUser);
+                        req.flash('success','Scholar has been removed');
+                        res.redirect("/scholar");
+                    }
+                });
             }
         });
+    } else {
+        req.flash('error','Profile does not exist !');
+        res.redirect('/');
     }
-})
 
-// ==================================================================================================
-// UPLOAD PROFILE PICTURE
+});
+
+// UPLOAD EXISTING PROFILE PICTURE
 router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.checkOwner,middleware.upload.single('image'),(req,res) =>{
     
     if(req.params.person == "supervisor"){
@@ -235,7 +274,7 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
                 res.redirect('back');
             }
             else{
-                console.log('success');
+                // console.log('success');
                 Supervisor.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,supervisor) =>{
                     if(err){
                         req.flash('error', "Could not add image");
@@ -254,7 +293,7 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
                 res.redirect('back');
             }
             else{
-                console.log('success');
+                // console.log('success');
                 Scholar.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,scholar) =>{
                     if(err){
                         req.flash('error', "Could not add image");
@@ -274,5 +313,4 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
   
 });
 
-//=================================================================================================
 module.exports = router;

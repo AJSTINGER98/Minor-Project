@@ -7,7 +7,7 @@
 </fieldset>
 
 
-<div id="edit" class="container">
+<div id="edit" class="container text-secondary">
     <form action="/<%= path %>/<%= person._id %>?_method=PUT" method="POST" enctype="">
         <!-- --------------BASIC INFORMATION--------------- -->
         <h5 id="title"><em>BASIC INFORMATION</em></h5>
@@ -128,12 +128,12 @@
                             </select>
                         </div>
                     </div>
+                    
                     <!-- ADD BUTTON -->
                     <div class="container d-flex justify-content-end pr-0">
                         <button class="btn btn-primary addAQ px-4 py-1">ADD</button>
                     </div>
                 </div>
-
             <% } %>
 
         </div>
@@ -274,15 +274,25 @@
                         <div class="entry input-group">
                             <input type="text" class="form-control" placeholder="Add Expertise" name ="FoE" value="<%= person.FoE[i] %>">
                             <span class="input-group-append">
+                                <button class="btn btn-danger btn-foe-remove" type="button">
+                                    <i class="fas fa-minus"></i>   
+                                </button>                                       
+                            </span>
+                        </div>
+                    </div>
+                    
+                <% } %>
+                    <div class="form-group">
+                        <div class="entry input-group">
+                            <input type="text" class="form-control" placeholder="Add Expertise" name ="FoE">
+                            <span class="input-group-append">
                                 <button class="btn btn-secondary btn-foe-add" type="button">
                                     <i class="fas fa-plus"></i>   
                                 </button>                                       
                             </span>
                         </div>
                     </div>
-
-                <% } %>
-
+                    
             </div>
         <% } %>
 

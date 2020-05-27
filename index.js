@@ -14,7 +14,10 @@ const app = express();
 const User = require("./models/user");
 
 // SETUP CONNECTION TO DATABASE
-const mongoURI = "mongodb://localhost:27017/mydb";
+// mongoURI = "mongodb+srv://AbhishekAmann:ghgOLSXlE4uqMEXe@cluster0-ajeew.mongodb.net/mydb?retryWrites=true&w=majority";
+// mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
+
+mongoURI = "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify : false});
 
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE

@@ -6,8 +6,31 @@
   <link rel="stylesheet" href="/BOOTSTRAP_4.css" type="text/css">
   <link rel="stylesheet" href="/Fontawesome/css/all.css" type="text/css">
   <link rel="stylesheet" href="/stylesheets/login.css" type="text/css">
+  <style>
+    #alert-pos{
+      position: absolute;
+      top: 0px;
+    }
+  </style>
 </head>
 <body>
+  <div id="alert-pos" class="container-fluid d-flex justify-content-center">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger overlap-alert" role="alert">
+            <%= error %>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success overlap-alert" role="alert">
+            <%= success %>
+        </div>
+    <% } %>
+    <% if(warning && warning.length > 0){ %>
+        <div class="alert alert-warning overlap-alert" role="alert">
+            <%= warning %>
+        </div>
+    <% } %>
+</div>
   <div class="container">
     <div class = "d-flex justify-content-center">
       <div class = "card">
@@ -56,5 +79,17 @@
 <script src="/JQuery-v.3.js"></script>
 <script src="/Popper.min.js"></script>
 <script src="/BOOTSTRAP_4.js"></script>
+<script>
+  $(document).ready( function(){
+
+  $('.overlap-alert').css('display','none').fadeIn(1000,function(){
+      setTimeout(function(){
+          $('.overlap-alert').fadeOut(1000);
+      },3000);
+  });
+
+
+});
+</script>
 </body>
 </html>

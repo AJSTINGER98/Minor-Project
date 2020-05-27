@@ -117,6 +117,54 @@ function newFunction() {
         
     });
 
+    /* REMOVE NAVBAR DROPDOWN ON MOBILE VIEW  */
+
+    $(document).ready(function(){
+        console.log($(window).width());
+        if($(window).width() <= 974){
+            $('#navbarDropdownMobile').show();
+            $('#navbarDropdownWeb').hide();
+        } else {
+            $('#navbarDropdownMobile').hide();
+            $('#navbarDropdownWeb').show();
+        }
+        $(window).resize(function() {
+
+            if ($(this).width() <= 974) {
+                $('#navbarDropdownMobile').show();
+                $('#navbarDropdownWeb').hide();
+            } else {
+                $('#navbarDropdownMobile').hide();
+                $('#navbarDropdownWeb').show();
+              } 
+          });
+    });
+
+    // ----------------------SHOW/HIDE PASSWORD--------------------------
+    $(function(){
+        $(document).on('click','.show-icon',function(e){
+            e.preventDefault();
+            var ip = $(this).parents('.form-group').children('input');
+            // console.log(ip);
+            ip.attr('type','text');
+            $(this).children('i').removeClass('fa-eye');
+            $(this).children('i').addClass('fa-eye-slash');
+            $(this).addClass('hide-icon');
+            $(this).removeClass('show-icon');
+        }).on('click','.hide-icon',function(e){
+            e.preventDefault();
+            var ip = $(this).parents('.form-group').children('input');
+            console.log(ip);
+            ip.attr('type','password');
+            $(this).children('i').removeClass('fa-eye-slash');
+            $(this).children('i').addClass('fa-eye');
+            $(this).addClass('show-icon');
+            $(this).removeClass('hide-icon'); 
+            return false;
+        });
+
+    });
+
 } // End of newFunction();
 
 // -------------------Home.ejs-----------------------

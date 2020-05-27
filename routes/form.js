@@ -27,7 +27,7 @@ router.delete('/:id', middleware.isLoggedIn,middleware.isAdmin,(req,res) => {
   gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
     if (err) return res.status(404).json({ err: err.message });
     else{
-      console.log('success');
+      // console.log('success');
       res.redirect("/");
     }
   });
