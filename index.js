@@ -68,7 +68,7 @@ const conn = mongoose.connection;
 
 conn.once("open", () => {
   // init stream
-    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    global.gfs = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: "uploads"
   });
 });
