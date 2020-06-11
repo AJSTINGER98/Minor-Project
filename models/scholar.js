@@ -3,7 +3,10 @@ var mongoose = require("mongoose");
 // SETUP SCHEMA
 var scholarSchema = new mongoose.Schema({
     scID         : Number,
-    image        : String,
+    image        : {
+        imgID       : mongoose.Schema.Types.ObjectId,
+        imgName     : String,
+    },
     title        : String,
     firstName    : String,
     lastName     : String,
@@ -17,7 +20,12 @@ var scholarSchema = new mongoose.Schema({
         specialisation : String,
         institute      : String,
         yoc            : String
-    }]
+    }],
+    report       :[{
+        reportId       : mongoose.Schema.Types.ObjectId,
+        reportHexName  : String,
+        reportName     : String
+    }],
 });
 
 // RETURN MODEL

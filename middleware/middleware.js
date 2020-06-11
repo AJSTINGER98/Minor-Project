@@ -89,13 +89,13 @@ middlewareObject.checkOwner = (req,res,next) =>{
         });
       }
       else{
-        Scholar.findById(req.params.id , (err,foundSup)=>{
-          if(err || !foundSup){
+        Scholar.findById(req.params.id , (err,foundSch)=>{
+          if(err || !foundSch){
             req.flash('error','Scholar not found');
             res.redirect('back');
           }
           else{
-            if(foundSup._id.equals(req.user.refID)){
+            if(foundSch._id.equals(req.user.refID)){
               next();
             }
             else{
@@ -113,6 +113,22 @@ middlewareObject.checkOwner = (req,res,next) =>{
   } else {
       req.flash('warning','Please Login to continue');
       res.redirect('/login');
+  }
+};
+
+// CHECK IF THE USER IS A SCHOLAR OR NOT
+
+middlewareObject.isScholar = (req,res,next) =>{
+  if(req.isAuthenticated()){
+    if(!req.user.isAdmin){
+      if(!req.user.isSupervisor){
+        next();
+      }
+      else{
+        req.flash('error','Cannot upload report!');
+        res.redirect('back');
+      }
+    }
   }
 };
 

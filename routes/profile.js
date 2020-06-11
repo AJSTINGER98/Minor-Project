@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const middleware = require("../middleware/middleware");
 
+
 // IMPORT MODEL
 const Supervisor = require("../models/supervisor");
 const Scholar = require("../models/scholar");
@@ -20,23 +21,11 @@ router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
                 if(foundSupervisor._id.equals(req.user.refID)){
                     isOwner =  true;
                     // console.log(foundSupervisor.image);
-                    if(foundSupervisor.image){
-                        gfs.find({filename: foundSupervisor.image}).toArray((err,img)=>{
-                            if(!img || img.length === 0){
-                                res.render("profile",{personType: 'supervisor',person : foundSupervisor, path : "supervisor", isOwner:isOwner,imgID: undefined});
-    
-                            } else{
-                                // console.log(img[0]._id);
-                                res.render("profile",{personType: 'supervisor',person : foundSupervisor, path : "supervisor", isOwner:isOwner,imgID: img[0]._id});
-                            }
-                        });
-    
-                    } else {
-                        res.render("profile",{personType: 'supervisor',person : foundSupervisor, path : "supervisor", isOwner:isOwner,imgID: undefined});
-                    }
+                    res.render("profile",{person : foundSupervisor, path : "supervisor", isOwner:isOwner});
+                
                 } else {
                     isOwner = false;
-                    res.render("profile",{personType: 'supervisor',person : foundSupervisor, path : "supervisor", isOwner:isOwner,imgID: undefined});
+                    res.render("profile",{person : foundSupervisor, path : "supervisor", isOwner:isOwner});
                 }
             }
         });
@@ -50,23 +39,10 @@ router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
                 if(foundScholar._id.equals(req.user.refID)){
                     isOwner =  true;
                     // console.log(foundScholar.image);
-                    if(foundScholar.image){
-                        gfs.find({filename: foundScholar.image}).toArray((err,img)=>{
-                            if(!img || img.length === 0){
-                                res.render("profile",{personType: 'scholar',person : foundScholar, path : "scholar", isOwner:isOwner,imgID: undefined});
-    
-                            } else{
-                                // console.log(img[0]._id);
-                                res.render("profile",{personType: 'scholar',person : foundScholar, path : "scholar", isOwner:isOwner,imgID: img[0]._id});
-                            }
-                        });
-    
-                    } else {
-                        res.render("profile",{personType: 'scholar',person : foundScholar, path : "scholar", isOwner:isOwner,imgID: undefined});
-                    }
+                    res.render("profile",{person : foundScholar, path : "scholar", isOwner:isOwner});
                 } else {
                     isOwner = false;
-                    res.render("profile",{personType: 'scholar',person : foundScholar, path : "scholar",isOwner:isOwner,imgID: undefined});
+                    res.render("profile",{person : foundScholar, path : "scholar",isOwner:isOwner});
                 }
             }
         });
@@ -79,8 +55,12 @@ router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
 // UPLOAD PROFILE PIC IF DOES NOT EXIST
 router.post('/:person/:id/image/upload',middleware.isLoggedIn,middleware.checkOwner, middleware.upload.single('image'),(req,res) =>{
     // console.log(req.file);
+    image = {
+        imgID : req.file.id,
+        imgName: req.file.filename
+    };
     if(req.params.person == "supervisor"){
-        Supervisor.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,supervisor) =>{
+        Supervisor.findByIdAndUpdate(req.params.id,{'image': image}, (err,supervisor) =>{
             if(err){
                 req.flash('error', "Could not add image");
                 res.redirect('back');
@@ -91,7 +71,7 @@ router.post('/:person/:id/image/upload',middleware.isLoggedIn,middleware.checkOw
         });
 
     } else if(req.params.person == "scholar"){
-        Scholar.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,scholar) =>{
+        Scholar.findByIdAndUpdate(req.params.id,{'image': image}, (err,scholar) =>{
             if(err){
                 req.flash('error', "Could not add image");
                 res.redirect('back');
@@ -266,7 +246,10 @@ router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(r
 
 // UPLOAD EXISTING PROFILE PICTURE
 router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.checkOwner,middleware.upload.single('image'),(req,res) =>{
-    
+    image = {
+        imgID : req.file.id,
+        imgName : req.file.filename
+    };
     if(req.params.person == "supervisor"){
         gfs.delete(new mongoose.Types.ObjectId(req.params.imgid), (err, data) => {
             if (err) {
@@ -275,7 +258,7 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
             }
             else{
                 // console.log('success');
-                Supervisor.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,supervisor) =>{
+                Supervisor.findByIdAndUpdate(req.params.id,{'image': image}, (err,supervisor) =>{
                     if(err){
                         req.flash('error', "Could not add image");
                         res.redirect('back');
@@ -294,7 +277,7 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
             }
             else{
                 // console.log('success');
-                Scholar.findByIdAndUpdate(req.params.id,{'image': req.file.filename}, (err,scholar) =>{
+                Scholar.findByIdAndUpdate(req.params.id,{'image': image}, (err,scholar) =>{
                     if(err){
                         req.flash('error', "Could not add image");
                         res.redirect('back');
@@ -312,5 +295,60 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
     }
   
 });
+
+//UPLOAD A REPORT
+
+router.post('/:person/:id/report/upload',middleware.isLoggedIn,middleware.checkOwner,middleware.isScholar,middleware.upload.single('reportpdf'), (req,res) =>{
+    if(req.params.person == 'scholar'){
+        // console.log(req.file,req.body.reportpdf);
+        Scholar.findByIdAndUpdate(req.params.id,
+            {$push: {"report": {
+                reportId: req.file.id,
+                reportHexName: req.file.filename , 
+                reportName: req.file.originalname
+            }}},
+            {safe: true , upsert:true},(err,foundSch)=>{
+                if(err){
+                    req.flash('error','Scholar not found');
+                    res.redirect('back');
+                }
+                else {
+                    req.flash('success', 'Report Uploaded');
+                    res.redirect('back');
+                }
+            });
+    } else {
+        req.flash('error', 'Could not upload Report!');
+        res.redirect('back');
+    }
+});
+
+
+//DELETE A REPORT
+router.delete('/:person/:id/report/:rid',middleware.isLoggedIn,middleware.checkOwner, (req,res) =>{
+    Scholar.findByIdAndUpdate(req.params.id,
+        {$pull : {
+            'report':{
+                reportId: req.params.rid
+            }
+        }}, (err, foundScholar)=>{
+            if(err){
+                req.flash('err','Report Not Found');
+                res.redirect('back');
+            } else{
+                gfs.delete(new mongoose.Types.ObjectId(req.params.rid),(err,data)=>{
+                    if(err){
+                        req.flash('error', 'Could not delete Report');
+                        res.redirect('back');
+                    } else{
+                        req.flash('success','Report Removed');
+                        res.redirect('back');
+                    }
+                });
+            }
+        });
+});
+
+
 
 module.exports = router;

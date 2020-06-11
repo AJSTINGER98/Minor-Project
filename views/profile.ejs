@@ -4,10 +4,10 @@
 <div class="container-fluid">
     <div class="row">
     <% if(isOwner){%>
-        <%if(person.image){%>
+        <%if(person.image.imgID){%>
             <div class="col-md-3 d-flex justify-content-end profile-pic-hover" style="margin-top: -100px;" >
                 <img src="/Images/profile-pic-edit.png" class="img-thumbnail img-top" alt="Profile Picture" data-toggle ="modal" data-target="#profileImage" style="cursor:pointer">
-                <img  src="/form/<%= person.image %>" class="img-thumbnail img-bottom" alt="Profile Picture" data-toggle ="modal" data-target="#profileImage" style="cursor:pointer">
+                <img  src="/form/<%=person.image.imgID%>/<%= person.image.imgName %>" class="img-thumbnail img-bottom" alt="Profile Picture" data-toggle ="modal" data-target="#profileImage" style="cursor:pointer">
                 <br><br>
             </div>
         <%} else{%> 
@@ -21,54 +21,56 @@
                 <br><br>
             </div>    
         <% }%>
+
+        <div class="modal fade" id="profileImage" tabindex="-1" role="dialog" aria-labelledby="profileImageLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Upload Profile Picture</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="/<%= person.image.imgID  ? `${path}/${person._id}/image/edit/${person.image.imgID}` : `${path}/${person._id}/image/upload`%>/" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-sm-8 form-group">
+                                <div class="custom-file h-50">
+                                    <input type="file" name="image" id="image" class="custom-file-input" accept="image/*" required>
+                                    <label for="image" class="custom-file-label" placeholder = "Choose Image"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
     
     <%} else {%>
-        <%if(person.image){%>
+        <%if(person.image.imgID){%>
             <div class="col-md-3 d-flex justify-content-end" style="margin-top: -100px;" >
-                <img src="/form/<%= person.image %>" class="img-thumbnail" alt="Profile Picture">
+                <img src="/form/<%=person.image.imgID%>/<%= person.image.imgName %>" class="img-thumbnail" alt="Profile Picture">
                 <br><br>
             </div>
         <%} else{%> 
             <div class="col-md-3 d-flex justify-content-end" style="margin-top: -100px;" >
-        <%if(person.title == "Mrs." || person.title == "Miss"){%>
-                <img src="/Images/Female.jpg" class="img-thumbnail" alt="Profile Picture" >
-        <%} else {%>   
-                <img src="/Images/Male.jpg" class="img-thumbnail" alt="Profile Picture" >
-        <%}%>
+            <%if(person.title == "Mrs." || person.title == "Miss"){%>
+                    <img src="/Images/Female.jpg" class="img-thumbnail" alt="Profile Picture" >
+            <%} else {%>   
+                    <img src="/Images/Male.jpg" class="img-thumbnail" alt="Profile Picture" >
+            <%}%>
                 <br><br>
             </div>    
         <% }%>
     
     
     <%}%>
-    <div class="modal fade" id="profileImage" tabindex="-1" role="dialog" aria-labelledby="profileImageLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Upload Profile Picture</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="/<%= person.image  ? `${personType}/${person._id}/image/edit/${imgID}` : `${personType}/${person._id}/image/upload`%>/" method="POST" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-sm-8 form-group">
-                            <div class="custom-file h-50">
-                                <input type="file" name="image" id="image" class="custom-file-input" accept="image/*" required>
-                                <label for="image" class="custom-file-label" placeholder = "Choose Image"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                </div>
-            </form>
-          </div>
-        </div>
-      </div>
+    
         <div class="col-md-9 pl-1 pr-5">
             <div id="info">
                 <h1 class="display-4"><%= person.title %><%= person.firstName %> <%= person.lastName %></h1>
@@ -186,6 +188,73 @@
                     </table>
                 </div>
             <% } %>
+            <% if (path == 'scholar' && (isOwner || currentUser.isSupervisor || currentUser.isAdmin)){%>   
+                <div id="info1" class="container">
+                    <h5>REPORTS</h5>
+                    <table class="table table-hover">
+                    <% if(person.report && person.report != []){%>
+                        <tbody>
+                        <% person.report.forEach(function(foundReport){%>
+                            <tr>
+                                <th class="scope" colspan=""><a href="/form/<%= foundReport.reportId%>/<%= foundReport.reportHexName%>" target="_blank"><%=foundReport.reportName%></a></th>
+                                <%if(isOwner){%>
+                                <td>
+                                    <span class="d-flex justify-content-end">
+                                        <form action="/scholar/<%=person._id%>/report/<%=foundReport.reportId%>?_method=DELETE" method="POST">
+                                            <button class="btn text-danger"><i class="fas fa-times fa-lg"></i></button>
+                                        </form>
+                                    </span>
+                                </td>
+                                <%}%>
+                            </tr>
+                        <%});%>
+                            
+                        </tbody>
+                    <%}%>
+                    <% if(isOwner){%>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">
+                                    <span class="d-flex justify-content-end"><button class="btn btn-success" style="cursor: pointer;" data-toggle="modal" data-target="#uploadReport">Add Report</button></span>      
+                                </td>
+                            </tr>
+                        </tfoot>
+                    <%}%>
+                    </table>
+                    
+                </div>
+                <%if(isOwner){%>
+                    <div class="modal fade" id="uploadReport" tabindex="-1" role="dialog" aria-labelledby="uploadReportLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="uploadReportLabel">Upload Report</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="/scholar/<%=person._id%>/report/upload" method="POST" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-sm-8 form-group">
+                                            <div class="custom-file h-50">
+                                                <input type="file" name="reportpdf" id="reportpdf" class="custom-file-input" accept="application/pdf" required>
+                                                <label for="reportpdf" class="custom-file-label" placeholder = "Choose PDF"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                <%}%>
+            <%}%>
+
             <%if(isOwner){%>
                 <div class="float-right mb-3">
                     <a class="btn btn-xs btn-warning px-4 py-1" href="/<%= path %>/<%= person._id %>/edit">EDIT</a>

@@ -61,6 +61,7 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                 department: Sch.department,
                 school: Sch.school,
                 academicQ: [],
+                report: [],
             };
 
             //Create array of object of Academic Qualifications
