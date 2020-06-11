@@ -135,7 +135,10 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,funct
 
 // UPDATE ROUTE - Store Changes to Database (if any) exists-----------------------------
 router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
-    // console.log(req.body);
+    console.log(req.body);
+    console.log(req.user.refID);
+    console.log(req.user._id);
+    console.log(req.params.id);
     data = {
         email : req.body.email,
         phone : req.body.phone,
@@ -213,6 +216,16 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     } else {
         req.flash('error','Profile does not exist !');
         res.redirect('/');
+    }
+
+    // UPDATE EMAIL ID IN USER MODEL AS WELL ------------> IMPORTANT
+    if(req.params.id == req.user.refID){
+        User.findByIdAndUpdate(req.user.id,{$set: {email : req.body.email}},function(err){
+            if(err){
+                console.log(err);
+                res.redirect('back');
+            }
+        });
     }
 });
 

@@ -26,10 +26,10 @@ router.post('/signup' ,(req,res) =>{
                 req.flash('error', 'Unable to Sign Up');
                 return res.redirect('/signup');
             }
-            else{
+            passport.authenticate('local')(req,res,function(){
                 req.flash('success','Logged In Successfully');
                 res.redirect('/');
-            }
+            });
         });
 
     }
