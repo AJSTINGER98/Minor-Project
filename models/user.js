@@ -3,10 +3,12 @@ const mongoose              = require('mongoose'),
 
 var userSchema = new mongoose.Schema({
     username: String,
-    email: String,
+    email: {type: String, unique: true, required: true},
     isAdmin: Boolean,
     isSupervisor: Boolean,
     refID: mongoose.Schema.Types.ObjectId,
+    resetPasswordToken : String,
+    resetPasswordExpires : Date
 });
 
 userSchema.plugin(passportLocalMongoose,{usernameQueryFields: ["email"]});
