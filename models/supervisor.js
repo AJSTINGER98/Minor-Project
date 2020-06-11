@@ -3,7 +3,10 @@ var mongoose = require("mongoose");
 // SETUP SCHEMA
 var supervisorSchema = new mongoose.Schema({
     spID         : Number,
-    image        : String,
+    image        : {
+        imgID       : mongoose.Schema.Types.ObjectId,
+        imgName     : String,
+    },
     title        : String,
     firstName    : String,
     lastName     : String,

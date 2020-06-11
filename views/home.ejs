@@ -167,23 +167,22 @@
                         
                         <%}%>
                     
-                    <% if(files){%> 
+                    <% if(files && files.length != 0){%> 
                         
                         <% files.forEach(function(file){%> 
                         
-                        <% if(file.contentType === 'application/pdf'){%>
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <div class="row d-flex justify-content-center mb-3 w-80 ">
                                         <div class="embed-responsive embed-responsive-4by3">
-                                            <iframe src="/form/<%= file.filename %>"  type = "<%= file.contentType%>" frameborder="4" class = "embed-responsive-item" allowfullscreen></iframe>  
+                                            <iframe src="/form/<%=file.formId%>/<%= file.formHexName %>"  type = "application/pdf" frameborder="4" class = "embed-responsive-item" allowfullscreen></iframe>  
                                         </div>
                                     </div>
                                 </div>
                                 <%if(currentUser.isAdmin){%> 
                                     <div class="card-footer">
                                         <div class="form-group">
-                                            <form action="/form/<%=file._id%>?_method=DELETE" method="POST">
+                                            <form action="/form/<%=file.formId%>?_method=DELETE" method="POST">
                                                 <button class="btn btn-danger w-100" >Delete File</button>
                                             </form>
                                         </div>
@@ -191,7 +190,6 @@
                                 
                                 <%}%>
                             </div> 
-                        <% } %>
                 
                         <% }); %>
                     <% } else { %>
