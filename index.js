@@ -1,3 +1,6 @@
+// SETUP FOR dotenv(.env)
+require('dotenv').config()
+
 // IMPORT ALL NPM MODULES 
 const path                  = require('path'),
       flash                 = require('connect-flash'),
@@ -80,11 +83,13 @@ const formRoute    = require("./routes/form");
 const profileRoute = require("./routes/profile");
 const schRoute     = require("./routes/scholar");
 const authRoute    = require("./routes/authentication");
+const resetRoute   = require("./routes/reset");
 
 // CALL ROUTES
 app.use("/supervisor",supRoute);
 app.use("/scholar",schRoute);
 app.use("/form",formRoute);
+app.use("/",resetRoute);
 app.use("/",profileRoute);
 app.use("/",authRoute);
 app.use("/",dashRoute);
