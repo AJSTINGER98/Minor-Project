@@ -37,13 +37,13 @@ router.post('/forgot', function(req, res, next) {
         var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-            user: 'amann.jha1998@gmail.com',
+            user: 'phdportal1131@gmail.com',
             pass: process.env.GMAILPW
         }
         });
         var mailOptions = {
         to: user.email,
-        from: 'amann.jha1998@gmail.com',
+        from: 'phdportal1131@gmail.com',
         subject: 'PhD Portal Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -104,13 +104,13 @@ router.post('/reset/:token', function(req, res) {
         var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-            user: 'amann.jha1998@gmail.com',
+            user: 'phdportal1131@gmail.com',
             pass: process.env.GMAILPW
         }
         });
         var mailOptions = {
         to: user.email,
-        from: 'amann.jha1998@gmail.com',
+        from: 'phdportal1131@gmail.com',
         subject: 'Phd Portal || Password has been changed',
         text: 'Hello,\n\n' +
             'This is a confirmation that the password for your account ' + user.email + ' associated with PhD Portal has just been changed.\n'
