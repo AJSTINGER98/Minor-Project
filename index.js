@@ -1,5 +1,5 @@
 // SETUP FOR dotenv(.env)
-require('dotenv').config()
+require('dotenv').config();
 
 // IMPORT ALL NPM MODULES 
 const path                  = require('path'),
@@ -16,12 +16,14 @@ const app = express();
 // IMPORT MODELS
 const User = require("./models/user");
 
-// SETUP CONNECTION TO DATABASE
-// mongoURI = "mongodb+srv://AbhishekAmann:ghgOLSXlE4uqMEXe@cluster0-ajeew.mongodb.net/mydb?retryWrites=true&w=majority";
-// mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
+// SETUP CONNECTION TO  CLOUD DATABASE
+mongoURI = process.env.MONGOURL;
+mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
-mongoURI = "mongodb://localhost:27017/mydb";
-mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify : false});
+
+// SETUP CONNECTION TO LOCAL DATABASE
+// mongoURI = "mongodb://localhost:27017/mydb";
+// mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify : false});
 
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE
 app.set("view engine", "ejs");
@@ -98,6 +100,6 @@ app.use("/",dashRoute);
 app.use(helmet());
 
 // INITIALISE PORT TO START SERVER
-app.listen(process.env.port||3000,()=>{
+app.listen(process.env.PORT||3000,()=>{
     console.log('Server Started');
 });

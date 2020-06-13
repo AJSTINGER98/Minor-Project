@@ -120,7 +120,7 @@ function newFunction() {
     /* REMOVE NAVBAR DROPDOWN ON MOBILE VIEW  */
 
     $(document).ready(function(){
-        // console.log($(window).width());
+        
         if($(window).width() <= 974){
             $('#navbarDropdownMobile').show();
             $('#navbarDropdownWeb').hide();
@@ -145,7 +145,7 @@ function newFunction() {
         $(document).on('click','.show-icon',function(e){
             e.preventDefault();
             var ip = $(this).parents('.form-group').children('input');
-            // console.log(ip);
+            
             ip.attr('type','text');
             $(this).children('i').removeClass('fa-eye');
             $(this).children('i').addClass('fa-eye-slash');
@@ -154,7 +154,7 @@ function newFunction() {
         }).on('click','.hide-icon',function(e){
             e.preventDefault();
             var ip = $(this).parents('.form-group').children('input');
-            // console.log(ip);
+            
             ip.attr('type','password');
             $(this).children('i').removeClass('fa-eye-slash');
             $(this).children('i').addClass('fa-eye');
@@ -179,7 +179,7 @@ function newFunction() {
     $(document).ready(function(){
         $(".navbar-nav .nav-item a").on('click', function(event) {
           if (this.hash !== "") {
-            // event.preventDefault();
+            
             var hash = this.hash;
             $('html, body').animate({
                 scrollTop: $(hash).offset().top - 50
@@ -204,7 +204,7 @@ function newFunction() {
 
     // HIDE/SHOW NAVBAR ICONS
     var pathUrl = window.location.pathname;
-    // console.log(pathUrl);
+    
     if(pathUrl == '/'){
         $("#nv1").show();
         $("#nv2").show();

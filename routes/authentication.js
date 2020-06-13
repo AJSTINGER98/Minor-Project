@@ -1,6 +1,6 @@
-const   express  = require('express'),
-        middleware = require('../middleware/middleware'),
-        passport = require('passport');
+const   express     = require('express'),
+        middleware  = require('../middleware/middleware'),
+        passport    = require('passport');
 
 // SETUP ROUTER
 const router  = express.Router();
@@ -9,12 +9,12 @@ const router  = express.Router();
 const User = require('../models/user');
 
 // RENDER SIGNUP PAGE
-router.get('/signup', (req,res) =>{
+router.get('/signup',middleware.isLoggedIn,middleware.isAdmin, (req,res) =>{
     res.render('signup');
 });
 
 // CREATE USER
-router.post('/signup' ,(req,res) =>{
+router.post('/signup' ,middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
     if(req.body.password === req.body.confirm_password){
         User.register(new User({ 
             username: req.body.username,
@@ -22,14 +22,13 @@ router.post('/signup' ,(req,res) =>{
             isAdmin: true,
     
         }), req.body.password, function(err,user){
-            if(err){
+            if(err || !user){
                 req.flash('error', 'Unable to Sign Up');
                 return res.redirect('/signup');
-            }
-            passport.authenticate('local')(req,res,function(){
-                req.flash('success','Logged In Successfully');
+            } else{
+                req.flash('success','New Admin Added');
                 res.redirect('/');
-            });
+            }
         });
 
     }
@@ -58,7 +57,6 @@ router.get('/logout', (req,res) => {
 });
 
 //CHANGE PASSWORD
-
 router.get('/changepassword',middleware.isLoggedIn, (req,res) =>{
     res.render('changepassword');
 });
@@ -66,7 +64,7 @@ router.get('/changepassword',middleware.isLoggedIn, (req,res) =>{
 router.post('/changepassword',middleware.isLoggedIn, (req,res) =>{
     if(req.body.newPassword === req.body.confirmPassword){
         req.user.changePassword(req.body.oldPassword , req.body.newPassword, (err,user)=>{
-            if(err){
+            if(err || !user){
                 req.flash('error','Old password is incorrect');
                 res.redirect('back');
             }

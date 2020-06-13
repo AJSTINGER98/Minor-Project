@@ -1,18 +1,20 @@
-const express = require("express"),
-      router  = express.Router(),
-      middleware = require("../middleware/middleware");
+const express       = require("express"),
+      router        = express.Router(),
+      nodemailer    = require('nodemailer'),
+      middleware    = require("../middleware/middleware");
 
 // IMPORT MODEL
-const Supervisor = require("../models/supervisor");
-const Scholar    = require("../models/scholar");
-const User       = require("../models/user");
+const Supervisor = require("../models/supervisor"),
+      Scholar    = require("../models/scholar"),
+      User       = require("../models/user");
 
 // INDEX ROUTE - Show All Scholars
 router.get("/",(req,res) =>{
     Scholar.find({},function(err, allscholar){
 		if(err){
             req.flash('error',"Something went wrong, Please Try Again!!");
-			console.log(err);
+            console.log(err);
+            res.redirect('back');
 		}
 		else{
             scholarList = [];
@@ -28,14 +30,18 @@ router.get("/",(req,res) =>{
                 };
                 scholarList.push(temp);
             });
-            Supervisor.find({},'_id title firstName lastName',function (err,allsupervisor) {
-                if(err){
-                    req.flash('error','Something Went Wrong, Please Refresh The Page!!')
-                    console.log(err);
-                }
-                res.render("scholar",{scholar : scholarList, supervisor : allsupervisor});
-            });   
-            // console.log(scholarList);
+            if(req.user &&  req.user.isAdmin){
+                Supervisor.find({},'_id title firstName lastName',function (err,allsupervisor) {
+                    if(err){
+                        req.flash('error','Something Went Wrong, Please Refresh The Page!!');
+                        console.log(err);
+                    }
+                    res.render("scholar",{scholar : scholarList, supervisor : allsupervisor});
+                });   
+            } else{
+                res.render("scholar",{scholar : scholarList, supervisor : {}});
+            }
+            
             
 		}
 	});
@@ -43,9 +49,8 @@ router.get("/",(req,res) =>{
 
 // CREATE ROUTE - Add Scholar to database
 router.post("/",middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
-    // console.log(req.body.scholar);
     Supervisor.findById({_id: req.body.scholar.supByID},function (err,foundSupervisor) {
-        if(err){
+        if(err || !foundSupervisor){
             console.log(err);
             req.flash('error',"Either Supervisor doesn't Exists or has been moved somewhere else!!");
         }
@@ -94,25 +99,52 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
 
                     // ADD CONTENT TO DATABASE
                     Scholar.create(schData, (err,scholar) => {
-                        if(err){
+                        if(err || !scholar){
                             console.log(err);
                             req.flash("error","Something went Wrong,Please Try Again!!!");
                         }
                         else{
                             // CREATE A SCHOLAR ACCOUNT
-                            const password = `${scholar.firstName}#${scholar.scID}@sc`;
-                            // console.log(password);
+                            const password = `${scholar.firstName.toLowerCase()}#${scholar.scID}@sc`;
+                            
                             User.register(new User({
-                                username: `${scholar.firstName}${scholar.scID}@sc`,
+                                username: `${scholar.firstName.toLowerCase()}${scholar.scID}@sc`,
                                 email: scholar.email,
                                 isAdmin: false,
                                 isSupervisor: false,
                                 refID: scholar._id,
                             }),password,(err,user) =>{
-                                if(err){
+                                if(err || !user){
                                     req.flash('error', 'Unable to Sign Up');
                                     return res.redirect('/scholar');
                                 } else {
+
+                                    //SEND EMAIL TO SCHOLAR
+                                    var smtpTransport = nodemailer.createTransport({
+                                        service: 'Gmail', 
+                                        auth: {
+                                            user: 'phdportal1131@gmail.com',
+                                            pass: process.env.GMAILPW
+                                        }
+                                        });
+                                    var mailOptions = {
+                                        to: user.email,
+                                        from: 'phdportal1131@gmail.com',
+                                        subject: 'Phd Portal || Your Account has been Created',
+                                        text: `Dear ${scholar.firstName},\n\n` +
+                                              'Your account in PhD Portal associated with Manipal University Jaipur has been created succesfully.\n'+
+                                              `Your account details are as follows:\n\n Username: ${user.username}\n Password: ${password}`+
+                                              '\n\nIt is recommended that you change your password once you have logged in.'+
+                                              '\n\nThanks& Regards\nPhD Portal (MUJ)'
+                                    };
+                                    smtpTransport.sendMail(mailOptions, function(err,info) {
+                                        if(err || !info){
+                                            req.flash("warning","Could not send email. Please send manually !!");
+                                            
+                                        } else{
+                                            req.flash("success","Email has been sent");
+                                        }
+                                    });
                                     req.flash("success","Entity Added Successfully...");
                                     res.redirect("/scholar");
                                 }
@@ -125,9 +157,9 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                                         ID  : scholar._id,
                                         sch : `${scholar.firstName} ${scholar.lastName}`
                                     }
-                                }},function(err){
-                                if(err){
-                                    console.log(err);
+                                }},{safe: true , upsert:true},function(err,updatedSupervisor){
+                                if(err || !updatedSupervisor){
+                                    req.flash('error', 'Something went wrong');
                                 }
                             });
                         }
