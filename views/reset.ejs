@@ -49,6 +49,14 @@
     // Hide NavBar Icons
     var pathUrl = window.location.pathname;
     if(pathUrl == '/login' || pathUrl.startsWith('/reset')){
+        $("body").css({
+            'background-image'    : "url('/Images/Login.jpg')",
+            'background-size'     : "cover",
+            'background-repeat'   : "no-repeat",
+            'background-position' : "center",
+            'overflow-y'          : "hidden"
+            
+        });
         $("#mainNavbar ul li a").hide();
         $("#mainNavbar ul li a").first().show();
         $("#mainNavbar ul li a").first().css({
