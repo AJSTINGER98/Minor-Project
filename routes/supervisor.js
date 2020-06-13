@@ -1,5 +1,6 @@
 const express    = require("express"),
       router     = express.Router(),
+      nodemailer = require('nodemailer'),
       middleware = require("../middleware/middleware");
 
 //IMPORT MODEL
@@ -112,10 +113,10 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                     req.flash("error","Something went Wrong,Please Try Again!!!");
                 } else {
                     // CREATE A SUPERVISOR ACCOUNT
-                    const password = `${supervisor.firstName}#${supervisor.spID}`;
+                    const password = `${supervisor.firstName.toLowerCase()}#${supervisor.spID}`;
                     // console.log(password);
                     User.register(new User({
-                        username: supervisor.firstName + supervisor.spID,
+                        username: supervisor.firstName.toLowerCase() + supervisor.spID,
                         email: supervisor.email,
                         isAdmin: false,
                         isSupervisor: true,
@@ -125,12 +126,38 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                             req.flash('error', 'Unable to Sign Up');
                             return res.redirect('/supervisor');
                         } else {
+                            
+                            // SEND EMAIL TO  
+                            var smtpTransport = nodemailer.createTransport({
+                                service: 'Gmail', 
+                                auth: {
+                                    user: 'phdportal1131@gmail.com',
+                                    pass: process.env.GMAILPW
+                                }
+                                });
+                            var mailOptions = {
+                                to: user.email,
+                                from: 'phdportal1131@gmail.com',
+                                subject: 'Phd Portal || Your Account has been Created',
+                                text: 'Hello,\n\n' +
+                                      'Your account in PhD Portal has been created succesfully.\n'+
+                                      `Your account details are as follows:\n\n Username: ${user.username}\n Password: ${password}`+
+                                      '\n\nIt is recommended that you change your password once you have logged in.'+
+                                      '\nRegards,\nPhD Portal'
+                            };
+                            smtpTransport.sendMail(mailOptions, function(err,info) {
+                                if(err){
+                                    req.flash("warning","Entity Added !! Could not send email. Please send manually !!");
+
+                                } else{
+                                    req.flash("success","Entity Added !! Email has been sent");
+                                }
+                            });
                             req.flash("success","Entity Added Successfully...");
                             res.redirect("/supervisor");
                         }
                     });
-                    // req.flash("success","Entity Added Successfully...");
-                    // res.redirect("/supervisor");
+                    
                 }
             });
 		}
