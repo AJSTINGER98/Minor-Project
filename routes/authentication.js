@@ -9,12 +9,12 @@ const router  = express.Router();
 const User = require('../models/user');
 
 // RENDER SIGNUP PAGE
-router.get('/signup', (req,res) =>{
+router.get('/signup',middleware.isLoggedIn,middleware.isAdmin, (req,res) =>{
     res.render('signup');
 });
 
 // CREATE USER
-router.post('/signup' ,(req,res) =>{
+router.post('/signup' ,middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
     if(req.body.password === req.body.confirm_password){
         User.register(new User({ 
             username: req.body.username,
@@ -25,11 +25,10 @@ router.post('/signup' ,(req,res) =>{
             if(err){
                 req.flash('error', 'Unable to Sign Up');
                 return res.redirect('/signup');
-            }
-            passport.authenticate('local')(req,res,function(){
-                req.flash('success','Logged In Successfully');
+            } else{
+                req.flash('success','New Admin Added');
                 res.redirect('/');
-            });
+            }
         });
 
     }
