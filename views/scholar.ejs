@@ -99,7 +99,7 @@
 
                                     <!-- THIRD ROW -->
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-4">
                                             <label for="inputDep">Department</label>
                                             <select id="inputDep" class="form-control"  name= "scholar[department]" required>
                                                 <option selected>None</option>
@@ -108,24 +108,24 @@
                                                 <option>Computer & Communication Engineering</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-4">
                                             <label for="inputSchool">School</label>
                                             <select id="inputSchool" class="form-control" name= "scholar[school]" required>
                                                 <option selected>None</option>
                                                 <option>School of Computing &  Information Technology</option>
                                             </select>
                                         </div>
-
-                                        <!-- Add Profile Picture -->
-                                        <!-- <div class="form-group col-md-4">
-                                            <label for="image">Profile Picture</label>
-                                            <div class="input-group mb-3">
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" required>
-                                                    <label class="custom-file-label" for="image">Choose File</label>
-                                                </div>
-                                            </div>
-                                        </div> -->
+                                        <div class="form-group col-md-4">
+                                            <label for="inputSchool">Supervisor</label>
+                                            <select id="inputSchool" class="form-control" name= "scholar[supByID]" required>
+                                                <option selected>None</option>
+                                                <% if(supervisor.length != 0){ %>
+                                                    <% for(var i = 0; i<supervisor.length; i++){ %> 
+                                                        <option value="<%= supervisor[i]._id%>"><%= supervisor[i].title %> <%= supervisor[i].firstName %> <%= supervisor[i].lastName %></option> 
+                                                    <% } %>
+                                                <% } %>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <!-- ---------------ACADEMIC QUALIFICATION----------------- -->
