@@ -17,7 +17,7 @@ const app = express();
 const User = require("./models/user");
 
 // SETUP CONNECTION TO  CLOUD DATABASE
-mongoURI = "mongodb+srv://AbhishekAmann:ghgOLSXlE4uqMEXe@cluster0-ajeew.mongodb.net/mydb?retryWrites=true&w=majority";
+mongoURI = process.env.MONGOURL;
 mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
 
