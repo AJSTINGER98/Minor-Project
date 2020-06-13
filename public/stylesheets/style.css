@@ -78,9 +78,7 @@
     height: 45%;
 }
 
-/* .col-md-3{
-    margin-top: -100px;
-} */
+
 
 .delete{
     display: inline;
@@ -220,7 +218,6 @@ opacity:0.2;
     text-align: center;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 600;
-    /* background: white; */
     word-spacing: 0.2em;
     letter-spacing: 0.1em;
 }

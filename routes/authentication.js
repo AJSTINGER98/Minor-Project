@@ -1,6 +1,6 @@
-const   express  = require('express'),
-        middleware = require('../middleware/middleware'),
-        passport = require('passport');
+const   express     = require('express'),
+        middleware  = require('../middleware/middleware'),
+        passport    = require('passport');
 
 // SETUP ROUTER
 const router  = express.Router();
@@ -22,7 +22,7 @@ router.post('/signup' ,middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
             isAdmin: true,
     
         }), req.body.password, function(err,user){
-            if(err){
+            if(err || !user){
                 req.flash('error', 'Unable to Sign Up');
                 return res.redirect('/signup');
             } else{
@@ -65,7 +65,7 @@ router.get('/changepassword',middleware.isLoggedIn, (req,res) =>{
 router.post('/changepassword',middleware.isLoggedIn, (req,res) =>{
     if(req.body.newPassword === req.body.confirmPassword){
         req.user.changePassword(req.body.oldPassword , req.body.newPassword, (err,user)=>{
-            if(err){
+            if(err || !user){
                 req.flash('error','Old password is incorrect');
                 res.redirect('back');
             }

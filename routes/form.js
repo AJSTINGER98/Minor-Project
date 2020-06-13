@@ -1,10 +1,10 @@
-const express    = require('express');
-const middleware = require("../middleware/middleware"); 
-const mongoose   = require("mongoose");
+const express    = require('express'),
+      middleware = require("../middleware/middleware"), 
+      mongoose   = require("mongoose");
 
 const router = express.Router();
 
-const Form = require('../models/form');
+const Form       = require('../models/form');
 
 router.post('/upload',middleware.isLoggedIn, middleware.isAdmin,middleware.upload.single('file'), (req, res) => {
 
@@ -15,7 +15,7 @@ router.post('/upload',middleware.isLoggedIn, middleware.isAdmin,middleware.uploa
   };
 
   Form.create(formData, (err,form) =>{
-      if(err){
+      if(err || !form){
         req.flash('error', 'Could not upload Form!');
         res.redirect('/');
       } else {
@@ -23,7 +23,6 @@ router.post('/upload',middleware.isLoggedIn, middleware.isAdmin,middleware.uploa
         res.redirect('/');
       }
   });
-    // res.json({ file: reqconst .file });
 });
 
 router.get('/:id/:filename',middleware.isLoggedIn,(req, res) => {
@@ -42,15 +41,14 @@ router.get('/:id/:filename',middleware.isLoggedIn,(req, res) => {
 router.delete('/:id', middleware.isLoggedIn,middleware.isAdmin,(req,res) => {
 
   Form.findOneAndDelete({formId: req.params.id},(err,formData) =>{
-    if(err){
+    if(err || !formData){
       req.flash('error','Could not Delete PDF');
       res.redirect('/');
     }
     else{
-      gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
+      gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err) => {
         if (err) return res.status(404).json({ err: err.message });
         else{
-          console.log(data);
           res.redirect("/");
         }
       });

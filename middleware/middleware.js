@@ -3,9 +3,9 @@ const multer          = require('multer'),
       crypto          = require('crypto'),
       path            = require("path");
 
-const User = require('../models/user');
-const Supervisor = require('../models/supervisor');
-const Scholar = require('../models/scholar');
+const User            = require('../models/user'),
+      Supervisor      = require('../models/supervisor'),
+      Scholar         = require('../models/scholar');
 
 var middlewareObject = {};
 
@@ -18,7 +18,7 @@ const storage = new GridFsStorage({
                   return reject(err);
               }
               const filename = buf.toString('hex') + path.extname(file.originalname);
-              // console.log(req.user._id);
+
               const fileInfo = {
                 filename: filename,
                 bucketName: 'uploads'
@@ -47,16 +47,16 @@ middlewareObject.isLoggedIn = (req , res , next) => {
 middlewareObject.isAdmin = (req, res , next) => {
 	if(req.isAuthenticated()){
 		User.findById(req.user._id, (err,user) => {
-			if(err){
+			if(err || !user){
 				req.flash('error', "Oops! Something went wrong");
 				res.redirect('back');
 			} else {
 				if(user.isAdmin){
-				next();
+				  next();
 				}
 				else{
-				req.flash('error', 'You are not authorized to do that !!');
-				res.redirect('back');
+          req.flash('error', 'You are not authorized to do that !!');
+          res.redirect('back');
 				}
 			} 
 		});

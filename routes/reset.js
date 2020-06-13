@@ -1,26 +1,26 @@
-var express = require("express");
-var router  = express.Router();
+const express = require("express"),
+      router  = express.Router();
 
 // Below three variables are required to reset password
-var async = require("async");
-var nodemailer = require("nodemailer");
-var crypto = require("crypto");
+const async         = require("async"),
+      nodemailer    = require("nodemailer"),
+      crypto        = require("crypto");
 
 // IMPORT MODEL
-var User = require("../models/user");
+const User = require("../models/user");
   
 // FORGOT PASSWORD POST ROUTE
 router.post('/forgot', function(req, res, next) {
     async.waterfall([
     function(done) {
         crypto.randomBytes(20, function(err, buf) {
-        var token = buf.toString('hex');
-        done(err, token);
+            var token = buf.toString('hex');
+            done(err, token);
         });
     },
     function(token, done) {
         User.findOne({ email: req.body.email }, function(err, user) {
-        if (!user) {
+        if (err || !user) {
             req.flash('error', 'No account with that Email Address exists.');
             return res.redirect('/login');
         }
@@ -35,25 +35,25 @@ router.post('/forgot', function(req, res, next) {
     },
     function(token, user, done) {
         var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
-        auth: {
-            user: 'phdportal1131@gmail.com',
-            pass: process.env.GMAILPW
-        }
+            service: 'Gmail', 
+            auth: {
+                user: 'phdportal1131@gmail.com',
+                pass: process.env.GMAILPW
+            }
         });
         var mailOptions = {
-        to: user.email,
-        from: 'phdportal1131@gmail.com',
-        subject: 'PhD Portal Password Reset',
-        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-            'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+            to: user.email,
+            from: 'phdportal1131@gmail.com',
+            subject: 'PhD Portal Password Reset',
+            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                'If you did not request this, please ignore this email and your password will remain unchanged.\n'
         };
         smtpTransport.sendMail(mailOptions, function(err) {
-        console.log('mail sent');
-        req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-        done(err, 'done');
+            console.log('mail sent');
+            req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+            done(err, 'done');
         });
     }
     ], function(err) {
@@ -66,7 +66,7 @@ router.post('/forgot', function(req, res, next) {
 router.get('/reset/:token', function(req, res) {
     //$gt - greater than
     User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-    if (!user) {
+    if (err || !user) {
         req.flash('error', 'Password reset token is invalid or has expired.');
         return res.redirect('/login');
     }
@@ -79,7 +79,7 @@ router.post('/reset/:token', function(req, res) {
     async.waterfall([
     function(done) {
         User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-        if (!user) {
+        if (err || !user) {
             req.flash('error', 'Password reset token is invalid or has expired.');
             return res.redirect('back');
         }
@@ -102,22 +102,22 @@ router.post('/reset/:token', function(req, res) {
     },
     function(user, done) {
         var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
-        auth: {
-            user: 'phdportal1131@gmail.com',
-            pass: process.env.GMAILPW
-        }
+            service: 'Gmail', 
+            auth: {
+                user: 'phdportal1131@gmail.com',
+                pass: process.env.GMAILPW
+            }
         });
         var mailOptions = {
-        to: user.email,
-        from: 'phdportal1131@gmail.com',
-        subject: 'Phd Portal || Password has been changed',
-        text: 'Hello,\n\n' +
-            'This is a confirmation that the password for your account ' + user.email + ' associated with PhD Portal has just been changed.\n'
+            to: user.email,
+            from: 'phdportal1131@gmail.com',
+            subject: 'Phd Portal || Password has been changed',
+            text: 'Hello,\n\n' +
+                'This is a confirmation that the password for your account ' + user.email + ' associated with PhD Portal has just been changed.\n'
         };
         smtpTransport.sendMail(mailOptions, function(err) {
-        req.flash('success', 'Your password has been changed Successfully.');
-        done(err);
+            req.flash('success', 'Your password has been changed Successfully.');
+            done(err);
         });
     }
     ], function(err) {

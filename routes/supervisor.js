@@ -13,7 +13,8 @@ router.get("/",(req,res)=>{
     Supervisor.find({},function(err, allsupervisor){
 		if(err){
             req.flash('error',"Something went wrong, Please Try Again!!");
-			console.log(err);
+            console.log(err);
+            res.redirect('back');
 		} else {
             supervisorList = [];
             allsupervisor.forEach((supervisor)=>{
@@ -28,7 +29,7 @@ router.get("/",(req,res)=>{
                 };
                 supervisorList.push(temp);
             });
-            // console.log(supervisorList);
+
             res.render("supervisor",{supervisor : supervisorList});
 		}
 	});
@@ -77,7 +78,7 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                     institute: Sup.academicQ.institute[i],
                     yoc: Sup.academicQ.yoc[i],
                 };
-                // console.log(temp);
+                
                 supData.academicQ.push(temp);
             }
 
@@ -89,7 +90,7 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                     role: Sup.experience.role[i],
                     tenure: Sup.experience.tenure[i],
                 };
-                // console.log(temp);
+                
                 supData.experience.push(temp);
             }
 
@@ -102,19 +103,19 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                     role: Sup.research.role[i],
                     amount: Sup.research.amount[i],
                 };
-                // console.log(temp)
+
                 supData.research.push(temp);
             }
 
             // ADD CONTENT TO DATABASE
             Supervisor.create(supData, (err,supervisor) => {
-                if(err){
+                if(err || !supervisor){
                     console.log(err);
                     req.flash("error","Something went Wrong,Please Try Again!!!");
                 } else {
                     // CREATE A SUPERVISOR ACCOUNT
                     const password = `${supervisor.firstName.toLowerCase()}#${supervisor.spID}`;
-                    // console.log(password);
+        
                     User.register(new User({
                         username: supervisor.firstName.toLowerCase() + supervisor.spID,
                         email: supervisor.email,
@@ -122,7 +123,7 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                         isSupervisor: true,
                         refID: supervisor._id,
                     }),password,(err,user) =>{
-                        if(err){
+                        if(err || !user){
                             req.flash('error', 'Unable to Sign Up');
                             return res.redirect('/supervisor');
                         } else {
@@ -146,7 +147,7 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                                         '\n\nThanks& Regards\nPhD Portal (MUJ)'
                             };
                             smtpTransport.sendMail(mailOptions, function(err,info) {
-                                if(err){
+                                if(err || !info){
                                     req.flash("warning","Entity Added !! Could not send email. Please send manually !!");
 
                                 } else{
