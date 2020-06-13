@@ -1,5 +1,5 @@
 // SETUP FOR dotenv(.env)
-require('dotenv').config()
+require('dotenv').config();
 
 // IMPORT ALL NPM MODULES 
 const path                  = require('path'),

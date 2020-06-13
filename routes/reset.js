@@ -37,13 +37,13 @@ router.post('/forgot', function(req, res, next) {
         var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-            user: 'abhishek.bhushan10@gmail.com',
+            user: 'amann.jha1998@gmail.com',
             pass: process.env.GMAILPW
         }
         });
         var mailOptions = {
         to: user.email,
-        from: 'abhishek.bhushan10@gmail.com',
+        from: 'amann.jha1998@gmail.com',
         subject: 'PhD Portal Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -93,7 +93,7 @@ router.post('/reset/:token', function(req, res) {
                 done(err, user);
                 });
             });
-            })
+            });
         } else {
             req.flash("error", "Passwords do not match.");
             return res.redirect('back');
@@ -104,13 +104,13 @@ router.post('/reset/:token', function(req, res) {
         var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-            user: 'abhishek.bhushan10@gmail.com',
+            user: 'amann.jha1998@gmail.com',
             pass: process.env.GMAILPW
         }
         });
         var mailOptions = {
         to: user.email,
-        from: 'abhishek.bhushan10@mail.com',
+        from: 'amann.jha1998@gmail.com',
         subject: 'Phd Portal || Password has been changed',
         text: 'Hello,\n\n' +
             'This is a confirmation that the password for your account ' + user.email + ' associated with PhD Portal has just been changed.\n'

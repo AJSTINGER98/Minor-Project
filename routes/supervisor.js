@@ -8,6 +8,7 @@ const Supervisor = require("../models/supervisor"),
 
 // INDEX ROUTE - Show all Supervisors
 router.get("/",(req,res)=>{
+
     Supervisor.find({},function(err, allsupervisor){
 		if(err){
             req.flash('error',"Something went wrong, Please Try Again!!");
