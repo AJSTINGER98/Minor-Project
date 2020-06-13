@@ -15,6 +15,10 @@ var scholarSchema = new mongoose.Schema({
     age          : Number,
     department   : String,
     school       : String,
+    supervisedBy : {
+        ID      : mongoose.Schema.Types.ObjectId,
+        supBy   : String,
+    },
     academicQ    :[{
         degree         : String,
         specialisation : String,

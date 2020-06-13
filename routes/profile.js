@@ -116,9 +116,6 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,funct
 // UPDATE ROUTE - Store Changes to Database (if any) exists-----------------------------
 router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
     console.log(req.body);
-    console.log(req.user.refID);
-    console.log(req.user._id);
-    console.log(req.params.id);
     data = {
         email : req.body.email,
         phone : req.body.phone,
@@ -237,7 +234,7 @@ router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(r
                 req.flash('error','Could not delete Scholar');
                 res.redirect("/scholar/"+req.params.id);  
             } else {
-                // console.log(scholar);
+                // REMOVE USER --------->
                 User.findOneAndDelete({refID: req.params.id}, (err,schUser)=>{
                     if(err){
                         req.flash('error','Could not remove User. Please delete Manually');
@@ -247,6 +244,19 @@ router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(r
                         req.flash('success','Scholar has been removed');
                         res.redirect("/scholar");
                     }
+                });
+
+                // REMOVE ID ASSOCIATED IN SUPERVISOR
+                Supervisor.findOneAndUpdate({schUnder : { ID : req.params.id}},
+                    {$pull: {
+                        'schUnder':{
+                            ID  : req.params.id,
+                        }
+                }},function(err) {
+                    if(err){
+                        console.log(err);
+                        console.log("COULD NOTE DELETE ASSOCIATED SCHOLAR");
+                    } 
                 });
             }
         });

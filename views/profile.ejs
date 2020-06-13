@@ -98,6 +98,32 @@
                     </p>
                 </div>
             </div>
+    
+            <!-- SUPERVISED BY -->
+            <% if(path == 'scholar'){ %>
+                <div id="info1" class="container py-2">
+                    <h5>SUPERVISED BY : 
+                        <a href="/supervisor/<%= person.supervisedBy.ID %>">
+                            <span><%= person.supervisedBy.supBy %></span>
+                        </a>
+                    </h5>
+                </div>
+            <% } %>
+
+            <!-- SCHOLARS UNDER -->
+            <% if(path == 'supervisor'){ %>
+                <div id="info1" class="container py-2">
+                    <h5>SCHOLARS UNDER</h5>
+                    <ul style="list-style-type:disc; margin-left:20px;">
+                        <% person.schUnder.forEach(function(field){ %>
+                            <a href="/scholar/<%= field.ID %>">
+                                <li><%= field.sch %></li>
+                            </a>
+                        <% }); %>
+                    </ul>
+                </div>
+            <% } %>
+
             <hr style="padding-bottom: 20px; width: 50%;">
             <% if(person.FoE) { %>
                 <div id="info1" class="container">
@@ -105,7 +131,7 @@
                     <!-- <p> -->
                     <ul style="list-style-type:square; margin-left:20px;">
                         <% person.FoE.forEach(function(field){ %>
-                                <li><%= field %></li>
+                            <li><%= field %></li>
                         <% }); %>
                     </ul>
                     <!-- </p> -->
@@ -188,7 +214,8 @@
                     </table>
                 </div>
             <% } %>
-            <% if (path == 'scholar' && (isOwner || currentUser.isSupervisor || currentUser.isAdmin)){%>   
+            <% if (path == 'scholar' && (isOwner || currentUser.isSupervisor || currentUser.isAdmin)){%> 
+                <hr style="padding-bottom: 20px; width: 50%;">  
                 <div id="info1" class="container">
                     <h5>REPORTS</h5>
                     <table class="table table-hover">
@@ -215,7 +242,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="2">
-                                    <span class="d-flex justify-content-end"><button class="btn btn-success" style="cursor: pointer;" data-toggle="modal" data-target="#uploadReport">Add Report</button></span>      
+                                    <span class="d-flex justify-content-end"><button class="btn btn-success py-0 px-1" style="cursor: pointer;" data-toggle="modal" data-target="#uploadReport">ADD REPORT</button></span>      
                                 </td>
                             </tr>
                         </tfoot>
@@ -257,13 +284,13 @@
 
             <%if(isOwner){%>
                 <div class="float-right mb-3">
-                    <a class="btn btn-xs btn-warning px-4 py-1" href="/<%= path %>/<%= person._id %>/edit">EDIT</a>
+                    <a class="btn btn-xs btn-warning px-2 py-1" href="/<%= path %>/<%= person._id %>/edit">EDIT PROFILE</a>
                 </div>
             <%}%>
             <%if(currentUser.isAdmin){%>
                 <div class="float-right mb-3">
                     <form class="delete float-right" action="/<%= path %>/<%= person._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-xs btn-danger px-3 py-1">DELETE</button>
+                        <button class="btn btn-xs btn-danger px-3 py-1">DELETE PROFILE</button>
                     </form>
                 </div>
             <%}%>

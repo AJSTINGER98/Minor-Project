@@ -16,6 +16,10 @@ var supervisorSchema = new mongoose.Schema({
     academicRole : String,
     department   : String,
     school       : String,
+    schUnder     : [{
+        ID  : mongoose.Schema.Types.ObjectId,
+        sch : String
+    }],
     academicQ    :[{
         degree         : String,
         specialisation : String,

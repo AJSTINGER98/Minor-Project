@@ -126,6 +126,27 @@
     border-left: 5px solid saddlebrown;
 }
 
+#info1 h5 a span{
+    font-size: 1em;
+    font-weight: 100;
+    color: black;
+}
+
+#info1 h5 a span:hover{
+    color: blue;
+}
+
+#info1 ul a li{
+    font-size: 1.1em;
+    font-weight: 400;
+    color: black;
+}
+
+#info1 ul a li:hover{
+    color: blue;
+}
+
+
 #info1 p a{
     color: black;
 }
