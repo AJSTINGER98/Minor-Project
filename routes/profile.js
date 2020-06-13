@@ -247,7 +247,7 @@ router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(r
                 });
 
                 // REMOVE ID ASSOCIATED IN SUPERVISOR
-                Supervisor.findOneAndUpdate({schUnder : { ID : req.params.id}},
+                Supervisor.findOneAndUpdate({_id : scholar.supervisedBy.ID},
                     {$pull: {
                         'schUnder':{
                             ID  : req.params.id,
