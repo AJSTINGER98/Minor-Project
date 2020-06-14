@@ -32,7 +32,7 @@ router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
         // FIND SCHOLAR
         Scholar.findById(req.params.id,function(err,foundScholar){
             if(err || !foundScholar){
-                req.flash("error","scholar Doesn't Exists!!");
+                req.flash("error","Scholar Doesn't Exists!!");
                 res.redirect("/scholar");
             } else {
                 if(foundScholar._id.equals(req.user.refID)){

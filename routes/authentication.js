@@ -57,7 +57,6 @@ router.get('/logout', (req,res) => {
 });
 
 //CHANGE PASSWORD
-
 router.get('/changepassword',middleware.isLoggedIn, (req,res) =>{
     res.render('changepassword');
 });
