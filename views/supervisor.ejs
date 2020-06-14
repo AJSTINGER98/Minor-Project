@@ -4,7 +4,7 @@
     <div class="row d-flex justify-content-center div-center">
         <div class="col">
             <!-- HEADING -->
-            <h1 id="sup" class="display-4"><i class="fas fa-user-tie pr-3"></i><em>SUPERVISORS</em></h1>
+            <h1 id="sup" class="display-4 mt-4"><i class="fas fa-user-tie pr-3"></i><em>SUPERVISORS</em></h1>
 
             <!-- SEARCH  BAR -->
             <div class="container search-bar">
@@ -12,7 +12,7 @@
             </div>
 
             <!-- TABLE -->
-            <table class="table table-hover no-margin text-center">
+            <table class="table table-hover no-margin text-center table-collapsible">
                 <thead class="thead-dark">
                     <tr>
                         <th>Supervisor ID</th>
@@ -24,7 +24,7 @@
                 </thead>
                 <tbody class="myTable">
                     <% supervisor.forEach(function(sup){ %>
-                        <tr>
+                        <tr class="clickable-row" data-href= "/supervisor/<%= sup._id %>" style="cursor: pointer;">
                             <td><%=sup.spID%></td>
                             <td><%sup.title%><%=sup.firstName%> <%=sup.lastName%></td>
                             <td><%=sup.age%></td>
@@ -47,12 +47,12 @@
 
             <% if(currentUser && currentUser.isAdmin) { %>
                 <!-- ADD SUPERVISOR  -->
-                <div class="card">
+                <div class="">
                     <div class="card-body cardTable">
                         <div class="card-footer bg-dark text-white pb-2">
                             <div class="">
-                                <span class="h4">Add Supervisor</span>
-                                <span class="float-sm-right drop-down-btn">
+                                <span class="h3">Add Supervisor</span>
+                                <span class="float-right drop-down-btn">
                                     <button class="btn py-0" style="color: #FFF;"><i class="fas fa-plus fa-2x"></i></button>
                                 </span>
                             </div>

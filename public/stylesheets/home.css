@@ -203,11 +203,12 @@ html,body{
     background-image: url("/Images/Black.jpg");
     background-size: cover;
     overflow: hidden;
-    height: 310px;
+    height: 450px;
     width: 100%;
     color: white;
     font-size: 1em;
     text-align: center;
+    bottom: -100px;
     
 }
 
@@ -238,3 +239,15 @@ html,body{
     max-width: 800px;
 }
 
+/* DISPLAY PHD IFRAME WHEN WIDTH > 579 */
+
+@media only screen and (max-width: 579px) {
+    .hide-on-mobile {
+        display: none;
+    }
+}
+@media only screen and (min-width: 580px) {
+    .hide-on-mobile {
+        display: block;
+    }
+}

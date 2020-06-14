@@ -1,4 +1,4 @@
-body {
+html , body {
     color: #fff;
     background: url('/Images/Signup.jpg');
     background-repeat: no-repeat;
@@ -6,6 +6,8 @@ body {
     background-position: center;
     font-family: 'Roboto', sans-serif;
     overflow: hidden;
+    margin: 0;
+    height:100%;
 }
 
 .container{

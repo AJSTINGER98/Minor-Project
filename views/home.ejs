@@ -170,12 +170,14 @@
                     <% if(files && files.length != 0){%> 
                         
                         <% files.forEach(function(file){%> 
-                        
-                            <div class="card mb-4">
+                            
+                            <div class= "mb-4">
                                 <div class="card-body">
-                                    <div class="row d-flex justify-content-center mb-3 w-80 ">
-                                        <h3><strong><%=file.formName%></strong></h3>
-                                        <div class="embed-responsive embed-responsive-4by3">
+                                    <div class="row d-flex justify-content-center mb-3 w-80">
+                                        <a href="/form/<%=file.formId%>/<%= file.formHexName %>"  class="text-secondary" target="_blank">
+                                            <h3 class=""><strong><%=file.formName%></strong></h3>
+                                        </a>
+                                        <div class="embed-responsive embed-responsive-4by3 hide-on-mobile">
                                             <iframe src="/form/<%=file.formId%>/<%= file.formHexName %>"  type = "application/pdf" frameborder="4" class = "embed-responsive-item" allowfullscreen></iframe>  
                                         </div>
                                     </div>
