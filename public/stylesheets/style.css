@@ -1,4 +1,10 @@
 /* ----------------Supervisor Page / Scholar Page------------------ */
+
+html , body {
+    height: 100%;
+    margin: 0;
+}
+
 .search-bar input{
     background-image: url('/Images/search.png');
     background-repeat: no-repeat;
@@ -246,4 +252,104 @@ opacity:0.2;
     background-color: cadetblue;
 }
 
+/* COLLAPSE TABLE COLUMN ON SHRINKING */
+@media only screen and (max-width: 730px) {
+    .table-collapsible tr td:nth-child(5){
+        display: none;
+        
+    }
+    
+    .table-collapsible tr th:nth-child(5){
+        display: none;
+        
+    }
 
+} 
+@media only screen and (max-width: 430px) {
+    .table-collapsible tr td:nth-child(4){
+        display: none;
+        
+    }
+    
+    .table-collapsible tr th:nth-child(4){
+        display: none;
+        
+    }
+
+} 
+@media only screen and (max-width: 300px) {
+    .table-collapsible tr td:nth-child(3){
+        display: none;
+        
+    }
+    
+    .table-collapsible tr th:nth-child(3){
+        display: none;
+        
+    }
+
+} 
+
+/* ADJUST SUPERVIOSR HEADING IN SUPERVISOR PAGE FOR MOBILE VIEW */
+
+@media only screen and (max-width: 480px) {
+    #sup{
+        letter-spacing: 0em;
+        font-size: 40px;
+        
+    }
+
+} 
+
+/* ADJUST TABLE IN SUPERVISOR PROFILE FOR MOBILE VIEW */
+
+@media only screen and (max-width: 480px) {
+    .profile-table-collapsible tr td:nth-child(5){
+        display: none;
+        
+    }
+    
+    .profile-table-collapsible tr th:nth-child(5){
+        display: none;
+        
+    }
+
+} 
+
+@media only screen and (max-width: 410px) {
+    .profile-table-collapsible tr td:nth-child(4){
+        display: none;
+        
+    }
+    
+    .profile-table-collapsible tr th:nth-child(4){
+        display: none;
+        
+    }
+
+} 
+
+/* CHANGE PASSWORD PAGE FOR MOBILE VIEW */
+
+@media only screen and (max-width: 600px) {
+    .div-changepassword {
+        width: 80%;
+    }
+    #editTitle {
+        letter-spacing: 0;
+    }
+}
+
+
+
+@media only screen and (min-width: 600px) {
+    .div-changepassword {
+        width: 60%;
+    }
+
+} 
+@media only screen and (min-width: 900px) {
+    .div-changepassword {
+        width: 50%;
+    }
+} 

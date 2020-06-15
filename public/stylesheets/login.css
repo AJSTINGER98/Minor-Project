@@ -6,7 +6,6 @@
 
 #loginPage .card{
     margin-top: 55px;
-    width: 30%;
     background-color: rgba(0, 0, 0, 0.6);
     color: rgba(250,250,250);
     text-shadow: blue;
@@ -77,5 +76,10 @@
 @media only screen and (max-width: 575px) {
     .card {
         width: 60%;
+    }
+} 
+@media only screen and (max-width: 430px) {
+    .card {
+        width: 80%;
     }
 } 

@@ -138,6 +138,9 @@ function newFunction() {
                 $('#navbarDropdownWeb').show();
               } 
           });
+        
+        
+
     });
 
     // ----------------------SHOW/HIDE PASSWORD--------------------------
@@ -213,4 +216,11 @@ function newFunction() {
         $("#nv2").hide();
     }
 
+    // MAKE TABLE ROW CLICKABLE
+
+    $(document).ready(function(){
+        $('.clickable-row').click(function() {
+            window.location = $(this).data('href');
+        });
+    });
 
