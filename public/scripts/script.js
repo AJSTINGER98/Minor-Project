@@ -169,6 +169,8 @@ function newFunction() {
 
 // -------------------Home.ejs-----------------------
 
+    // DECLARE PATH :
+    var pathUrl = window.location.pathname;
     // GROW SHADOW EFFECT ON COURSE SECTION
     $("#course2 .card").addClass("hvr-grow-shadow");
 
@@ -203,8 +205,6 @@ function newFunction() {
     });
 
     // HIDE/SHOW NAVBAR ICONS
-    var pathUrl = window.location.pathname;
-    
     if(pathUrl == '/'){
         $("#nv1").show();
         $("#nv2").show();

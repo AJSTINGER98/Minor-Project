@@ -17,7 +17,7 @@ const app = express();
 const User = require("./models/user");
 
 // SETUP CONNECTION TO  CLOUD DATABASE
-mongoURI = process.env.MONGOURL;
+mongoURI = process.env.MONGOURL || "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
 
