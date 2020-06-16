@@ -19,6 +19,10 @@ html,body{
     font-weight: 600;
 }
 
+#myNav a[href = "/login"]{
+    margin-left: 100px;
+}
+
 /*  TRANSITION EFFECT FOR ICONS ON NAVBAR  */
 #mainNavbar .effect{
     letter-spacing: 0;
@@ -203,7 +207,7 @@ html,body{
     background-image: url("/Images/Black.jpg");
     background-size: cover;
     overflow: hidden;
-    height: 450px;
+    /* height: 450px; */
     width: 100%;
     color: white;
     font-size: 1em;
@@ -226,6 +230,42 @@ html,body{
     }
     #footer ul{
         margin-bottom: 25px;
+    }
+}
+
+@media only screen and (max-width : 360px){
+    #afterLogin a:nth-of-type(1){
+        margin-left: 17px;
+    }
+    #carousel .carousel-indicators{
+        display: none;
+    }
+    .img-fluid {
+        height: 300px;
+    }
+    #course {
+        font-size: 0.9rem;
+    }
+    #course h3,h5{
+        font-size: 1.3rem;
+    }
+    #course2 .card{
+        width: 18rem !important;
+    }
+    #category {
+         font-size: 0.9rem;
+    }
+    #category h3,h5 {
+        font-size: 1.3rem;
+    }
+    #category .card{
+        width: 14rem !important;
+    }
+    #footer{
+        font-size: 0.9rem;
+    }
+    #about {
+        margin-left: -28px;
     }
 }
 

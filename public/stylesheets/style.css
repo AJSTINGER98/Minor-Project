@@ -84,8 +84,6 @@ html , body {
     height: 45%;
 }
 
-
-
 .delete{
     display: inline;
     margin-right: 10px;
@@ -204,18 +202,87 @@ opacity:0.2;
 }
 
 
-@media (max-width : 992px){
+@media (max-width : 360px){
     .col-md-3 img{
-        height: 155px;
-        width: 155px;
+        height: 105px;
+        width: 105px;
+        
+    }
+    .profile-pic-hover{
+        margin-top: -60px !important;
+        height: 95px;
     }
     .container{
         font-size: 0.9rem;
     }
     #back{
         margin-top: 50px;
-        height: 25%;
+        height: 23%;
+        width: 100%;
     }
+    #profileView .col-md-3{
+        margin-top: -60px !important;
+    }
+    #info h1{
+        font-size: 2.2rem;
+        font-weight: 400;
+    }
+    #info p{
+        font-size: 0.9rem;
+    }
+    #profileView .col-md-9 div{
+        margin-left: -12px;
+    }
+    #profileView .col-md-9 div:nth-of-type(3) span::before{
+        content: '\a';
+        white-space: pre;
+    }
+    #profileView .col-md-9 div:nth-of-type(2) strong::before{
+        content: '\a';
+        white-space: pre;
+    }
+    #profileView .col-md-9 div:nth-of-type(2) em::before{
+        content: '\a';
+        white-space: pre;
+    }
+    #profileView .col-md-9 div:nth-of-type(3){
+        padding-bottom: 0px !important;
+    }
+
+    #info1 .btn-success{
+        margin-right: -52px;
+    }
+    #profileView .float-right a{
+        margin-right: -35px;
+        height: 30px;
+        line-height: 1.2em;
+    }
+    #profileView .float-right button{
+        margin-right: -40px;
+        line-height: 0.8em;
+        height: 30px;
+        width: 150px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    #uploadReport{
+        top:10% !important;
+    }
+    #uploadReport .modal-dialog{
+    margin-left: 50px !important;
+    }
+    #uploadReport .modal-header{
+        margin-left: 1px !important;
+    }
+    #uploadReport form{
+        padding-left: 20px;
+        padding-right: 5px;
+    }
+    #uploadReport button{
+        height: 30px;
+        line-height: 0.8em;
+    }
+
 }
 
 /* -------------------EDIT PAGE --------------------- */

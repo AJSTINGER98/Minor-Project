@@ -124,6 +124,7 @@ function newFunction() {
         if($(window).width() <= 974){
             $('#navbarDropdownMobile').show();
             $('#navbarDropdownWeb').hide();
+            $("#myNav ul li a").removeClass('effect');
         } else {
             $('#navbarDropdownMobile').hide();
             $('#navbarDropdownWeb').show();
@@ -138,9 +139,6 @@ function newFunction() {
                 $('#navbarDropdownWeb').show();
               } 
           });
-        
-        
-
     });
 
     // ----------------------SHOW/HIDE PASSWORD--------------------------

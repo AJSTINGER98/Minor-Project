@@ -83,3 +83,10 @@
         width: 80%;
     }
 } 
+
+@media only screen and (max-width: 360px) {
+    #loginPage .card {
+        width: 90% !important;
+        margin-top: 40%;
+    }
+} 
