@@ -105,12 +105,14 @@ html , body {
 }
 
 /* -------------- MOBILE VIEW --------------- */
+
+
 @media only screen and (max-width : 360px){
     .signup-form{
-        width: 300px;
+        width: 300px !important;
     }
     .signup-form form{
-        padding-top: 10px;
-        padding-bottom: 3px;
+        padding-top: 10px !important;
+        padding-bottom: 3px !important;
     }
 }

@@ -97,6 +97,27 @@
         });
     }
 
+    // TOGGLE NAV LINK ANIMATION
+
+    if($(window).width() <= 991){
+        
+            $("#myNavLinkItem a").removeClass('effect');
+            
+        } else {
+         
+            $("#myNavLinkItem a").addClass('effect');
+        }
+    $(window).resize(function() {
+
+        if ($(this).width() <= 991) {
+            
+            $("#myNavLinkItem a").removeClass('effect');
+        } else {
+
+            $("#myNavLinkItem a").addClass('effect');
+            } 
+    });
+
     $('.card-footer a').click(function(event) {
         var url = $(this).attr('href');
         history.pushState(null, null, url);

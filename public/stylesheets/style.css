@@ -201,8 +201,21 @@ opacity:0.2;
     cursor: pointer;
 }
 
+@media (max-width : 992px){
+    .col-md-3 img{
+        height: 155px;
+        width: 155px;
+    }
+    .container{
+        font-size: 0.9rem;
+    }
+    #back{
+        margin-top: 50px;
+        height: 25%;
+    }
+}
 
-@media (max-width : 360px){
+@media (max-width : 560px){
     .col-md-3 img{
         height: 105px;
         width: 105px;
@@ -230,9 +243,7 @@ opacity:0.2;
     #info p{
         font-size: 0.9rem;
     }
-    #profileView .col-md-9 div{
-        margin-left: -12px;
-    }
+
     #profileView .col-md-9 div:nth-of-type(3) span::before{
         content: '\a';
         white-space: pre;
@@ -261,29 +272,22 @@ opacity:0.2;
         margin-right: -40px;
         line-height: 0.8em;
         height: 30px;
-        width: 150px;
         padding-left: 0;
         padding-right: 0;
     }
-    #uploadReport{
-        top:10% !important;
-    }
-    #uploadReport .modal-dialog{
-    margin-left: 50px !important;
-    }
-    #uploadReport .modal-header{
-        margin-left: 1px !important;
-    }
-    #uploadReport form{
-        padding-left: 20px;
-        padding-right: 5px;
-    }
-    #uploadReport button{
-        height: 30px;
-        line-height: 0.8em;
-    }
+    
 
 }
+
+/* PREVENT UPLOAD REPORT MODAL FROM TOUCHING THE LEFT END OF THE SCREEN */
+
+@media screen and ( max-width: 852px){
+    #uploadReport .modal-dialog {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+}
+
 
 /* -------------------EDIT PAGE --------------------- */
 #editTitle{

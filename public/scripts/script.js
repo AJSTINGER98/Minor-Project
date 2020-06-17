@@ -121,22 +121,26 @@ function newFunction() {
 
     $(document).ready(function(){
         
-        if($(window).width() <= 974){
+        if($(window).width() <= 976){
             $('#navbarDropdownMobile').show();
             $('#navbarDropdownWeb').hide();
-            $("#myNav ul li a").removeClass('effect');
+            $("#myNavLinkItem a").removeClass('effect');
+            
         } else {
             $('#navbarDropdownMobile').hide();
             $('#navbarDropdownWeb').show();
+            $("#myNavLinkItem a").addClass('effect');
         }
         $(window).resize(function() {
 
-            if ($(this).width() <= 974) {
+            if ($(this).width() <= 976) {
                 $('#navbarDropdownMobile').show();
                 $('#navbarDropdownWeb').hide();
+                $("#myNavLinkItem a").removeClass('effect');
             } else {
                 $('#navbarDropdownMobile').hide();
                 $('#navbarDropdownWeb').show();
+                $("#myNavLinkItem a").addClass('effect');
               } 
           });
     });
@@ -221,4 +225,15 @@ function newFunction() {
             window.location = $(this).data('href');
         });
     });
+
+    //REMOVE FOOTER AND NAV LINKS IN CHANGE PASSWORD PAGE
+
+    if(pathUrl == '/changepassword'){
+        $('#footer').hide();
+        $("#mainNavbar ul li a").hide();
+        $("#mainNavbar ul li a").first().show();
+        $("#mainNavbar ul li a").first().css({
+            marginRight: "13em"
+        });    
+    } 
 

@@ -68,19 +68,20 @@
 }
 
 @media only screen and (max-width: 767px) {
-    .card {
+    #loginPage .card {
         width: 50%;
     }
 } 
 
 @media only screen and (max-width: 575px) {
-    .card {
+    #loginPage .card {
         width: 60%;
     }
 } 
 @media only screen and (max-width: 430px) {
-    .card {
+    #loginPage .card {
         width: 80%;
+        margin-top: 40%;
     }
 } 
 
