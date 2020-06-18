@@ -15,7 +15,7 @@
             <%if(currentUser && (currentUser.isAdmin || currentUser.isSupervisor)){%>
                 <!-- DOWNLOAD BUTTON -->
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-outline-success btn-lg mb-4" onclick="exportexcel('scholarTable')"><span class="mr-1 d-none d-md-inline-block">Export</span> <span><i class="fas fa-download"></i> </span></button>
+                    <button class="btn btn-outline-success btn-sm mb-4" onclick="exportexcel('scholarTable')"><span class="mr-1 d-none d-md-inline-block">Export</span> <span><i class="fas fa-download"></i> </span></button>
                 </div>
                 
             <%}%>
