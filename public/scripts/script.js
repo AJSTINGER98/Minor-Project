@@ -232,22 +232,47 @@ function newFunction() {
         });
     });
 
-    // DOWNLOAD TABLE AS EXCEL
-    function exportexcel(x) {  
-        $(`#${x}`).table2excel({  
-            exclude: '.d-none',
-            name: `${x}`,  
-            filename: `${x}.xlsx`,  
-            fileext: ".xlsx",
-            preserveColor: false,
-            exclude_img : true,  
-            exclude_links : true,  
-            exclude_inputs : true,  
-        });  
-    }  
+    // DOWNLOAD TABLE AS EXCEL 
+    //------------------------------------------------------------------
+    //CREATE AN OCTAL ARRAY BUFFER
 
+    function stringToArrayBuffer(s){
+        var buffer = new ArrayBuffer(s.length);
+        
+        var view = new Uint8Array(buffer);
 
+        for (var i = 0; i<s.length;i++){
+            view[i] = s.charCodeAt(i) & 0xFF;
+        }
+        
+        return buffer;
+    }
+
+    function exportexcel(x){
+
+        //Import table object
+        var myTable = document.getElementById(`${x}`);
+
+        // Remove row with display none
+        $(myTable).find('tr').each(function(){
+            if($(this).hasClass('d-none')){
+                $(this).remove();
+            }
+        });
+        
+        // Create workbook of the table
+        var wb = XLSX.utils.table_to_book(myTable,{sheet: `${x}`});
+
+        //Convert the workbook to binary output
+        var wbop = XLSX.write(wb, {bookType: 'xlsx', bokSST: true, type: 'binary'});
+
+        //Download excel file
+        saveAs(new Blob([stringToArrayBuffer(wbop)],{type: 'application/octet-stream'}),`${x}.xlsx`);
+
+    }
     //--------------------------------------------------------------
+
+
     //REMOVE FOOTER AND NAV LINKS IN CHANGE PASSWORD PAGE
 
     if(pathUrl == '/changepassword'){
