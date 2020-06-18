@@ -15,7 +15,11 @@ function newFunction() {
         $(".search-bar input").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $(".myTable tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                if($(this).text().toLowerCase().indexOf(value) > -1){
+                    $(this).removeClass('d-none');
+                } else{
+                    $(this).addClass('d-none');
+                }
             });
         });
 
@@ -218,6 +222,8 @@ function newFunction() {
         $("#nv2").hide();
     }
 
+    // SUPERVISOR AND SCHOLAR PAGE
+    //-------------------------------------------------------------
     // MAKE TABLE ROW CLICKABLE
 
     $(document).ready(function(){
@@ -226,6 +232,22 @@ function newFunction() {
         });
     });
 
+    // DOWNLOAD TABLE AS EXCEL
+    function exportexcel(x) {  
+        $(`#${x}`).table2excel({  
+            exclude: '.d-none',
+            name: `${x}`,  
+            filename: `${x}.xlsx`,  
+            fileext: ".xlsx",
+            preserveColor: false,
+            exclude_img : true,  
+            exclude_links : true,  
+            exclude_inputs : true,  
+        });  
+    }  
+
+
+    //--------------------------------------------------------------
     //REMOVE FOOTER AND NAV LINKS IN CHANGE PASSWORD PAGE
 
     if(pathUrl == '/changepassword'){

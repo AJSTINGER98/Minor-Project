@@ -7,12 +7,17 @@
             <h1 id="sup" class="display-4 mt-4"><i class="fas fa-user-graduate pr-3"></i><em>SCHOLARS</em></h1>
 
             <!-- SEARCH  BAR -->
+            
             <div class="container search-bar">
                 <input type="text" class="form-control" placeholder="Search . . ." aria-label="username">
             </div>
 
+            <!-- DOWNLOAD BUTTON -->
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-success btn-lg mb-4" onclick="exportexcel('scholarTable')"><span class="mr-1 d-none d-md-inline-block">Export</span> <span><i class="fas fa-download"></i> </span></button>
+            </div>
             <!-- TABLE -->
-            <table class="table table-hover no-margin text-center table-collapsible">
+            <table class="table table-hover no-margin text-center table-collapsible" id="scholarTable">
                 <thead class="thead-dark">
                     <tr>
                         <th>Scholar ID</th>
@@ -200,6 +205,7 @@
                     </div>
                 </div>
             <% } %>
+
 
         </div>
     </div>

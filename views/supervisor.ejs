@@ -11,8 +11,13 @@
                 <input type="text" class="form-control" placeholder="Search . . ." aria-label="username">
             </div>
 
+            <!-- DOWNLOAD BUTTON -->
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-success btn-lg mb-4" onclick="exportexcel('supervisorTable')"><span class="mr-1 d-none d-md-inline-block">Export</span> <span><i class="fas fa-download"></i> </span></button>
+            </div> 
+
             <!-- TABLE -->
-            <table class="table table-hover no-margin text-center table-collapsible">
+            <table class="table table-hover no-margin text-center table-collapsible" id="supervisorTable">
                 <thead class="thead-dark">
                     <tr>
                         <th>Supervisor ID</th>
