@@ -234,11 +234,11 @@ function newFunction() {
 
     // DOWNLOAD TABLE AS EXCEL 
     //------------------------------------------------------------------
+    
     //CREATE AN OCTAL ARRAY BUFFER
-
     function stringToArrayBuffer(s){
         var buffer = new ArrayBuffer(s.length);
-        
+
         var view = new Uint8Array(buffer);
 
         for (var i = 0; i<s.length;i++){
@@ -264,7 +264,7 @@ function newFunction() {
         var wb = XLSX.utils.table_to_book(myTable,{sheet: `${x}`});
 
         //Convert the workbook to binary output
-        var wbop = XLSX.write(wb, {bookType: 'xlsx', bokSST: true, type: 'binary'});
+        var wbop = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
 
         //Download excel file
         saveAs(new Blob([stringToArrayBuffer(wbop)],{type: 'application/octet-stream'}),`${x}.xlsx`);
