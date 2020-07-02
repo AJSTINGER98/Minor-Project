@@ -1,6 +1,10 @@
 <%- include("partials/header") %>
 
 <div id="loginPage" class="container">
+    <!-- BACK GROUND -->
+    <div>
+        <img src="/Images/Login-1.jpg" alt="Login Image">
+    </div>
     <!-- PAGE BASIC DISPLAY AND FUNCTIONALITY -->
     <div class = "d-flex justify-content-center">
         <div class = "card w-80" style="width: 20rem;">
@@ -83,13 +87,9 @@
     if(pathUrl == '/login'){
         // ADD Background Image
         $("body").css({
-            'background-image'    : "url('/Images/Login.jpg')",
-            'background-size'     : "cover",
-            'background-repeat'   : "no-repeat",
-            'background-position' : "center",
-            'overflow-y'          : "hidden"
-            
+            'overflow-y' : "hidden" 
         });
+        // Hide Icons on Navbar
         $("#mainNavbar ul li a").hide();
         $("#mainNavbar ul li a").first().show();
         $("#mainNavbar ul li a").first().css({

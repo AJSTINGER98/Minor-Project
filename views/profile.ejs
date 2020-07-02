@@ -73,7 +73,11 @@
     
         <div class="col-md-9 pl-1 pr-5">
             <div id="info">
-                <h1 class="display-4"><%= person.title %><%= person.firstName %> <%= person.lastName %></h1>
+                <% if(person.middleName == null){ %>
+                    <h1 class="display-4"><%= person.title %><%= person.firstName %> <%= person.lastName %></h1>
+                <% } else { %>
+                    <h1 class="display-4"><%= person.title %><%= person.firstName %> <%= person.middleName %> <%= person.lastName %></h1>
+                <% } %>  
                 <h6><%= person.academicRole %></h6>
             </div>
             <div class="row">
@@ -98,20 +102,70 @@
                     </p>
                 </div>
             </div>
+
+            <hr style="padding-bottom: 20px; width: 50%;">
     
-            <!-- SUPERVISED BY -->
+            <!-- SCHOLAR PAGE -->
             <% if(path == 'scholar'){ %>
-                <div id="info1" class="container py-2">
-                    <h5>SUPERVISED BY : 
-                        <a href="/supervisor/<%= person.supervisedBy.ID %>">
-                            <span><%= person.supervisedBy.supBy %></span>
-                        </a>
-                    </h5>
+                <div class="row">
+                    <div id="info1" class="container py-2 col-md-6" style="margin-left: 14px;">
+                        <h5>REGISTRATION NUMBER : 
+                            <span><%= person.scID %></span>
+                        </h5>
+                    </div>
+                    <div id="info1" class="container py-2 col-md-6" style="margin-left: -14px;">
+                        <h5>MODE OF Ph.D : 
+                            <span><%= person.mode %></span>
+                        </h5>
+                    </div>
                 </div>
+
+                <hr style="padding-bottom: 20px; width: 50%;">
+
+                <div class="row">
+                    <div id="info1" class="container py-2 col-md-6" style="margin-left: 14px;">
+                        <h5>SUPERVISED BY : 
+                            <a href="/supervisor/<%= person.supervisedBy.ID %>">
+                                <span><%= person.supervisedBy.supBy %></span>
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="info1" class="container py-2 col-md-6" style="margin-left: -14px;">
+                        <h5>CO-SUPERVISED BY : 
+                            <a href="/supervisor/<%= person.cosupervisor.ID %>">
+                                <span><%= person.cosupervisor.cosup %></span>
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+
+                <hr style="padding-bottom: 20px; width: 50%;">
+
+                <div id="info1" class="container py-2">
+                    <h5>TITLE OF RESEARCH : </h5>
+                    <strong><em>"<%= person.reschTitle %>"</em></strong>
+                </div>
+
+                <hr style="padding-bottom: 20px; width: 50%;">
+
+                <div id="info1" class="container py-2">
+                    <h5>SDC PANEL :</h5>
+                    <ul style="list-style-type:disc; margin-left:20px;">
+                        <% person.sdcMember.forEach(function(field){ %>
+                            <a href="/supervisor/<%= field.ID %>">
+                                <li><%= field.name %></li>
+                            </a>
+                        <% }); %>
+                    </ul>
+                </div>
+
+                <hr style="padding-bottom: 20px; width: 50%;">
+
             <% } %>
 
-            <!-- SCHOLARS UNDER -->
+            <!-- SUPERVISOR PAGE -->
             <% if(path == 'supervisor'){ %>
+
                 <div id="info1" class="container py-2">
                     <h5>SCHOLARS UNDER</h5>
                     <ul style="list-style-type:disc; margin-left:20px;">
@@ -122,100 +176,111 @@
                         <% }); %>
                     </ul>
                 </div>
+            
+                <hr style="padding-bottom: 20px; width: 50%;">
+
+                <% if(person.FoE) { %>
+                    <div id="info1" class="container">
+                        <h5>FIELD OF EXPERTISE </h5>
+                        <!-- <p> -->
+                        <ul style="list-style-type:square; margin-left:20px;">
+                            <% person.FoE.forEach(function(field){ %>
+                                <li><%= field %></li>
+                            <% }); %>
+                        </ul>
+                        <!-- </p> -->
+                    </div>
+                <% } %>
+
+                <hr style="padding-bottom: 20px; width: 50%;">
+
+                <% if(person.academicQ && person['academicQ'][0]['degree'].length != 0){ %>
+                    <div id="info1" class="container">
+                        <h5>ACADEMIC QUALIFICATION</h5>
+                        <table class="table table-hover profile-table-collapsible">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Degree</th>
+                                    <th scope="col">Institute</th>
+                                    <th scope="col">Specialisation</th>
+                                    <th scope="col">Year of Passing</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% person.academicQ.forEach(function(field){ %>
+                                    <% var str = field.degree %>
+                                    <tr>
+                                        <th scope="row"><%= str.slice(str.indexOf("(") + 1, str.length - 1); %></th>
+                                        <td><%= field.institute %></td>
+                                        <td><%= field.specialisation %></td>
+                                        <td><%= field.yoc %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr style="padding-bottom: 20px; width: 50%;">
+                <% } %>
+
+                <% if(person.experience && person['experience'][0]['organisation'].length != 0){ %>
+                    <div id="info1" class="container">
+                        <h5>EXPERIENCE</h5>
+                        <table class="table table-hover profile-table-collapsible">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Organisation</th>
+                                    <th scope="col">Designation</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Tenure</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% person.experience.forEach(function(field){ %>
+                                    <tr>
+                                        <td><%= field.organisation %></td>
+                                        <td><%= field.designation %></td>
+                                        <td><%= field.role %></td>
+                                        <td><%= field.tenure %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr style="padding-bottom: 20px; width: 50%;">
+                <% } %>
+
+                <% if(person.research && person['research'][0]['title'].length != 0){ %>
+                    <div id="info1" class="container">
+                        <h5>RESEARCH PROJECT</h5>
+                        <table class="table table-hover profile-table-collapsible">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Project Title</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">Funding Agency</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Amount(INR)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% person.research.forEach(function(field){ %>
+                                    <tr>
+                                        <td><%= field.title %></td>
+                                        <td><%= field.duration %></td>
+                                        <td><%= field.agency %></td>
+                                        <td><%= field.role %></td>
+                                        <td><%= field.amount %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr style="padding-bottom: 20px; width: 50%;"> 
+                <% } %>
+   
             <% } %>
 
-            <hr style="padding-bottom: 20px; width: 50%;">
-            <% if(person.FoE) { %>
-                <div id="info1" class="container">
-                    <h5>FIELD OF EXPERTISE </h5>
-                    <!-- <p> -->
-                    <ul style="list-style-type:square; margin-left:20px;">
-                        <% person.FoE.forEach(function(field){ %>
-                            <li><%= field %></li>
-                        <% }); %>
-                    </ul>
-                    <!-- </p> -->
-                </div>
-            <% } %>
-            <div id="info1" class="container">
-                <h5>ACADEMIC QUALIFICATION</h5>
-                <table class="table table-hover profile-table-collapsible">
-                    <thead>
-                        <tr>
-                            <th scope="col">Degree</th>
-                            <th scope="col">Institute</th>
-                            <th scope="col">Specialisation</th>
-                            <th scope="col">Year of Passing</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% person.academicQ.forEach(function(field){ %>
-                            <% var str = field.degree %>
-                            <tr>
-                                <th scope="row"><%= str.slice(str.indexOf("(") + 1, str.length - 1); %></th>
-                                <td><%= field.institute %></td>
-                                <td><%= field.specialisation %></td>
-                                <td><%= field.yoc %></td>
-                            </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-            </div>
-            <% if(person.experience && person['experience'][0]['organisation'].length != 0){ %>
-                <div id="info1" class="container">
-                    <h5>EXPERIENCE</h5>
-                    <table class="table table-hover profile-table-collapsible">
-                        <thead>
-                            <tr>
-                                <th scope="col">Organisation</th>
-                                <th scope="col">Designation</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Tenure</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% person.experience.forEach(function(field){ %>
-                                <tr>
-                                    <td><%= field.organisation %></td>
-                                    <td><%= field.designation %></td>
-                                    <td><%= field.role %></td>
-                                    <td><%= field.tenure %></td>
-                                </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
-            <% } %>
-
-            <% if(person.research && person['research'][0]['title'].length != 0){ %>
-                <div id="info1" class="container">
-                    <h5>RESEARCH PROJECT</h5>
-                    <table class="table table-hover profile-table-collapsible">
-                        <thead>
-                            <tr>
-                                <th scope="col">Project Title</th>
-                                <th scope="col">Duration</th>
-                                <th scope="col">Funding Agency</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Amount(INR)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% person.research.forEach(function(field){ %>
-                                <tr>
-                                    <td><%= field.title %></td>
-                                    <td><%= field.duration %></td>
-                                    <td><%= field.agency %></td>
-                                    <td><%= field.role %></td>
-                                    <td><%= field.amount %></td>
-                                </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
-            <% } %>
             <% if (path == 'scholar' && (isOwner || currentUser.isSupervisor || currentUser.isAdmin)){%> 
-                <hr style="padding-bottom: 20px; width: 50%;">  
                 <div id="info1" class="container">
                     <h5>REPORTS</h5>
                     <table class="table table-hover">
@@ -248,7 +313,7 @@
                         </tfoot>
                     <%}%>
                     </table>
-                    
+                    <hr style="padding-bottom: 20px; width: 50%;"> 
                 </div>
                 <%if(isOwner){%>
                     <div class="modal fade" id="uploadReport" tabindex="-1" role="dialog" aria-labelledby="uploadReportLabel" aria-hidden="true">

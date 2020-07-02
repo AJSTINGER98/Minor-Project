@@ -26,8 +26,8 @@
                     <tr>
                         <th>Scholar ID</th>
                         <th>Name</th>
-                        <th>Age</th>
                         <th>Department</th>
+                        <th>Supervisor</th>
                         <th>Email</th>
                     </tr>
                 </thead>
@@ -35,9 +35,13 @@
                     <% scholar.forEach(function(sch){ %>
                         <tr class="clickable-row" data-href= "/scholar/<%= sch._id %>" style="cursor: pointer;">
                             <td><%=sch.scID%></td>
-                            <td><%sch.title%><%=sch.firstName%> <%=sch.lastName%></td>
-                            <td><%=sch.age%></td>
+                            <% if(sch.middleName == null) { %>
+                                <td><%sch.title%><%=sch.firstName%> <%=sch.lastName%></td>
+                            <% } else { %>
+                                <td><%sch.title%><%=sch.firstName%> <%=sch.middleName%> <%=sch.lastName%></td>
+                            <% } %>
                             <td><%=sch.department%></td>
+                            <td><%=sch.supervisor%></td>
                             <td>
                                 <%=sch.email%>
                                 <div class="d-inline-block float-right"><a class = "text-secondary" href="/scholar/<%= sch._id %>"><i class="fas fa-chevron-right"></i></a></div>
@@ -64,22 +68,26 @@
                                     <h5 id="title"><em>BASIC INFORMATION</em></h5>
                                     <br>    
                                     <!-- FIRST ROW -->
-                                    <div class="form-row">
+                                    <div class="form-row d-flex justify-content-center">
                                         <div class="form-group col-md-2">
                                             <label for="title">Title</label>
                                             <select id="title" class="form-control" name= "scholar[title]" required>
                                                 <option selected>None</option>
                                                 <option>Mr.</option>
                                                 <option>Mrs.</option>
-                                                <option>Miss </option>
+                                                <option>Miss.</option>
                                                 <option>Dr.</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-4">
                                             <label for="input_fname">First Name</label>
                                             <input type="text" id="input_fname" class="form-control"  name= "scholar[firstName]" required>
                                         </div>
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-3">
+                                            <label for="input_mname">Middle Name</label>
+                                            <input type="text" id="input_mname" class="form-control" name= "scholar[middleName]">
+                                        </div>
+                                        <div class="form-group col-md-3">
                                             <label for="input_lname">Last Name</label>
                                             <input type="text" id="input_lname" class="form-control" name= "scholar[lastName]" required>
                                         </div>
@@ -87,7 +95,7 @@
 
                                     <!-- SECOND ROW -->
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-5">
                                             <label for="email">Email</label>
                                             <input type="email" id="email" class="form-control" name="scholar[email]" required>
                                         </div>
@@ -95,14 +103,9 @@
                                             <label for="phone">Phone</label>
                                             <input type="text" id="phone" class="form-control"  pattern=".{10}" name="scholar[phone]" required>
                                         </div>
-                                        <div class="form-group col-md-2">
-                                            <label for="inputAge">Age</label>
-                                            <select id="inputAge" class="form-control" name= "scholar[age]" required>
-                                                <option selected>None</option>
-                                                <% for(var i =20; i<=60; i++){ %> 
-                                                    <option><%= i %></option> 
-                                                <% } %>
-                                            </select>
+                                        <div class="form-group col-md-3">
+                                            <label for="regNo">Registration No.</label>
+                                            <input type="text" id="regNo" class="form-control"  pattern=".{9}" name="scholar[scID]" required>
                                         </div>
                                     </div>
 
@@ -125,8 +128,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="inputSchool">Supervisor</label>
-                                            <select id="inputSchool" class="form-control" name= "scholar[supByID]" required>
+                                            <label for="supervisor">Supervisor</label>
+                                            <select id="supervisor" class="form-control" name= "scholar[supByID]" required>
                                                 <option selected>None</option>
                                                 <% if(supervisor.length != 0){ %>
                                                     <% for(var i = 0; i<supervisor.length; i++){ %> 
@@ -137,63 +140,81 @@
                                         </div>
                                     </div>
 
-                                    <!-- ---------------ACADEMIC QUALIFICATION----------------- -->
+                                    <!----------------- ADDITIONAL INFORMATION ------------------->
                                     <hr id="suphr">
                                     <br>
-                                    <h5 id="title"><em>ACADEMIC QUALIFICATIONS</em></h5>
+                                    <h5 id="title"><em>ADDITIONAL INFORMATION</em></h5>
                                     <br>
-                                    <div class="academic">
-                                        <div class="form-group academicField">
+                                    <div class="additonal">
+                                        <div class="form-group additonalField">
                                             <!-- FOURTH ROW -->
                                             <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="degree">Degree/Title</label>
-                                                    <select id="degree" class="form-control" name="scholar[academicQ][degree][]">
-                                                        <option>None</option>
-                                                        <option>Bachelor of Computer Applications (B.C.A)</option>
-                                                        <option>Bachelor of Computer Science (B.C.S)</option>
-                                                        <option>Bachelor of Education in AI (B.Ed.AI)</option>
-                                                        <option>Bachelor of Electronic Science (B.E.S)</option>
-                                                        <option>Bachelor of Engineering (B.E)</option>
-                                                        <option>Bachelor of Science (B.Sc)</option>
-                                                        <option>Bachelor of Science Education (B.S.E)</option>
-                                                        <option>Bachelor of Science Bachelor of Education (B.Sc.B.Ed)</option>
-                                                        <option>Bachelor of Science Bachelor of Education (B.Sc.B.Ed)</option>
-                                                        <option>Bachelor of Technology (B.Tech)</option>
-                                                        <option>Master of Computer Applications (M.C.A)</option>
-                                                        <option>Master of Education (M.Ed)</option>
-                                                        <option>Master of Science (M.Sc)</option>
-                                                        <option>Master of Technology (M.Tech)</option>
-                                                        <option>Post Graduate (PG)</option>
-                                                        <option>Post Graduate Diploma (P.Diploma)</option>
-                                                        <option>Doctor of Philosophy (Ph.D)</option>
+                                                <div class="form-group col-md-4">
+                                                    <label for="cosupervisor">Co-Supervisor (<em>if any</em>)</label>
+                                                    <select id="cosupervisor" class="form-control" name= "scholar[cosupID]">
+                                                        <option selected>None</option>
+                                                        <% if(supervisor.length != 0){ %>
+                                                            <% for(var i = 0; i<supervisor.length; i++){ %> 
+                                                                <option value="<%= supervisor[i]._id%>"><%= supervisor[i].title %> <%= supervisor[i].firstName %> <%= supervisor[i].lastName %></option> 
+                                                            <% } %>
+                                                        <% } %>
+                                                        <option>Dr.Devesh Kumar Srivastava</option>
+                                                        <option>Dr.Himanshu Chaudhary</option>
+                                                        <option>Dr.Jyoti Grover</option>
+                                                        <option>Dr.Manjit Kaur</option>
+                                                        <option>Dr.Manoj Kumar Bohra</option>
+                                                        <option>Dr.Vijay Bhaskar Semwal</option>
+                                                        <option>Dr.Vivek K Verma</option>
                                                     </select>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="specialisation">Specialisation</label>
-                                                    <input type="text" id="specialisation" class="form-control" name="scholar[academicQ][specialisation][]">
+                                                <div class="form-group col-md-4">
+                                                    <label for="mode">Mode of Ph.D</label>
+                                                    <select id="mode" class="form-control" name= "scholar[mode]" required>
+                                                        <option selected>None</option>
+                                                        <option>Part-Time (Internal)</option>
+                                                        <option>Part-Time (External)</option>
+                                                        <option>Full-Time</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="registerDate">Registration Date</label>
+                                                    <input type="date" id="registerDate" class="form-control" name="scholar[regDate]" max="<%=new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0]%>" required>
                                                 </div>
                                             </div>
                                             
                                             <!-- FIFTH ROW -->
                                             <div class="form-row">
-                                                <div class="form-group col-md-8">
-                                                    <label for="institute">Institute</label>
-                                                    <input type="text" id="institute" class="form-control" name="scholar[academicQ][institute][]">
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label for="inputYoC">Year of Completion</label>
-                                                    <select id="inputYoC" class="form-control" name= "scholar[academicQ][yoc][]">
-                                                        <option selected>None</option>
-                                                        <% for(var i = new Date().getFullYear(); i>=new Date().getFullYear()-50; i--){ %> 
-                                                        <option><%= i %></option> 
-                                                        <% } %>
-                                                    </select>
+                                                <div class="form-group col-md-12">
+                                                    <label for="research">Title of Research</label>
+                                                    <input type="text" id="research" class="form-control" name="scholar[reschTitle]" required>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SDC MEMBER LIST -->
+                                    <hr id="suphr">
+                                    <br>
+                                    <h5 id="title"><em>SDC MEMBERS</em></h5>
+                                    <br>
+                                    <div class="sdcMember">
+                                        <div class="form-row d-flex justify-content-center">
+                                            <div class="form-group col-md-4">
+                                                <label for="sdc">Panel Members</label>
+                                                <select id="sdc" class="form-control">
+                                                    <option selected>None</option>
+                                                    <% if(supervisor.length != 0){ %>
+                                                        <% for(var i = 0; i<supervisor.length; i++){ %> 
+                                                            <option value="<%= supervisor[i]._id%>"><%= supervisor[i].title %> <%= supervisor[i].firstName %> <%= supervisor[i].lastName %></option> 
+                                                        <% } %>
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
                                             <!-- ADD BUTTON -->
-                                            <div class="container d-flex justify-content-end pr-0">
-                                                <button class="btn btn-primary addAQ px-4 py-1">ADD</button>
+                                            <div class="container d-flex justify-content-center pr-0 pt-1 pb-3">
+                                                <button class="btn btn-primary addSDC px-4 py-1">ADD</button>
                                             </div>
                                         </div>
                                     </div>
@@ -201,8 +222,9 @@
                                     <hr id="suphr">
                                     <!-- SUBMIT BUTTON  -->
                                     <div class="form-group d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-success px-4 py-1">Submit</button>
+                                        <button type="submit" class="btn btn-success px-4 py-1 ml-3">Submit</button>
                                     </div>
+
                                 </form>
                             </div>
                         </div>

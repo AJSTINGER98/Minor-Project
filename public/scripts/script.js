@@ -45,6 +45,33 @@ function newFunction() {
 	    });
     });
 
+    // ADD/REMOVE SDC MEMBERS
+    $(function(){
+        $(document).on('click','.addSDC',function(e){
+            e.preventDefault();
+            var sdcForm = $('.sdcMember #sdc option:selected'),
+                fName   = $(`<div class = "form-row d-flex justify-content-center my-2">
+                                <div class="input-group col-md-4">
+                                    <input type = "text" class = "form-control" name = "dispName">
+                                    <input type = "hidden" class = "form-control" name = "scholar[sdcMember][ID][]">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-danger btn-sdc-rem" type="button">
+                                            <i class="fas fa-minus"></i>   
+                                        </button>                                       
+                                    </span>
+                                </div>
+                            </div>`);
+            fName.find('input[type=text]').val(sdcForm.text());
+            fName.find('input[type=hidden]').val(sdcForm.val());
+            $('.sdcMember').append(fName);
+            $('.sdcMember select').val('None');
+            }).on('click', '.btn-sdc-rem', function(e){
+                $(this).parents('.input-group').remove();
+                // e.preventDefault();
+                return false;
+        });
+    });
+
     // INCLUDE ADD/REMOVE FOR ACADEMICQ FIELDS
     $(function(){
         $(document).on('click','.addAQ',function(e){

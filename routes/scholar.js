@@ -1,6 +1,7 @@
 const express       = require("express"),
       router        = express.Router(),
       nodemailer    = require('nodemailer'),
+      mongoose      = require('mongoose'),
       middleware    = require("../middleware/middleware");
 
 // IMPORT MODEL
@@ -20,13 +21,14 @@ router.get("/",(req,res) =>{
             scholarList = [];
             allscholar.forEach((scholar)=>{
                 temp = {
-                    _id: scholar._id,
-                    scID : scholar.scID,
-                    firstName : scholar.firstName,
-                    lastName : scholar.lastName,
-                    age: scholar.age,
-                    department: scholar.department,
-                    email : scholar.email
+                    _id        : scholar._id,
+                    scID       : scholar.scID,
+                    firstName  : scholar.firstName,
+                    middleName : scholar.middleName,
+                    lastName   : scholar.lastName,
+                    department : scholar.department,
+                    supervisor : scholar.supervisedBy.supBy,
+                    email      : scholar.email
                 };
                 scholarList.push(temp);
             });
@@ -48,122 +50,156 @@ router.get("/",(req,res) =>{
 });
 
 // CREATE ROUTE - Add Scholar to database
-router.post("/",middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
-    Supervisor.findById({_id: req.body.scholar.supByID},function (err,foundSupervisor) {
+router.post("/",middleware.addSDC,(req,res) =>{
+    // ,middleware.isLoggedIn,middleware.isAdmin
+    var supBy   = req.body.scholar.supByID,
+        cosupBy = req.body.scholar.cosupID;
+
+    Supervisor.findById({_id: supBy}, function(err,foundSupervisor) {
         if(err || !foundSupervisor){
             console.log(err);
             req.flash('error',"Either Supervisor doesn't Exists or has been moved somewhere else!!");
         }
-        else{
-            Scholar.find({},function(err,scholar){
-                if(err){
-                    req.flash("error","Something went wrong,Pleaase Try Again!!");
+
+        else {
+            Supervisor.findById({_id: cosupBy}, function(err,foundcoSupervisor) {
+                if(err || !foundcoSupervisor){
                     console.log(err);
-                } else {
-                    var id;
-                    if(scholar.length == 0){
-                        id=1;
-                    } else {
-                        id = scholar[scholar.length-1].scID + 1;
-                    }
-                    var Sch = req.body.scholar;
-                    schData = {
-                        scID: id,
-                        image: undefined,
-                        title: Sch.title,
-                        firstName: Sch.firstName.trim(),
-                        lastName: Sch.lastName.trim(),
-                        email: Sch.email.trim(),
-                        phone: Sch.phone,
-                        age: Sch.age,
-                        department: Sch.department,
-                        school: Sch.school,
-                        supervisedBy : {
-                            ID    : foundSupervisor._id,
-                            supBy : `${foundSupervisor.title}${foundSupervisor.firstName} ${foundSupervisor.lastName}`
-                        },
-                        academicQ: [],
-                        report: [],
-                    };
-        
-                    //Create array of object of Academic Qualifications
-                    for(var i = 0; i < Sch.academicQ.degree.length;i++){
-                        temp = {
-                            degree: Sch.academicQ.degree[i],
-                            specialisation: Sch.academicQ.specialisation[i],
-                            institute: Sch.academicQ.institute[i],
-                            yoc: Sch.academicQ.yoc[i],
-                        };
-                        schData.academicQ.push(temp);
-                    }
+                    req.flash('error',"Either Co-Supervisor doesn't Exists or has been moved somewhere else!!");
+                }
 
-                    // ADD CONTENT TO DATABASE
-                    Scholar.create(schData, (err,scholar) => {
-                        if(err || !scholar){
+                else {
+                    var Id   = req.Id,
+                        Name = req.Name;
+
+                    Scholar.find({},function(err,scholar){
+                        if(err){
+                            req.flash("error","Something went wrong,Pleaase Try Again!!");
                             console.log(err);
-                            req.flash("error","Something went Wrong,Please Try Again!!!");
-                        }
-                        else{
-                            // CREATE A SCHOLAR ACCOUNT
-                            const password = `${scholar.firstName.toLowerCase()}#${scholar.scID}@sc`;
-                            
-                            User.register(new User({
-                                username: `${scholar.firstName.toLowerCase()}${scholar.scID}@sc`,
-                                email: scholar.email,
-                                isAdmin: false,
-                                isSupervisor: false,
-                                refID: scholar._id,
-                            }),password,(err,user) =>{
-                                if(err || !user){
-                                    req.flash('error', 'Unable to Sign Up');
-                                    return res.redirect('/scholar');
-                                } else {
+                        } else {
+                            var Sch = req.body.scholar;
+                            schData = {
+                                scID         : Sch.scID,
+                                image        : undefined,
+                                title        : Sch.title,
+                                firstName    : Sch.firstName.trim(),
+                                middleName   : Sch.middleName.trim(),
+                                lastName     : Sch.lastName.trim(),
+                                email        : Sch.email.trim(),
+                                phone        : Sch.phone,
+                                department   : Sch.department,
+                                school       : Sch.school,
+                                supervisedBy : {
+                                    ID    : foundSupervisor._id,
+                                    supBy : undefined
+                                },
+                                cosupervisor : {
+                                    ID    : foundcoSupervisor._id,
+                                    cosup : undefined
+                                },
+                                mode         : Sch.mode,
+                                regDate      : Sch.regDate,
+                                reschTitle   : Sch.reschTitle,
+                                sdcMember    : [],
+                                report       : [],
+                            };
 
-                                    //SEND EMAIL TO SCHOLAR
-                                    var smtpTransport = nodemailer.createTransport({
-                                        service: 'Gmail', 
-                                        auth: {
-                                            user: 'phdportal1131@gmail.com',
-                                            pass: process.env.GMAILPW
-                                        }
-                                        });
-                                    var mailOptions = {
-                                        to: user.email,
-                                        from: 'phdportal1131@gmail.com',
-                                        subject: 'Phd Portal || Your Account has been Created',
-                                        text: `Dear ${scholar.firstName},\n\n` +
-                                              'Your account in PhD Portal associated with Manipal University Jaipur has been created succesfully.\n'+
-                                              `Your account details are as follows:\n\n Username: ${user.username}\n Password: ${password}`+
-                                              '\n\nIt is recommended that you change your password once you have logged in.'+
-                                              '\n\nThanks& Regards\nPhD Portal (MUJ)'
-                                    };
-                                    smtpTransport.sendMail(mailOptions, function(err,info) {
-                                        if(err || !info){
-                                            req.flash("warning","Could not send email. Please send manually !!");
-                                            
-                                        } else{
-                                            req.flash("success","Email has been sent");
+                            // SUPERVISED BY
+                            if(foundSupervisor.middleName == null)
+                                schData.supervisedBy.supBy = `${foundSupervisor.title}${foundSupervisor.firstName} ${foundSupervisor.lastName}`
+                            else
+                                schData.supervisedBy.supBy = `${foundSupervisor.title}${foundSupervisor.firstName} ${foundSupervisor.middleName} ${foundSupervisor.lastName}`
+                            
+                            // CO-SUPERVISED BY
+                            if(foundcoSupervisor.middleName == null)
+                                schData.cosupervisor.cosup = `${foundcoSupervisor.title}${foundcoSupervisor.firstName} ${foundcoSupervisor.lastName}`
+                            else
+                                schData.cosupervisor.cosup = `${foundcoSupervisor.title}${foundcoSupervisor.firstName} ${foundcoSupervisor.middleName} ${foundcoSupervisor.lastName}`
+
+                            // ADD SDC MEMBER
+                            for(var i = 0; i < Id.length;i++){
+                                temp = {
+                                    ID : Id[i],
+                                    name : Name[i]
+                                };
+                                
+                                schData.sdcMember.push(temp);
+                            }
+
+                            // ADD CONTENT TO DATABASE
+                            Scholar.create(schData, (err,scholar) => {
+                                if(err || !scholar){
+                                    console.log(err);
+                                    req.flash("error","Something went Wrong,Please Try Again!!!");
+                                }
+                                else{
+                                    // CREATE A SCHOLAR ACCOUNT
+                                    const password = `${scholar.firstName.toLowerCase()}#${scholar.scID}@sc`;
+                                    
+                                    User.register(new User({
+                                        username: `${scholar.firstName.toLowerCase()}${scholar.scID}@sc`,
+                                        email: scholar.email,
+                                        isAdmin: false,
+                                        isSupervisor: false,
+                                        refID: scholar._id,
+                                    }),password,(err,user) =>{
+                                        if(err || !user){
+                                            console.log(err);
+                                            req.flash('error', 'Unable to Sign Up');
+                                            return res.redirect('/scholar');
+                                        } else {
+        
+                                            //SEND EMAIL TO SCHOLAR
+                                            var smtpTransport = nodemailer.createTransport({
+                                                service: 'Gmail', 
+                                                auth: {
+                                                    user: 'phdportal1131@gmail.com',
+                                                    pass: process.env.GMAILPW
+                                                }
+                                                });
+                                            var mailOptions = {
+                                                to: user.email,
+                                                from: 'phdportal1131@gmail.com',
+                                                subject: 'Phd Portal || Your Account has been Created',
+                                                text: `Dear ${scholar.firstName},\n\n` +
+                                                      'Your account in PhD Portal associated with Manipal University Jaipur has been created succesfully.\n'+
+                                                      `Your account details are as follows:\n\n Username: ${user.username}\n Password: ${password}`+
+                                                      '\n\nIt is recommended that you change your password once you have logged in.'+
+                                                      '\n\nThanks& Regards\nPhD Portal (MUJ)'
+                                            };
+                                            smtpTransport.sendMail(mailOptions, function(err,info) {
+                                                if(err || !info){
+                                                    req.flash("warning","Could not send email. Please send manually !!");
+                                                    
+                                                } else{
+                                                    req.flash("success","Email has been sent");
+                                                }
+                                            });
+                                            req.flash("success","Entity Added Successfully...");
+                                            res.redirect("/scholar");
                                         }
                                     });
-                                    req.flash("success","Entity Added Successfully...");
-                                    res.redirect("/scholar");
-                                }
-                            });
 
-                            // ADD SCHOLARS ASSOCIATED TO SUPERVISORS in SUPERVISOR DB
-                            Supervisor.findByIdAndUpdate(foundSupervisor._id,
-                                {$push: {
-                                    'schUnder':{
-                                        ID  : scholar._id,
-                                        sch : `${scholar.firstName} ${scholar.lastName}`
-                                    }
-                                }},{safe: true , upsert:true},function(err,updatedSupervisor){
-                                if(err || !updatedSupervisor){
-                                    req.flash('error', 'Something went wrong');
+                                    var test = false;
+                                    if(scholar.middleName == null)
+                                        test = true;
+        
+                                    // ADD SCHOLARS ASSOCIATED TO SUPERVISORS in SUPERVISOR DB
+                                    Supervisor.findByIdAndUpdate(foundSupervisor._id,
+                                        {$push: {
+                                            'schUnder':{
+                                                ID  : scholar._id,
+                                                sch : test ? `${scholar.firstName} ${scholar.lastName}` : `${scholar.firstName} ${scholar.middleName} ${scholar.lastName}`
+                                            }
+                                        }},{safe: true , upsert:true},function(err,updatedSupervisor){
+                                        if(err || !updatedSupervisor){
+                                            req.flash('error', 'Something went wrong');
+                                        }
+                                    });
                                 }
+        
                             });
                         }
-
                     });
                 }
             });

@@ -132,6 +132,33 @@ middlewareObject.isScholar = (req,res,next) =>{
   }
 };
 
+// ADD SDC MEMBERS TO ARRAY
+middlewareObject.addSDC = (req,res,next) =>{
+    var sdcMem = sdcMem  = req.body.scholar.sdcMember.ID,
+        Id   = [],
+        Name = [];
+    for(var i = 0; i < sdcMem.length; i++){
+        Supervisor.findById({_id: sdcMem[i]}, function(err,foundSDC){
+            if(err || !foundSDC){
+                console.log(err);
+                req.flash('error',"Either SDC Member doesn't Exists or has been moved somewhere else!!");
+                res.redirect('back');
+            }
+
+            else {
+                Id.push(foundSDC._id);
+                if(foundSDC.middleName == null)
+                    Name.push(`${foundSDC.title}${foundSDC.firstName} ${foundSDC.lastName}`);          
+                else
+                    Name.push(`${foundSDC.title}${foundSDC.firstName} ${foundSDC.middleName} ${foundSDC.lastName}`);
+            }
+        });
+    }
+    req.Id   = Id
+    req.Name = Name
+    next();
+}
+
 
 module.exports = middlewareObject;
 
