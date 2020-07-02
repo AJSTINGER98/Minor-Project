@@ -10,6 +10,7 @@ var supervisorSchema = new mongoose.Schema({
     title        : String,
     firstName    : String,
     lastName     : String,
+    middleName     : String,
     email        : String,
     phone        : String,
     age          : Number,

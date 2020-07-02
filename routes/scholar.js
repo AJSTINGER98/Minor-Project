@@ -80,7 +80,7 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                         school: Sch.school,
                         supervisedBy : {
                             ID    : foundSupervisor._id,
-                            supBy : `${foundSupervisor.title}${foundSupervisor.firstName} ${foundSupervisor.lastName}`
+                            supBy : `${foundSupervisor.title} ${foundSupervisor.firstName} ${foundSupervisor.middleName} ${foundSupervisor.lastName}`
                         },
                         academicQ: [],
                         report: [],

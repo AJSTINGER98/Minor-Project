@@ -59,7 +59,6 @@ router.post('/upload/:person',middleware.isLoggedIn,middleware.isAdmin,(req,res)
                     return res.json({status:'error'});
                 } else {
                     // CREATE A SUPERVISOR ACCOUNT
-                    console.log(`${supervisor.firstName} Sup Added`);
                     const password = `${supervisor.firstName.toLowerCase()}#${supervisor.spID}`;
         
                     User.register(new User({
@@ -73,7 +72,7 @@ router.post('/upload/:person',middleware.isLoggedIn,middleware.isAdmin,(req,res)
                             
                             return res.json({status:'error'});
                         } else {
-                            console.log(`${supervisor.firstName} User Added`);
+                            
                             // SEND EMAIL TO  
                             // var smtpTransport = nodemailer.createTransport({
                             //     service: 'Gmail', 
