@@ -1,0 +1,30 @@
+<%- include ("partials/header") %>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 700px;">
+    <div class="row d-flex justify-content-center border border-dark h-50 w-75 text-center">
+        <div class="col-12 mb-4 mt-2">
+            <h2>Add Data</h2>
+        </div>
+        
+        <div class="col-12 form-group">
+            <form action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <select name="group" id="personSelect" class="form-control" required>
+                        <option value="supervisor">Supervisor</option>
+                        <option value="scholar">Scholar</option>
+                    </select>
+                </div>
+                <div class="custom-file h-50 mb-3"> 
+                    <input type="file" name="file" id="file" class="custom-file-input" accept=".xls,.xlsx" required>
+                    <label for="file" class="custom-file-label" placeholder = "Choose File"></label>
+                </div>
+                <div class="form-group w-100">
+                    <button class="btn btn-primary w-100 excel-btn" >Upload File</button>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+    
+</div>
+
+<%- include ("partials/footer") %>

@@ -21,11 +21,13 @@ router.get("/",(req,res)=>{
                 temp = {
                     _id: supervisor._id,
                     spID : supervisor.spID,
+                    title : supervisor.title,
                     firstName : supervisor.firstName,
+                    middleName: supervisor.middleName,
                     lastName : supervisor.lastName,
-                    age: supervisor.age,
+                    academicRole : supervisor.academicRole,
                     department: supervisor.department,
-                    FoE : supervisor.FoE,
+                    email : supervisor.email,
                 };
                 supervisorList.push(temp);
             });
@@ -57,6 +59,7 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                 image: undefined,
                 title: Sup.title,
                 firstName: Sup.firstName.trim(),
+                middleName: Sup.middleName.trim(),
                 lastName: Sup.lastName.trim(),
                 email: Sup.email.trim(),
                 phone: Sup.phone,
@@ -129,31 +132,31 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                         } else {
                             
                             // SEND EMAIL TO  
-                            var smtpTransport = nodemailer.createTransport({
-                                service: 'Gmail', 
-                                auth: {
-                                    user: 'phdportal1131@gmail.com',
-                                    pass: process.env.GMAILPW
-                                }
-                                });
-                            var mailOptions = {
-                                to: user.email,
-                                from: 'phdportal1131@gmail.com',
-                                subject: 'Phd Portal || Your Account has been Created',
-                                text:   `Dear ${supervisor.firstName},\n\n` +
-                                        'Your account in PhD Portal associated with Manipal University Jaipur has been created succesfully.\n'+
-                                        `Your account details are as follows:\n\n Username: ${user.username}\n Password: ${password}`+
-                                        '\n\nIt is recommended that you change your password once you have logged in.'+
-                                        '\n\nThanks& Regards\nPhD Portal (MUJ)'
-                            };
-                            smtpTransport.sendMail(mailOptions, function(err,info) {
-                                if(err || !info){
-                                    req.flash("warning","Entity Added !! Could not send email. Please send manually !!");
+                            // var smtpTransport = nodemailer.createTransport({
+                            //     service: 'Gmail', 
+                            //     auth: {
+                            //         user: 'phdportal1131@gmail.com',
+                            //         pass: process.env.GMAILPW
+                            //     }
+                            //     });
+                            // var mailOptions = {
+                            //     to: user.email,
+                            //     from: 'phdportal1131@gmail.com',
+                            //     subject: 'Phd Portal || Your Account has been Created',
+                            //     text:   `Dear ${supervisor.firstName},\n\n` +
+                            //             'Your account in PhD Portal associated with Manipal University Jaipur has been created succesfully.\n'+
+                            //             `Your account details are as follows:\n\n Username: ${user.username}\n Password: ${password}`+
+                            //             '\n\nIt is recommended that you change your password once you have logged in.'+
+                            //             '\n\nThanks& Regards\nPhD Portal (MUJ)'
+                            // };
+                            // smtpTransport.sendMail(mailOptions, function(err,info) {
+                            //     if(err || !info){
+                            //         req.flash("warning","Entity Added !! Could not send email. Please send manually !!");
 
-                                } else{
-                                    req.flash("success","Entity Added !! Email has been sent");
-                                }
-                            });
+                            //     } else{
+                            //         req.flash("success","Entity Added !! Email has been sent");
+                            //     }
+                            // });
                             req.flash("success","Entity Added Successfully...");
                             res.redirect("/supervisor");
                         }

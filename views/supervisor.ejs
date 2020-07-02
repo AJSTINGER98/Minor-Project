@@ -27,29 +27,23 @@
                     <tr>
                         <th>Supervisor ID</th>
                         <th>Name</th>
-                        <th>Age</th>
                         <th>Department</th>
-                        <th>Field of Expertise</th>
+                        <th>Designation</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
                 <tbody class="myTable">
                     <% supervisor.forEach(function(sup){ %>
                         <tr class="clickable-row" data-href= "/supervisor/<%= sup._id %>" style="cursor: pointer;">
                             <td><%=sup.spID%></td>
-                            <td><%sup.title%><%=sup.firstName%> <%=sup.lastName%></td>
-                            <td><%=sup.age%></td>
+                            <td><%=`${sup.title} ${sup.firstName} ${sup.middleName} ${sup.lastName}`%></td>
                             <td><%=sup.department%></td>
+                            <td><%=sup.academicRole%></td>
                             <td>
-                                <% sup.FoE.forEach(function(field){ %>
-                                    <span>
-                                        <%=field%>
-                                    <% if(field != sup.FoE[sup.FoE.length-1]){ %>
-                                        ,
-                                    <% } %>
-                                    </span>
-                                <% }); %>
+                                <%=sup.email%>
                                 <div class="d-inline-block float-right"><a class = "text-secondary" href="/supervisor/<%= sup._id %>"><i class="fas fa-chevron-right"></i></a></div>
                             </td>
+                            
                         </tr>
                     <% }); %>
                 </tbody>
@@ -74,7 +68,7 @@
                                     <br>    
                                     <!-- FIRST ROW -->
                                     <div class="form-row">
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-3">
                                             <label for="title">Title</label>
                                             <select id="title" class="form-control" name= "supervisor[title]" required>
                                                 <option selected>None</option>
@@ -84,11 +78,15 @@
                                                 <option>Dr.</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-3">
                                             <label for="input_fname">First Name</label>
                                             <input type="text" id="input_fname" class="form-control"  name= "supervisor[firstName]" required>
                                         </div>
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-3">
+                                            <label for="input_mname">Middle Name</label>
+                                            <input type="text" id="input_mname" class="form-control" name= "supervisor[middleName]">
+                                        </div>
+                                        <div class="form-group col-md-3">
                                             <label for="input_lname">Last Name</label>
                                             <input type="text" id="input_lname" class="form-control" name= "supervisor[lastName]" required>
                                         </div>

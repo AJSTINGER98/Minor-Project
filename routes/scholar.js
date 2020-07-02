@@ -67,7 +67,6 @@ router.post("/",middleware.addSDC,(req,res) =>{
                     console.log(err);
                     req.flash('error',"Either Co-Supervisor doesn't Exists or has been moved somewhere else!!");
                 }
-
                 else {
                     var Id   = req.Id,
                         Name = req.Name;
@@ -150,31 +149,31 @@ router.post("/",middleware.addSDC,(req,res) =>{
                                         } else {
         
                                             //SEND EMAIL TO SCHOLAR
-                                            var smtpTransport = nodemailer.createTransport({
-                                                service: 'Gmail', 
-                                                auth: {
-                                                    user: 'phdportal1131@gmail.com',
-                                                    pass: process.env.GMAILPW
-                                                }
-                                                });
-                                            var mailOptions = {
-                                                to: user.email,
-                                                from: 'phdportal1131@gmail.com',
-                                                subject: 'Phd Portal || Your Account has been Created',
-                                                text: `Dear ${scholar.firstName},\n\n` +
-                                                      'Your account in PhD Portal associated with Manipal University Jaipur has been created succesfully.\n'+
-                                                      `Your account details are as follows:\n\n Username: ${user.username}\n Password: ${password}`+
-                                                      '\n\nIt is recommended that you change your password once you have logged in.'+
-                                                      '\n\nThanks& Regards\nPhD Portal (MUJ)'
-                                            };
-                                            smtpTransport.sendMail(mailOptions, function(err,info) {
-                                                if(err || !info){
-                                                    req.flash("warning","Could not send email. Please send manually !!");
+                                            // var smtpTransport = nodemailer.createTransport({
+                                            //     service: 'Gmail', 
+                                            //     auth: {
+                                            //         user: 'phdportal1131@gmail.com',
+                                            //         pass: process.env.GMAILPW
+                                            //     }
+                                            //     });
+                                            // var mailOptions = {
+                                            //     to: user.email,
+                                            //     from: 'phdportal1131@gmail.com',
+                                            //     subject: 'Phd Portal || Your Account has been Created',
+                                            //     text: `Dear ${scholar.firstName},\n\n` +
+                                            //           'Your account in PhD Portal associated with Manipal University Jaipur has been created succesfully.\n'+
+                                            //           `Your account details are as follows:\n\n Username: ${user.username}\n Password: ${password}`+
+                                            //           '\n\nIt is recommended that you change your password once you have logged in.'+
+                                            //           '\n\nThanks& Regards\nPhD Portal (MUJ)'
+                                            // };
+                                            // smtpTransport.sendMail(mailOptions, function(err,info) {
+                                            //     if(err || !info){
+                                            //         req.flash("warning","Could not send email. Please send manually !!");
                                                     
-                                                } else{
-                                                    req.flash("success","Email has been sent");
-                                                }
-                                            });
+                                            //     } else{
+                                            //         req.flash("success","Email has been sent");
+                                            //     }
+                                            // });
                                             req.flash("success","Entity Added Successfully...");
                                             res.redirect("/scholar");
                                         }

@@ -11,6 +11,7 @@ var supervisorSchema = new mongoose.Schema({
     firstName    : String,
     middleName   : String,
     lastName     : String,
+    middleName     : String,
     email        : String,
     phone        : String,
     age          : Number,
