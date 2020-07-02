@@ -27,6 +27,7 @@ function newFunction() {
 
     // INCLUDE ADD/REMOVE FOR FOE
     $(function(){
+
     $(document).on('click', '.btn-foe-add', function(e){
         e.preventDefault();
         var controlForm = $('.controls .form-group:last'),
@@ -47,6 +48,16 @@ function newFunction() {
 
     // INCLUDE ADD/REMOVE FOR ACADEMICQ FIELDS
     $(function(){
+
+        $(document).ready(function(){
+            var academicForm = $('.academic');
+            academicForm.find('.academicField:not(:last) .addAQ')
+                .removeClass('addAQ').addClass('delAQ')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('REMOVE');
+
+        });
+
         $(document).on('click','.addAQ',function(e){
             e.preventDefault();
             var academicForm = $('.academic'),
@@ -68,6 +79,14 @@ function newFunction() {
 
     // INCLUDE ADD/REMOVE FOR EXPERIENCE
     $(function(){
+        $(document).ready(function(){
+            var experienceForm = $('.experience');
+            experienceForm.find('.experienceField:not(:last) .addEX')
+            .removeClass('addEX').addClass('delEX')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('REMOVE');    
+            
+        });
         $(document).on('click','.addEX',function(e){
             e.preventDefault();
             var experienceForm = $('.experience'),
@@ -89,14 +108,23 @@ function newFunction() {
 
     // INCLUDE ADD/REMOVE FOR RESEARCH
     $(function(){
+
+        $(document).ready(function(){
+            var researchForm = $('.research');
+            researchForm.find('.researchField:not(:last) .addRP')
+                .removeClass('addRP').addClass('delRP')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('REMOVE');
+        });
+
         $(document).on('click','.addRP',function(e){
             e.preventDefault();
             var researchForm = $('.research'),
                 researchEntry = $(this).parents('.researchField'),
                 newresearchEntry = $(researchEntry.clone()).appendTo(researchForm);
 
-                newresearchEntry.find('input').val('None');
-                newresearchEntry.find('select').val('');
+                newresearchEntry.find('input').val('');
+                newresearchEntry.find('select').val('None');
                 researchForm.find('.researchField:not(:last) .addRP')
                 .removeClass('addRP').addClass('delRP')
                 .removeClass('btn-success').addClass('btn-danger')
@@ -282,5 +310,67 @@ function newFunction() {
         $("#mainNavbar ul li a").first().css({
             marginRight: "13em"
         });    
-    } 
+    }
 
+    //Convert excel file to json 
+
+    $(document).ready(function(){
+
+        var uploadFile;
+
+        $('#file').change(function(e){
+            uploadFile = e.target.files[0];
+        });
+
+        
+
+
+        $(document).on('click','.excel-btn',function(e){
+            e.preventDefault();
+
+            if(uploadFile && (uploadFile.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'|| uploadFile.type == ' application/vnd.ms-excel')){
+                
+                var person = $('#personSelect option:selected').val();
+                var fileReader = new FileReader();
+                fileReader.onload = function(e) {
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                    // console.log(workbook);
+                    workbook.SheetNames.forEach(sheet =>{
+                        let rowObject = XLSX.utils.sheet_to_row_object_array(   
+                            workbook.Sheets[sheet]
+                        );
+
+                        $.ajax({
+                            url: `/seeds/upload/${person}`,
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(rowObject),
+                            
+                        })
+                        .done(function(data){
+                            if(data.status == 'success'){
+                                alert('Data Added');
+                            } else {
+                                alert('Data could not be added');
+                            }
+                        });
+                    });
+                    
+                };
+                fileReader.readAsBinaryString(uploadFile);
+            }
+            else{
+                console.log('no file added or file extension not valid');
+            }
+
+            
+        });
+    });
+
+
+    
+
+  

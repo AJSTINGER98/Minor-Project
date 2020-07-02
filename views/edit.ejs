@@ -95,7 +95,7 @@
 
             <% var options = ["Bachelor of Computer Applications (B.C.A)","Bachelor of Computer Science (B.C.S)","Bachelor of Education in AI (B.Ed.AI)","Bachelor of Electronic Science (B.E.S)","Bachelor of Engineering (B.E)","Bachelor of Science (B.Sc)","Bachelor of Science Education (B.S.E)","Bachelor of Science Bachelor of Education (B.Sc.B.Ed)","Bachelor of Technology (B.Tech)","Master of Computer Applications (M.C.A)","Master of Education (M.Ed)","Master of Science (M.Sc)","Master of Technology (M.Tech)","Post Graduate (PG)","Post Graduate Diploma (P.Diploma)","Doctor of Philosophy (Ph.D)"] %>
 
-            <% for(var i = 0 ; i < person["academicQ"].length ; i++){ %>
+            <% for(var i = 0 ; i < person["academicQ"].length+1 ; i++){ %>
 
                 <div class="form-group academicField">
                     <!-- FOURTH ROW -->
@@ -105,7 +105,7 @@
                             <select id="degree" class="form-control" name="academicQ[degree][]">
                                 <option>None</option>
                                 <% for ( var j = 0; j < options.length; j++ ){ %>
-                                    <% var isSelected = ( person.academicQ[i].degree == options[j] ) ? "selected" : ""; %>
+                                    <% var isSelected =  person.academicQ[i] ? (person.academicQ[i].degree == options[j]  ? "selected" : "") : "" %>
                                     <option value="<%=options[j]%>" <%= isSelected %>>
                                         <%= options[j] %>
                                     </option>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="specialisation">Specialisation</label>
-                            <input type="text" id="specialisation" class="form-control" name="academicQ[specialisation][]" value="<%= person.academicQ[i].specialisation %>">
+                            <input type="text" id="specialisation" class="form-control" name="academicQ[specialisation][]" value="<%= person.academicQ[i] ? person.academicQ[i].specialisation : '' %>">
                         </div>
                     </div>
                     
@@ -123,14 +123,14 @@
                     <div class="form-row">
                         <div class="form-group col-md-8">
                             <label for="institute">Institute</label>
-                            <input type="text" id="institute" class="form-control" name="academicQ[institute][]" value="<%= person.academicQ[i].institute %>" >
+                            <input type="text" id="institute" class="form-control" name="academicQ[institute][]" value="<%= person.academicQ[i] ? person.academicQ[i].institute : '' %>" >
                         </div>
                         <div class="form-group col-md-4">
                             <label for="inputYoC">Year of Completion</label>
                             <select id="inputYoC" class="form-control" name= "academicQ[yoc][]">
                                 <option>None</option>
                                 <% for(var j = new Date().getFullYear(); j>=new Date().getFullYear()-50; j--){ %> 
-                                    <% var isSelected = (person.academicQ[i].yoc == j ) ? "selected" : ""; %>
+                                    <% var isSelected = person.academicQ[i] ? ( person.academicQ[i].yoc == j  ? "selected" : "") : "" %>
                                     <option value="<%= j %>" <%= isSelected %>>
                                         <%= j %>
                                     </option> 
@@ -149,21 +149,21 @@
         </div>
 
         <!-- ----------------EXPERIENCE----------------- -->
-        <% if(person["experience"]){ %>
+        <% if(currentUser.isSupervisor){ %>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>EXPERIENCE</em></h5>
             <br>    
             <div class="experience">
 
-                <% for(var i = 0 ; i < person["experience"].length ; i++){ %>
+                <% for(var i = 0 ; i < person["experience"].length+1 ; i++){ %>
 
                     <div class="form-group experienceField">
                         <!-- SIXTH ROW -->
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="organization">Organization</label>
-                                <input type="text" id="organization" class="form-control"  name="experience[organisation][]" value="<%= person.experience[i].organisation %>">
+                                <input type="text" id="organization" class="form-control"  name="experience[organisation][]" value="<%= person.experience[i] ? person.experience[i].organisation : '' %>">
                             </div>
                         </div>
 
@@ -171,23 +171,23 @@
                         <div class="form-row">
                             <div class="form-group col-md-5">
                                 <label for="designation">Designation</label>
-                                <input type="text" id="designation" class="form-control" name="experience[designation][]" value="<%= person.experience[i].designation %>">
+                                <input type="text" id="designation" class="form-control" name="experience[designation][]" value="<%= person.experience[i] ? person.experience[i].designation : '' %>">
                             </div>
                             <div class="form-group col-md-5">
                                 <label for="role">Role</label>
-                                <input type="text" id="role" class="form-control" name="experience[role][]" value="<%= person.experience[i].role %>">
+                                <input type="text" id="role" class="form-control" name="experience[role][]" value="<%= person.experience[i] ? person.experience[i].role : '' %>">
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="tenure">Tenure</label>
                                 <select id="tenure" class="form-control" name= "experience[tenure][]">
                                     <option>None</option>
-                                    <% if(person.experience[i].tenure == "&lt; 1"){ %>
+                                    <% if(person.experience[i] && person.experience[i].tenure == "&lt; 1"){ %>
                                         <option value="&lt; 1" selected>&lt; 1</option>
                                     <% } else { %>
                                         <option value="&lt; 1">&lt; 1</option>
                                     <% } %>
                                     <% for(var j = 1; j< 40; j++){ %> 
-                                        <% var isSelected = (person.experience[i].tenure == j ) ? "selected" : ""; %>
+                                        <% var isSelected = person.experience[i] ? ((person.experience[i].tenure == j ) ? "selected" : "") : "" %>
                                         <option value="<%= j %>" <%= isSelected %>>
                                             <%= j %>
                                         </option> 
@@ -207,33 +207,33 @@
         <% } %>
         
         <!-- --------------------RESEARCH PROJECT---------------- -->
-        <% if(person["research"]){ %>
+        <% if(currentUser.isSupervisor){ %>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>RESEARCH PROJECT</em></h5>
             <br>
             <div class="research">  
 
-                <% for(var i =0 ; i < person["research"].length ; i++  ){ %>
+                <% for(var i =0 ; i < person["research"].length+1 ; i++  ){ %>
 
                     <div class="form-group researchField">
                         <!-- EIGHT ROW -->
                         <div class="form-row">
                             <div class="form-group col-md-9">
                                 <label for="project">Project Title</label>
-                                <input type="text" id="project" class="form-control" name="research[title][]" value="<%= person.research[i].title %>">
+                                <input type="text" id="project" class="form-control" name="research[title][]" value="<%= person.research[i] ? person.research[i].title : '' %>">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="duration">Duration</label>
                                 <select id="duration" class="form-control" name= "research[duration][]">
                                     <option>None</option>
-                                    <% if(person.research[i].duration == "&lt; 1"){ %>
+                                    <% if(person.research[i] && person.research[i].duration == "&lt; 1"){ %>
                                         <option value="&lt; 1" selected>&lt; 1</option>
                                     <% } else { %>
                                         <option value="&lt; 1">&lt; 1</option>
                                     <% } %>
                                     <% for(var j = 1; j<= 15 ; j++){ %> 
-                                        <% var isSelected = (person.research[i].duration == j ) ? "selected" : ""; %>
+                                        <% var isSelected = person.research[i] ? ((person.research[i].duration == j ) ? "selected" : "") : ""; %>
                                         <option value="<%= j %>" <%= isSelected %>>
                                             <%= j %>
                                         </option> 
@@ -246,15 +246,15 @@
                         <div class="form-row">
                             <div class="form-group col-md-5">
                                 <label for="agency">Funding Agency</label>
-                                <input type="text" id="agency" class="form-control" name="research[agency][]" value="<%= person.research[i].agency %>">
+                                <input type="text" id="agency" class="form-control" name="research[agency][]" value="<%= person.research[i] ? person.research[i].agency: '' %>">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="rolep">Role</label>
-                                <input type="text" id="rolep" class="form-control" name="research[role][]" value="<%= person.research[i].role %>">
+                                <input type="text" id="rolep" class="form-control" name="research[role][]" value="<%= person.research[i] ? person.research[i].role : '' %>">
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="amount">Amount(INR)</label>
-                                <input type="text" id="amount" class="form-control" name="research[amount][]" value="<%= person.research[i].amount %>">
+                                <input type="text" id="amount" class="form-control" name="research[amount][]" value="<%= person.research[i] ? person.research[i].amount : '' %>">
                             </div>
                         </div>
                         <!-- ADD BUTTON -->

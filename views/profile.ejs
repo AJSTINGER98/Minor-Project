@@ -150,18 +150,18 @@
                     </thead>
                     <tbody>
                         <% person.academicQ.forEach(function(field){ %>
-                            <% var str = field.degree %>
+                            <% var str = field.degree ? field.degree : ''%>
                             <tr>
                                 <th scope="row"><%= str.slice(str.indexOf("(") + 1, str.length - 1); %></th>
-                                <td><%= field.institute %></td>
-                                <td><%= field.specialisation %></td>
-                                <td><%= field.yoc %></td>
+                                <td><%= field.institute ? field.institute : ''%></td>
+                                <td><%= field.specialisation ? field.specialisation : '' %></td>
+                                <td><%= field.yoc ? field.yoc : ''%></td>
                             </tr>
                         <% }); %>
                     </tbody>
                 </table>
             </div>
-            <% if(person.experience && person['experience'][0]['organisation'].length != 0){ %>
+            <% if(currentUser.isSupervisor){ %>
                 <div id="info1" class="container">
                     <h5>EXPERIENCE</h5>
                     <table class="table table-hover profile-table-collapsible">
@@ -176,10 +176,10 @@
                         <tbody>
                             <% person.experience.forEach(function(field){ %>
                                 <tr>
-                                    <td><%= field.organisation %></td>
-                                    <td><%= field.designation %></td>
-                                    <td><%= field.role %></td>
-                                    <td><%= field.tenure %></td>
+                                    <td><%= field.organisation ? field.organisation : ''  %></td>
+                                    <td><%= field.designation ? field.designation : '' %></td>
+                                    <td><%= field.role ? field.role : '' %></td>
+                                    <td><%= field.tenure ? field.tenure : '' %></td>
                                 </tr>
                             <% }); %>
                         </tbody>
@@ -187,7 +187,7 @@
                 </div>
             <% } %>
 
-            <% if(person.research && person['research'][0]['title'].length != 0){ %>
+            <% if(currentUser.isSupervisor){ %>
                 <div id="info1" class="container">
                     <h5>RESEARCH PROJECT</h5>
                     <table class="table table-hover profile-table-collapsible">
@@ -203,11 +203,11 @@
                         <tbody>
                             <% person.research.forEach(function(field){ %>
                                 <tr>
-                                    <td><%= field.title %></td>
-                                    <td><%= field.duration %></td>
-                                    <td><%= field.agency %></td>
-                                    <td><%= field.role %></td>
-                                    <td><%= field.amount %></td>
+                                    <td><%= field.title ? field.title : '' %></td>
+                                    <td><%= field.duration ? field.duration : '' %></td>
+                                    <td><%= field.agency ? field.agency : '' %></td>
+                                    <td><%= field.role ? field.role : '' %></td>
+                                    <td><%= field.amount ? field.amount : '' %></td>
                                 </tr>
                             <% }); %>
                         </tbody>

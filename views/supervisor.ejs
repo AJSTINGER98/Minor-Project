@@ -27,29 +27,23 @@
                     <tr>
                         <th>Supervisor ID</th>
                         <th>Name</th>
-                        <th>Age</th>
                         <th>Department</th>
-                        <th>Field of Expertise</th>
+                        <th>Designation</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
                 <tbody class="myTable">
                     <% supervisor.forEach(function(sup){ %>
                         <tr class="clickable-row" data-href= "/supervisor/<%= sup._id %>" style="cursor: pointer;">
                             <td><%=sup.spID%></td>
-                            <td><%sup.title%><%=sup.firstName%> <%=sup.lastName%></td>
-                            <td><%=sup.age%></td>
+                            <td><%=`${sup.title} ${sup.firstName} ${sup.lastName}`%></td>
                             <td><%=sup.department%></td>
+                            <td><%=sup.academicRole%></td>
                             <td>
-                                <% sup.FoE.forEach(function(field){ %>
-                                    <span>
-                                        <%=field%>
-                                    <% if(field != sup.FoE[sup.FoE.length-1]){ %>
-                                        ,
-                                    <% } %>
-                                    </span>
-                                <% }); %>
+                                <%=sup.email%>
                                 <div class="d-inline-block float-right"><a class = "text-secondary" href="/supervisor/<%= sup._id %>"><i class="fas fa-chevron-right"></i></a></div>
                             </td>
+                            
                         </tr>
                     <% }); %>
                 </tbody>

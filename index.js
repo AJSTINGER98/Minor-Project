@@ -86,11 +86,13 @@ const profileRoute = require("./routes/profile");
 const schRoute     = require("./routes/scholar");
 const authRoute    = require("./routes/authentication");
 const resetRoute   = require("./routes/reset");
+const seedRoute   = require("./routes/seeds");
 
 // CALL ROUTES
 app.use("/supervisor",supRoute);
 app.use("/scholar",schRoute);
 app.use("/form",formRoute);
+app.use("/seeds",seedRoute);
 app.use("/",resetRoute);
 app.use("/",profileRoute);
 app.use("/",authRoute);

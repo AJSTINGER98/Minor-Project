@@ -117,32 +117,40 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     data = {
         email : req.body.email,
         phone : req.body.phone,
-        age   : req.body.age,
+        age   : req.body.age != 'None' ? req.body.age : undefined,
         academicQ : []
     };
-
+    var i;
     // Update Academic Qualifications (if any)
-    for(var i = 0; i < req.body.academicQ.degree.length;i++){
-        temp = {
-            degree        : req.body.academicQ.degree[i],
-            specialisation: req.body.academicQ.specialisation[i],
-            institute     : req.body.academicQ.institute[i],
-            yoc           : req.body.academicQ.yoc[i],
-        };
-        data.academicQ.push(temp);
+    
+    if(req.body.academicQ){
+        for(i = 0; i < req.body.academicQ.degree.length;i++){
+            temp = {
+                degree        : req.body.academicQ.degree[i] == 'None' || req.body.academicQ.degree[i] == '' ? null : req.body.academicQ.degree[i] ,
+                specialisation: req.body.academicQ.specialisation[i] == '' ? null : req.body.academicQ.specialisation[i],
+                institute     : req.body.academicQ.institute[i] == '' ? null : req.body.academicQ.institute[i],
+                yoc           : req.body.academicQ.yoc[i] == 'None' || req.body.academicQ.degree[i] == '' ? null : req.body.academicQ.yoc[i],
+            };
+            if(temp.degree || temp.specialisation || temp.institute || temp.yoc){
+                data.academicQ.push(temp);
+            }
+        }
     }
+    // console.log(data.academicQ);
 
     // Update Experience (if any)
     if(req.body.experience){
         data.experience = [];
         for(i = 0; i < req.body.experience.organisation.length;i++){
             temp = {
-                organisation: req.body.experience.organisation[i],
-                designation : req.body.experience.designation[i],
-                role        : req.body.experience.role[i],
-                tenure      : req.body.experience.tenure[i],
+                organisation: req.body.experience.organisation[i] == '' ? null : req.body.experience.organisation[i],
+                designation : req.body.experience.designation[i] == '' ? null : req.body.experience.designation[i],
+                role        : req.body.experience.role[i] == '' ? null : req.body.experience.role[i],
+                tenure      : req.body.experience.tenure[i] == 'None' ? null : req.body.experience.tenure[i],
             };
-            data.experience.push(temp);
+            if(temp.organisation || temp.designation || temp.role || temp.tenure){
+                data.experience.push(temp);
+            }
         }
     }
 
@@ -150,14 +158,17 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     if(req.body.research){
         data.research = [];
         for(i = 0; i < req.body.research.title.length;i++){
+
             temp = {
-                title   : req.body.research.title[i],
-                duration: req.body.research.duration[i],
-                agency  : req.body.research.agency[i],
-                role    : req.body.research.role[i],
-                amount  : req.body.research.amount[i],
+                title   : req.body.research.title[i] == '' ? null : req.body.research.title[i],
+                duration: req.body.research.duration[i] == 'None' ? null : req.body.research.duration[i],
+                agency  : req.body.research.agency[i] == '' ? null : req.body.research.agency[i],
+                role    : req.body.research.role[i] == '' ? null : req.body.research.role[i],
+                amount  : req.body.research.amount[i] == '' ? null : req.body.research.amount[i],
             };
-            data.research.push(temp);
+            if(temp.title || temp.duration || temp.agency || temp.role || temp.amount){
+                data.research.push(temp);
+            }
         }
     }
 
@@ -170,6 +181,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     if(req.params.person == "supervisor"){
         Supervisor.findByIdAndUpdate(req.params.id,{$set:data},function(err,updateSupervisor){
             if(err || !updateSupervisor){
+                console.log(err);
                 req.flash("error","Could Not Submit,Kindly Try Again!!");
                 res.redirect('/supervisor');
             } else {

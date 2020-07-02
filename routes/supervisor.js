@@ -21,11 +21,12 @@ router.get("/",(req,res)=>{
                 temp = {
                     _id: supervisor._id,
                     spID : supervisor.spID,
+                    title : supervisor.title,
                     firstName : supervisor.firstName,
                     lastName : supervisor.lastName,
-                    age: supervisor.age,
+                    academicRole : supervisor.academicRole,
                     department: supervisor.department,
-                    FoE : supervisor.FoE,
+                    email : supervisor.email,
                 };
                 supervisorList.push(temp);
             });
