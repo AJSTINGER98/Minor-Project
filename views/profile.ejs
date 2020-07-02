@@ -189,7 +189,7 @@
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.academicQ && person['academicQ'][0]['degree'].length != 0){ %>
+                <% if(person.academicQ && person['academicQ'].length != 0){ %>
                     <div id="info1" class="container">
                         <h5>ACADEMIC QUALIFICATION</h5>
                         <table class="table table-hover profile-table-collapsible">
@@ -217,7 +217,7 @@
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.experience && person['experience'][0]['organisation'].length != 0){ %>
+                <% if(person.experience && person['experience'].length != 0){ %>
                     <div id="info1" class="container">
                         <h5>EXPERIENCE</h5>
                         <table class="table table-hover profile-table-collapsible">
@@ -244,7 +244,7 @@
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.research && person['research'][0]['title'].length != 0){ %>
+                <% if(person.research && person['research'].length != 0){ %>
                     <div id="info1" class="container">
                         <h5>RESEARCH PROJECT</h5>
                         <table class="table table-hover profile-table-collapsible">
