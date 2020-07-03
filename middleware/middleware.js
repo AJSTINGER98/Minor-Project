@@ -148,16 +148,16 @@ middlewareObject.addSDC = (req,res,next) =>{
             else {
                 Id.push(foundSDC._id);
                 if(foundSDC.middleName == null)
-                    Name.push(`${foundSDC.title}${foundSDC.firstName} ${foundSDC.lastName}`);          
+                    Name.push(`${foundSDC.title} ${foundSDC.firstName} ${foundSDC.lastName}`);          
                 else
-                    Name.push(`${foundSDC.title}${foundSDC.firstName} ${foundSDC.middleName} ${foundSDC.lastName}`);
+                    Name.push(`${foundSDC.title} ${foundSDC.firstName} ${foundSDC.middleName} ${foundSDC.lastName}`);
             }
         });
     }
     req.Id   = Id;
     req.Name = Name;
     next();
-}
+};
 
 
 module.exports = middlewareObject;

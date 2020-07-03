@@ -117,13 +117,16 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     data = {
         email : req.body.email,
         phone : req.body.phone,
-        age   : req.body.age != 'None' ? req.body.age : undefined,
-        academicQ : []
     };
+    // Update Age
+    if(req.body.age){
+        data.age = req.body.age != 'None' ? req.body.age : undefined;
+    }
+
     var i;
     // Update Academic Qualifications (if any)
-    
     if(req.body.academicQ){
+        data.academicQ = [];
         for(i = 0; i < req.body.academicQ.degree.length;i++){
             temp = {
                 degree        : req.body.academicQ.degree[i] == 'None' || req.body.academicQ.degree[i] == '' ? null : req.body.academicQ.degree[i] ,
@@ -176,6 +179,11 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     if(req.body.FoE){
         data.FoE = req.body.FoE;
         data.FoE.splice(data.FoE.length-1, 1);
+    }
+
+    // Update Research Title
+    if(req.body.reschTitle){
+        data.reschTitle = req.body.reschTitle;
     }
 
     if(req.params.person == "supervisor"){

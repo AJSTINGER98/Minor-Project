@@ -84,6 +84,10 @@ html , body {
     height: 45%;
 }
 
+.col-md-9 a:hover{
+    text-decoration: none;
+}
+
 .delete{
     display: inline;
     margin-right: 10px;
@@ -129,7 +133,7 @@ html , body {
 }
 
 #info1 h5 span{
-    font-size: 0.9em;
+    font-size: 1em;
     font-weight: 100;
     font-family: 'Times New Roman', Times, serif;
 }
@@ -143,6 +147,7 @@ html , body {
 #info1 h5 a span{
     font-size: 1em;
     font-weight: 100;
+    font-family: 'Times New Roman', Times, serif;
     color: black;
 }
 
@@ -160,14 +165,12 @@ html , body {
     color: blue;
 }
 
-
 #info1 p a{
     color: black;
 }
 
 #info1 p a:hover{
     color: blue;
-    text-decoration: none;
 }
 
 #info1 p,ul{

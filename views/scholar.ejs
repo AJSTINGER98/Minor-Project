@@ -27,8 +27,8 @@
                         <th>Scholar ID</th>
                         <th>Name</th>
                         <th>Department</th>
-                        <th>Supervisor</th>
                         <th>Email</th>
+                        <th>Supervisor</th>
                     </tr>
                 </thead>
                 <tbody class="myTable">
@@ -36,14 +36,17 @@
                         <tr class="clickable-row" data-href= "/scholar/<%= sch._id %>" style="cursor: pointer;">
                             <td><%=sch.scID%></td>
                             <% if(sch.middleName == null) { %>
-                                <td><%sch.title%><%=sch.firstName%> <%=sch.lastName%></td>
+                                <td><%=sch.firstName%> <%=sch.lastName%></td>
                             <% } else { %>
-                                <td><%sch.title%><%=sch.firstName%> <%=sch.middleName%> <%=sch.lastName%></td>
+                                <td><%=sch.firstName%> <%=sch.middleName%> <%=sch.lastName%></td>
                             <% } %>
-                            <td><%=sch.department%></td>
-                            <td><%=sch.supervisor%></td>
                             <td>
-                                <%=sch.email%>
+                                <% var x = sch.department %>
+                                <%= x.slice(x.indexOf("(")+1,x.length-1) %>
+                            </td>
+                            <td><%=sch.email%></td>
+                            <td>
+                                <%=sch.supervisor%>
                                 <div class="d-inline-block float-right"><a class = "text-secondary" href="/scholar/<%= sch._id %>"><i class="fas fa-chevron-right"></i></a></div>
                             </td>
                         </tr>
@@ -115,9 +118,9 @@
                                             <label for="inputDep">Department</label>
                                             <select id="inputDep" class="form-control"  name= "scholar[department]" required>
                                                 <option selected>None</option>
-                                                <option>Computer Sicence & Engineering</option>
-                                                <option>Information Technology</option>
-                                                <option>Computer & Communication Engineering</option>
+                                                <option>Computer Sicence & Engineering(CSE)</option>
+                                                <option>Information Technology(IT)</option>
+                                                <option>Computer & Communication Engineering(CCE)</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
@@ -152,7 +155,7 @@
                                                 <div class="form-group col-md-4">
                                                     <label for="cosupervisor">Co-Supervisor (<em>if any</em>)</label>
                                                     <select id="cosupervisor" class="form-control" name= "scholar[cosupID]">
-                                                        <option selected>None</option>
+                                                        <option selected >None</option>
                                                         <% if(supervisor.length != 0){ %>
                                                             <% for(var i = 0; i<supervisor.length; i++){ %> 
                                                                 <option value="<%= supervisor[i]._id%>"><%= supervisor[i].title %> <%= supervisor[i].firstName %> <%= supervisor[i].lastName %></option> 
@@ -201,7 +204,7 @@
                                         <div class="form-row d-flex justify-content-center">
                                             <div class="form-group col-md-4">
                                                 <label for="sdc">Panel Members</label>
-                                                <select id="sdc" class="form-control">
+                                                <select id="sdc" class="form-control" required>
                                                     <option selected>None</option>
                                                     <% if(supervisor.length != 0){ %>
                                                         <% for(var i = 0; i<supervisor.length; i++){ %> 

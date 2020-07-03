@@ -20,42 +20,90 @@
                     <option selected><%= person.title %></option>
                 </select>
             </div>
-            <div class="form-group col-md-5">
+
+            <div class="form-group col-md-4">
                 <label for="input_fname">First Name</label>
                 <input type="text" id="input_fname" class="form-control"  name="firstName" value="<%= person.firstName %>" disabled>
             </div>
-            <div class="form-group col-md-5">
+            
+            <% var val = person.middleName %>
+            <% if(val == undefined) { %>
+                val = "";
+            <% } %>
+            <div class="form-group col-md-3">
+                <label for="input_lname">Last Name</label>
+                <input type="text" id="input_lname" class="form-control" name= "lastName" value="<%= val %>" disabled>
+            </div>
+
+            <div class="form-group col-md-3">
                 <label for="input_lname">Last Name</label>
                 <input type="text" id="input_lname" class="form-control" name= "lastName" value="<%= person.lastName %>" disabled>
             </div>
         </div>
 
-        <!-- SECOND ROW -->
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="email">Email</label>
-                <input type="email" id="email" class="form-control" name="email" value="<%= person.email %>" required>
+        <!---------- SECOND ROW --------->
+
+        <!-- PART ONE -->
+        <% if(path == 'supervisor'){ %>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" name="email" value="<%= person.email %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" class="form-control"  pattern=".{10}" name="phone" value="<%= person.phone %>" required>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputAge">Age</label>
+                    <select id="inputAge" class="form-control" name="age" required>
+                        <option>None</option>
+                        <% for(var i =20; i<=60; i++){ %> 
+                            <% var isSelected = (person.age == i ) ? "selected" : ""; %>
+                            <option value="<%= i %>" <%= isSelected %>>
+                                <%= i %>
+                            </option> 
+                        <% } %>
+                    </select>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                <label for="phone">Phone</label>
-                <input type="text" id="phone" class="form-control"  pattern=".{10}" name="phone" value="<%= person.phone %>" required>
+        <% } %>
+
+        <!-- PART TWO -->
+        <% if(path == 'scholar'){ %>
+            <div class="form-row">
+                <div class="form-group col-md-5">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" name="email" value="<%= person.email %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" class="form-control"  pattern=".{10}" name="phone" value="<%= person.phone %>" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="regNo">Registration No.</label>
+                    <input type="text" id="regNo" class="form-control" name="regNo" value="<%= person.scID %>" disabled>
+                </div>
             </div>
-            <div class="form-group col-md-2">
-                <label for="inputAge">Age</label>
-                <select id="inputAge" class="form-control" name="age" required>
-                    <option>None</option>
-                    <% for(var i =20; i<=60; i++){ %> 
-                        <% var isSelected = (person.age == i ) ? "selected" : ""; %>
-                        <option value="<%= i %>" <%= isSelected %>>
-                            <%= i %>
-                        </option> 
-                    <% } %>
-                </select>
-            </div>
-        </div>
+        <% } %>
+
 
         <!-- THIRD ROW -->
         <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="inputDep">Department</label>
+                <select id="inputDep" class="form-control"  name= "department" disabled>
+                    <option selected><%= person.department %></option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="inputSchool">School</label>
+                <select id="inputSchool" class="form-control" name= "school" disabled>
+                    <option selected><%= person.school %></option>
+                </select>
+            </div>
+
             <% if(person["academicRole"]){ %>
                 <div class="form-group col-md-4">
                     <label for="inputAcademic">Academic Role</label>
@@ -64,91 +112,82 @@
                     </select>
                 </div>
             <% } %>
-            <div class="form-group col-md-4">
-                <label for="inputDep">Department</label>
-                <select id="inputDep" class="form-control"  name= "department" disabled>
-                    <option selected><%= person.department %></option>
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputSchool">School</label>
-                <select id="inputSchool" class="form-control" name= "school" disabled>
-                    <option selected><%= person.school %></option>
-                </select>
-            </div>
+
             <% if(person["supervisedBy"]){ %>
                 <div class="form-group col-md-4">
-                    <label for="inputSchool">Supervisor</label>
-                    <select id="inputSchool" class="form-control" name= "supByID" disabled>
+                    <label for="supervisor">Supervisor</label>
+                    <select id="supervisor" class="form-control" name= "supByID" disabled>
                         <option selected><%= person.supervisedBy.supBy %></option>
                     </select>
                 </div>
             <% } %>
         </div>
 
-        <!-- ---------------ACADEMIC QUALIFICATION----------------- -->
-        <hr id="suphr">
-        <br>
-        <h5 id="title"><em>ACADEMIC QUALIFICATIONS</em></h5>
-        <br>
-        <div class="academic">
+        <!-- ---------------ACADEMIC QUALIFICATION(SUPERVISOR)----------------- -->
+        <% if(currentUser.isSupervisor){ %>
+            <hr id="suphr">
+            <br>
+            <h5 id="title"><em>ACADEMIC QUALIFICATIONS</em></h5>
+            <br>
+            <div class="academic">
 
-            <% var options = ["Bachelor of Computer Applications (B.C.A)","Bachelor of Computer Science (B.C.S)","Bachelor of Education in AI (B.Ed.AI)","Bachelor of Electronic Science (B.E.S)","Bachelor of Engineering (B.E)","Bachelor of Science (B.Sc)","Bachelor of Science Education (B.S.E)","Bachelor of Science Bachelor of Education (B.Sc.B.Ed)","Bachelor of Technology (B.Tech)","Master of Computer Applications (M.C.A)","Master of Education (M.Ed)","Master of Science (M.Sc)","Master of Technology (M.Tech)","Post Graduate (PG)","Post Graduate Diploma (P.Diploma)","Doctor of Philosophy (Ph.D)"] %>
+                <% var options = ["Bachelor of Computer Applications (B.C.A)","Bachelor of Computer Science (B.C.S)","Bachelor of Education in AI (B.Ed.AI)","Bachelor of Electronic Science (B.E.S)","Bachelor of Engineering (B.E)","Bachelor of Science (B.Sc)","Bachelor of Science Education (B.S.E)","Bachelor of Science Bachelor of Education (B.Sc.B.Ed)","Bachelor of Technology (B.Tech)","Master of Computer Applications (M.C.A)","Master of Education (M.Ed)","Master of Science (M.Sc)","Master of Technology (M.Tech)","Post Graduate (PG)","Post Graduate Diploma (P.Diploma)","Doctor of Philosophy (Ph.D)"] %>
 
-            <% for(var i = 0 ; i < person["academicQ"].length+1 ; i++){ %>
+                <% for(var i = 0 ; i < person["academicQ"].length+1 ; i++){ %>
 
-                <div class="form-group academicField">
-                    <!-- FOURTH ROW -->
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="degree">Degree/Title</label>
-                            <select id="degree" class="form-control" name="academicQ[degree][]">
-                                <option>None</option>
-                                <% for ( var j = 0; j < options.length; j++ ){ %>
-                                    <% var isSelected =  person.academicQ[i] ? (person.academicQ[i].degree == options[j]  ? "selected" : "") : "" %>
-                                    <option value="<%=options[j]%>" <%= isSelected %>>
-                                        <%= options[j] %>
-                                    </option>
-                                <% } %>
-                            </select>
+                    <div class="form-group academicField">
+                        <!-- FOURTH ROW -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="degree">Degree/Title</label>
+                                <select id="degree" class="form-control" name="academicQ[degree][]">
+                                    <option>None</option>
+                                    <% for ( var j = 0; j < options.length; j++ ){ %>
+                                        <% var isSelected =  person.academicQ[i] ? (person.academicQ[i].degree == options[j]  ? "selected" : "") : "" %>
+                                        <option value="<%=options[j]%>" <%= isSelected %>>
+                                            <%= options[j] %>
+                                        </option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="specialisation">Specialisation</label>
+                                <input type="text" id="specialisation" class="form-control" name="academicQ[specialisation][]" value="<%= person.academicQ[i] ? person.academicQ[i].specialisation : '' %>">
+                            </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="specialisation">Specialisation</label>
-                            <input type="text" id="specialisation" class="form-control" name="academicQ[specialisation][]" value="<%= person.academicQ[i] ? person.academicQ[i].specialisation : '' %>">
+                        
+        
+                        <!-- FIFTH ROW -->
+                        <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <label for="institute">Institute</label>
+                                <input type="text" id="institute" class="form-control" name="academicQ[institute][]" value="<%= person.academicQ[i] ? person.academicQ[i].institute : '' %>" >
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputYoC">Year of Completion</label>
+                                <select id="inputYoC" class="form-control" name= "academicQ[yoc][]">
+                                    <option>None</option>
+                                    <% for(var j = new Date().getFullYear(); j>=new Date().getFullYear()-50; j--){ %> 
+                                        <% var isSelected = person.academicQ[i] ? ( person.academicQ[i].yoc == j  ? "selected" : "") : "" %>
+                                        <option value="<%= j %>" <%= isSelected %>>
+                                            <%= j %>
+                                        </option> 
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- ADD BUTTON -->
+                        <div class="container d-flex justify-content-end pr-0">
+                            <button class="btn btn-primary addAQ px-4 py-1">ADD</button>
                         </div>
                     </div>
-                    
-    
-                    <!-- FIFTH ROW -->
-                    <div class="form-row">
-                        <div class="form-group col-md-8">
-                            <label for="institute">Institute</label>
-                            <input type="text" id="institute" class="form-control" name="academicQ[institute][]" value="<%= person.academicQ[i] ? person.academicQ[i].institute : '' %>" >
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="inputYoC">Year of Completion</label>
-                            <select id="inputYoC" class="form-control" name= "academicQ[yoc][]">
-                                <option>None</option>
-                                <% for(var j = new Date().getFullYear(); j>=new Date().getFullYear()-50; j--){ %> 
-                                    <% var isSelected = person.academicQ[i] ? ( person.academicQ[i].yoc == j  ? "selected" : "") : "" %>
-                                    <option value="<%= j %>" <%= isSelected %>>
-                                        <%= j %>
-                                    </option> 
-                                <% } %>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <!-- ADD BUTTON -->
-                    <div class="container d-flex justify-content-end pr-0">
-                        <button class="btn btn-primary addAQ px-4 py-1">ADD</button>
-                    </div>
-                </div>
-            <% } %>
+                <% } %>
 
-        </div>
+            </div>
+        <% } %>
 
-        <!-- ----------------EXPERIENCE----------------- -->
+        <!-- ----------------EXPERIENCE(SUPERVISOR)----------------- -->
         <% if(currentUser.isSupervisor){ %>
             <hr id="suphr">
             <br>
@@ -206,7 +245,7 @@
             </div>
         <% } %>
         
-        <!-- --------------------RESEARCH PROJECT---------------- -->
+        <!-- --------------------RESEARCH PROJECT(SUPERVISOR)---------------- -->
         <% if(currentUser.isSupervisor){ %>
             <hr id="suphr">
             <br>
@@ -268,7 +307,7 @@
             </div>
         <% } %>
 
-        <!-- ----------------------FOE---------------------- -->
+        <!-- ----------------------FOE(SUPERVISOR)---------------------- -->
         <% if(person["FoE"]){ %>
             <hr id="suphr">
             <br>
@@ -304,6 +343,75 @@
                     </div>
                     
             </div>
+        <% } %>
+
+        <% if(path == 'scholar') { %>
+
+            <!-- -----------------ADDITIONAL INFO(SCHOLAR)--------------------- -->
+            <hr id="suphr">
+            <br>
+            <h5 id="title"><em>ADDITIONAL INFORMATION</em></h5>
+            <br>
+            <div class="additonal">
+                <div class="form-group additonalField">
+                    <!-- FOURTH ROW -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="cosupervisor">Co-Supervisor (<em>if any</em>)</label>
+                            <select id="cosupervisor" class="form-control" name= "cosup" disabled>
+                                <option selected><%= person.cosupervisor.cosup %></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="mode">Mode of Ph.D</label>
+                            <select id="mode" class="form-control" name= "mode" disabled>
+                                <option selected><%= person.mode %></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="registerDate">Registration Date</label>
+                            <input type="date" id="registerDate" class="form-control" name="regDate" value="<%= person.regDate %>" disabled>
+                        </div>
+                    </div>
+                    
+                    <!-- FIFTH ROW -->
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="research">Title of Research</label>
+                            <input type="text" id="research" class="form-control" name="reschTitle" value="<%= person.reschTitle %>" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ------------------SDC MEMBER LIST--------------------- -->
+            <hr id="suphr">
+            <br>
+            <h5 id="title"><em>SDC MEMBERS</em></h5>
+            <br>
+            <div class="sdcMember">
+                <div class="form-row d-flex justify-content-center">
+                    <div class="form-group col-md-4">
+                        <label for="sdc">Panel Members</label>
+                        <select id="sdc" class="form-control" name="sdc" disabled>
+                            <option selected>None</option>
+                        </select>
+                    </div>
+                </div>
+                <% for(var i = 0; i < person['sdcMember'].length ; i++ ){ %>
+                    <div class = "form-row d-flex justify-content-center my-2">
+                        <div class="input-group col-md-4">
+                            <input type = "text" class = "form-control" name = "dispName" value="<%= person.sdcMember[i].name %>" disabled>
+                            <span class="input-group-append">
+                                <button class="btn btn-danger btn-sdc-rem" type="button" disabled>
+                                    <i class="fas fa-minus"></i>   
+                                </button>                                       
+                            </span>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+
         <% } %>
 
         <!-- ----------------------SUBMIT BUTTON -------------------------- -->

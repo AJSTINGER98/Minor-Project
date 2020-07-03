@@ -83,7 +83,8 @@
             <div class="row">
                 <div id="info" class="col-md-6">
                     <p>
-                        Department of <%= person.department %><br>
+                        <% var x = person.department %>
+                        Department of <%= x.slice(0,x.indexOf("(")) %><br>
                         <%= person.school %>
                     </p>
                 </div>
@@ -95,8 +96,7 @@
                                     <em><span><%= person.email %></span></em><br>
                                 </a>
                         <i class="fas fa-phone-alt pr-1"></i>
-                        Phone - <strong>+91</strong> - 
-                                <a href="tel:<%= person.phone %>">
+                        Phone - <a href="tel:<%= person.phone %>">
                                     <span><%= person.phone %></span>
                                 </a>
                     </p>
@@ -130,13 +130,15 @@
                             </a>
                         </h5>
                     </div>
-                    <div id="info1" class="container py-2 col-md-6" style="margin-left: -14px;">
-                        <h5>CO-SUPERVISED BY : 
-                            <a href="/supervisor/<%= person.cosupervisor.ID %>">
-                                <span><%= person.cosupervisor.cosup %></span>
-                            </a>
-                        </h5>
-                    </div>
+                    <% if(person.cosupervisor.cosup != null){ %>
+                        <div id="info1" class="container py-2 col-md-6" style="margin-left: -14px;">
+                            <h5>CO-SUPERVISED BY : 
+                                <a href="/supervisor/<%= person.cosupervisor.ID %>">
+                                    <span><%= person.cosupervisor.cosup %></span>
+                                </a>
+                            </h5>
+                        </div>
+                    <% } %>
                 </div>
 
                 <hr style="padding-bottom: 20px; width: 50%;">
@@ -189,7 +191,7 @@
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.academicQ && person['academicQ'].length != 0){ %>
+                <% if(person.academicQ && person['academicQ'][0]['degree'].length != 0){ %>
                     <div id="info1" class="container">
                         <h5>ACADEMIC QUALIFICATION</h5>
                         <table class="table table-hover profile-table-collapsible">
@@ -217,7 +219,7 @@
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.experience && person['experience'].length != 0){ %>
+                <% if(person.experience && person['experience'][0]['organisation'].length != 0){ %>
                     <div id="info1" class="container">
                         <h5>EXPERIENCE</h5>
                         <table class="table table-hover profile-table-collapsible">
@@ -244,7 +246,7 @@
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.research && person['research'].length != 0){ %>
+                <% if(person.research && person['research'][0]['title'].length != 0){ %>
                     <div id="info1" class="container">
                         <h5>RESEARCH PROJECT</h5>
                         <table class="table table-hover profile-table-collapsible">

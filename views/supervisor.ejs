@@ -36,8 +36,15 @@
                     <% supervisor.forEach(function(sup){ %>
                         <tr class="clickable-row" data-href= "/supervisor/<%= sup._id %>" style="cursor: pointer;">
                             <td><%=sup.spID%></td>
-                            <td><%=`${sup.title} ${sup.firstName} ${sup.middleName} ${sup.lastName}`%></td>
-                            <td><%=sup.department%></td>
+                            <% if(sup.middleName == null) { %>
+                                <td><%=sup.title%> <%=sup.firstName%> <%=sup.lastName%></td>
+                            <% } else { %>
+                                <td><%=sup.title%> <%=sup.firstName%> <%=sup.middleName%> <%=sup.lastName%></td>
+                            <% } %>
+                            <td>
+                                <% var x = sup.department %>
+                                <%= x.slice(x.indexOf("(")+1,x.length-1) %>
+                            </td>
                             <td><%=sup.academicRole%></td>
                             <td>
                                 <%=sup.email%>
@@ -116,6 +123,22 @@
                                     <!-- THIRD ROW -->
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
+                                            <label for="inputDep">Department</label>
+                                            <select id="inputDep" class="form-control"  name= "supervisor[department]" required>
+                                                <option selected>None</option>
+                                                <option>Computer Sicence & Engineering(CSE)</option>
+                                                <option>Information Technology(IT)</option>
+                                                <option>Computer & Communication Engineering(CCE)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="inputSchool">School</label>
+                                            <select id="inputSchool" class="form-control" name= "supervisor[school]" required>
+                                                <option selected>None</option>
+                                                <option>School of Computing &  Information Technology</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
                                             <label for="inputAcademic">Academic Role</label>
                                             <select id="inputAcademic" class="form-control" name= "supervisor[academicRole]" required>
                                                 <option selected>None</option>
@@ -127,22 +150,6 @@
                                                 <option>Associate Professor</option>
                                                 <option>Assistant Professor</option>
                                                 <option>Adhoc</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="inputDep">Department</label>
-                                            <select id="inputDep" class="form-control"  name= "supervisor[department]" required>
-                                                <option selected>None</option>
-                                                <option>Computer Sicence & Engineering</option>
-                                                <option>Information Technology</option>
-                                                <option>Computer & Communication Engineering</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="inputSchool">School</label>
-                                            <select id="inputSchool" class="form-control" name= "supervisor[school]" required>
-                                                <option selected>None</option>
-                                                <option>School of Computing &  Information Technology</option>
                                             </select>
                                         </div>
                                     </div>
