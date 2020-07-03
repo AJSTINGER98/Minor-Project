@@ -81,7 +81,7 @@ html , body {
     background-position: center;
     background-repeat: no-repeat;
     margin-top: 48px;
-    height: 45%;
+    height: 45vh;
 }
 
 .col-md-9 a:hover{
@@ -226,7 +226,7 @@ opacity:0.2;
     }
     #back{
         margin-top: 50px;
-        height: 25%;
+        height: 25vh;
     }
 }
 
@@ -245,7 +245,7 @@ opacity:0.2;
     }
     #back{
         margin-top: 50px;
-        height: 23%;
+        height: 23vh;
         width: 100%;
     }
     #profileView .col-md-3{
@@ -439,3 +439,19 @@ opacity:0.2;
         width: 50%;
     }
 } 
+
+.page {
+    visibility: hidden;
+    transition: visibility 0.5s;
+}
+
+.page-loader {
+    height: 100vh; 
+    width: 100vh;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; 
+}

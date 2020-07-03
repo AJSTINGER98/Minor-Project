@@ -126,5 +126,15 @@
     $('#resetPassword').on('hidden.bs.modal', function () {
         history.pushState(null, null, "/login");
     });
+
 });
+
+$(window).on('load', function(){
+        setTimeout(() =>{
+            $('.page-loader').css('display','none');
+            $('.page').css('visibility','visible');
+        },1000);
+    });
 </script>
+</body>
+</html>   
