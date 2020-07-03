@@ -36,11 +36,7 @@
                     <% supervisor.forEach(function(sup){ %>
                         <tr class="clickable-row" data-href= "/supervisor/<%= sup._id %>" style="cursor: pointer;">
                             <td><%=sup.spID%></td>
-                            <% if(sup.middleName == null) { %>
-                                <td><%=sup.title%> <%=sup.firstName%> <%=sup.lastName%></td>
-                            <% } else { %>
-                                <td><%=sup.title%> <%=sup.firstName%> <%=sup.middleName%> <%=sup.lastName%></td>
-                            <% } %>
+                            <td><%= `${sup.title} ${sup.firstName} ${sup.middleName} ${sup.lastName}` %></td>
                             <td>
                                 <% var x = sup.department %>
                                 <%= x.slice(x.indexOf("(")+1,x.length-1) %>

@@ -73,11 +73,7 @@
     
         <div class="col-md-9 pl-1 pr-5">
             <div id="info">
-                <% if(person.middleName == null){ %>
-                    <h1 class="display-4"><%= person.title %><%= person.firstName %> <%= person.lastName %></h1>
-                <% } else { %>
-                    <h1 class="display-4"><%= person.title %><%= person.firstName %> <%= person.middleName %> <%= person.lastName %></h1>
-                <% } %> 
+                <h1 class="display-4"><%= `${person.title} ${person.firstName} ${person.middleName} ${person.lastName}` %></h1>
                 <h6><%= person.academicRole %></h6>
             </div>
             <div class="row">
@@ -167,6 +163,7 @@
 
             <!-- SUPERVISOR PAGE -->
             <% if(path == 'supervisor'){ %>
+            <%if(person.schUnder && person.schUnder.length != 0){%>
                 <div id="info1" class="container py-2">
                     <h5>SCHOLARS UNDER</h5>
                     <ul style="list-style-type:disc; margin-left:20px;">
@@ -178,20 +175,23 @@
                     </ul>
                 </div>
                 <hr style="padding-bottom: 20px; width: 50%;">
+            <%}%>
 
-                <% if(person.FoE) { %>
+                <% if(person.FoE && person.FoE.length != 0) { %>
                     <div id="info1" class="container">
                         <h5>FIELD OF EXPERTISE </h5>
                         <ul style="list-style-type:square; margin-left:20px;">
                             <% person.FoE.forEach(function(field){ %>
+                            <%if(field != ""){%>
                                 <li><%= field %></li>
+                            <%}%>
                             <% }); %>
                         </ul>
                     </div>
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.academicQ && person['academicQ'][0]['degree'].length != 0){ %>
+                <% if(person.academicQ && person.academicQ.length != 0){ %>
                     <div id="info1" class="container">
                         <h5>ACADEMIC QUALIFICATION</h5>
                         <table class="table table-hover profile-table-collapsible">
@@ -219,7 +219,7 @@
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.experience && person['experience'][0]['organisation'].length != 0){ %>
+                <% if(person.experience && person.experience.length != 0){ %>
                     <div id="info1" class="container">
                         <h5>EXPERIENCE</h5>
                         <table class="table table-hover profile-table-collapsible">
@@ -246,7 +246,7 @@
                     <hr style="padding-bottom: 20px; width: 50%;">
                 <% } %>
 
-                <% if(person.research && person['research'][0]['title'].length != 0){ %>
+                <% if(person.research && person.research.length != 0){ %>
                     <div id="info1" class="container">
                         <h5>RESEARCH PROJECT</h5>
                         <table class="table table-hover profile-table-collapsible">

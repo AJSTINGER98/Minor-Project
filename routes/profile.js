@@ -125,6 +125,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
 
     var i;
     // Update Academic Qualifications (if any)
+
     if(req.body.academicQ){
         data.academicQ = [];
         for(i = 0; i < req.body.academicQ.degree.length;i++){
@@ -176,9 +177,8 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     }
 
     // Update FoE
-    if(req.body.FoE){
-        data.FoE = req.body.FoE;
-        data.FoE.splice(data.FoE.length-1, 1);
+    if(req.body.FoE && req.body.FoE.length != 0){
+        data.FoE = req.body.FoE.filter(field => field != '');
     }
 
     // Update Research Title

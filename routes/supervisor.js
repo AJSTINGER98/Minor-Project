@@ -59,7 +59,7 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                 image: undefined,
                 title: Sup.title,
                 firstName: Sup.firstName.trim(),
-                middleName: Sup.middleName.trim(),
+                middleName: Sup.middleName ? Sup.middleName.trim() : "",
                 lastName: Sup.lastName.trim(),
                 email: Sup.email.trim(),
                 phone: Sup.phone,
@@ -70,44 +70,55 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
                 academicQ: [],
                 experience: [],
                 research: [], 
-                FoE: Sup.FoE,
+                FoE: Sup.FoE ? Sup.FoE.filter(field => field != "") : [],
             };
 
+            var i;
             // Create array of object of Academic Qualifications
-            for(var i = 0; i < Sup.academicQ.degree.length;i++){
-                temp = {
-                    degree: Sup.academicQ.degree[i],
-                    specialisation: Sup.academicQ.specialisation[i],
-                    institute: Sup.academicQ.institute[i],
-                    yoc: Sup.academicQ.yoc[i],
-                };
-                
-                supData.academicQ.push(temp);
+            if(Sup.academicQ){
+                for(i = 0; i < Sup.academicQ.degree.length;i++){
+                    temp = {
+                        degree        : Sup.academicQ.degree[i] == 'None' || Sup.academicQ.degree[i] == '' ? null : Sup.academicQ.degree[i] ,
+                        specialisation: Sup.academicQ.specialisation[i] == '' ? null : Sup.academicQ.specialisation[i],
+                        institute     : Sup.academicQ.institute[i] == '' ? null : Sup.academicQ.institute[i],
+                        yoc           : Sup.academicQ.yoc[i] == 'None' || Sup.academicQ.degree[i] == '' ? null : sup.academicQ.yoc[i],
+                    };
+                    if(temp.degree || temp.specialisation || temp.institute || temp.yoc){
+                        supData.academicQ.push(temp);
+                    }
+                }
+
+            }
+            if(Sup.experience){
+                // Create array of object of Experiences
+                for(i = 0; i < Sup.experience.organisation.length;i++){
+                    temp = {
+                        organisation: Sup.experience.organisation[i] == '' ? null : Sup.experience.organisation[i],
+                        designation : Sup.experience.designation[i] == '' ? null : Sup.experience.designation[i],
+                        role        : Sup.experience.role[i] == '' ? null : Sup.experience.role[i],
+                        tenure      : Sup.experience.tenure[i] == 'None' ? null : Sup.experience.tenure[i],
+                    };
+                    if(temp.organisation || temp.designation || temp.role || temp.tenure){
+                        supData.experience.push(temp);
+                    }
+                }
             }
 
-            // Create array of object of Experiences
-            for(i = 0; i < Sup.experience.organisation.length;i++){
-                temp = {
-                    organisation: Sup.experience.organisation[i],
-                    designation: Sup.experience.designation[i],
-                    role: Sup.experience.role[i],
-                    tenure: Sup.experience.tenure[i],
-                };
-                
-                supData.experience.push(temp);
-            }
+            if(Sup.research){
+                // Create array of object of Research
+                for(i = 0; i < Sup.research.title.length;i++){
+                    temp = {
+                    title   : Sup.research.title[i] == '' ? null : Sup.research.title[i],
+                    duration: Sup.research.duration[i] == 'None' ? null : Sup.research.duration[i],
+                    agency  : Sup.research.agency[i] == '' ? null : Sup.research.agency[i],
+                    role    : Sup.research.role[i] == '' ? null : Sup.research.role[i],
+                    amount  : Sup.research.amount[i] == '' ? null : Sup.research.amount[i],
+                    };
+                    if(temp.title || temp.duration || temp.agency || temp.role || temp.amount){
+                        supData.research.push(temp);
+                    }
+                }
 
-            // Create array of object of Research
-            for(i = 0; i < Sup.research.title.length;i++){
-                temp = {
-                    title: Sup.research.title[i],
-                    duration: Sup.research.duration[i],
-                    agency: Sup.research.agency[i],
-                    role: Sup.research.role[i],
-                    amount: Sup.research.amount[i],
-                };
-
-                supData.research.push(temp);
             }
 
             // ADD CONTENT TO DATABASE

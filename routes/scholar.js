@@ -67,7 +67,7 @@ router.post("/",middleware.addSDC,(req,res) =>{
                 try{
                     if(mongoose.Types.ObjectId.isValid(cosupBy))
                         bool = true;
-                } catch(err){
+                } catch(error){
                     if(cosupBy == 'None')
                         bool = false;
                     else{
@@ -88,7 +88,7 @@ router.post("/",middleware.addSDC,(req,res) =>{
                             image        : undefined,
                             title        : Sch.title,
                             firstName    : Sch.firstName.trim(),
-                            middleName   : Sch.middleName.trim(),
+                            middleName   : Sch.middleName ? Sch.middleName : "",
                             lastName     : Sch.lastName.trim(),
                             email        : Sch.email.trim(),
                             phone        : Sch.phone,
@@ -187,17 +187,13 @@ router.post("/",middleware.addSDC,(req,res) =>{
                                         res.redirect("/scholar");
                                     }
                                 });
-
-                                var test = false;
-                                if(scholar.middleName == null)
-                                    test = true;
     
                                 // ADD SCHOLARS ASSOCIATED TO SUPERVISORS in SUPERVISOR DB
                                 Supervisor.findByIdAndUpdate(foundSupervisor._id,
                                     {$push: {
                                         'schUnder':{
                                             ID  : scholar._id,
-                                            sch : test ? `${scholar.firstName} ${scholar.lastName}` : `${scholar.firstName} ${scholar.middleName} ${scholar.lastName}`
+                                            sch : scholar.middleName == ''? `${scholar.firstName} ${scholar.lastName}` : `${scholar.firstName} ${scholar.middleName} ${scholar.lastName}`
                                         }
                                     }},{safe: true , upsert:true},function(err,updatedSupervisor){
                                     if(err || !updatedSupervisor){
