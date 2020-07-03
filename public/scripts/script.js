@@ -1,6 +1,44 @@
 // Global Declaration path Url.
 
 // ------------Supervisor.ejs------------------
+function onPageLoad(){
+    $(window).on('load', function(){
+        setTimeout(() =>{
+            $('.page-loader').css('display','none');
+            $('.page').css('visibility','visible');
+        },1000);
+    });
+
+    /* REMOVE NAVBAR DROPDOWN ON MOBILE VIEW  */
+
+    $(document).ready(function(){
+        
+        if($(window).width() <= 976){
+            $('#navbarDropdownMobile').show();
+            $('#navbarDropdownWeb').hide();
+            $("#myNavLinkItem a").removeClass('effect');
+            
+        } else {
+            $('#navbarDropdownMobile').hide();
+            $('#navbarDropdownWeb').show();
+            $("#myNavLinkItem a").addClass('effect');
+        }
+        $(window).resize(function() {
+
+            if ($(this).width() <= 976) {
+                $('#navbarDropdownMobile').show();
+                $('#navbarDropdownWeb').hide();
+                $("#myNavLinkItem a").removeClass('effect');
+            } else {
+                $('#navbarDropdownMobile').hide();
+                $('#navbarDropdownWeb').show();
+                $("#myNavLinkItem a").addClass('effect');
+              } 
+          });
+    });
+
+}
+onPageLoad();
 newFunction();
 function newFunction() {
     $(document).ready(function () {
@@ -176,33 +214,7 @@ function newFunction() {
         
     });
 
-    /* REMOVE NAVBAR DROPDOWN ON MOBILE VIEW  */
-
-    $(document).ready(function(){
-        
-        if($(window).width() <= 976){
-            $('#navbarDropdownMobile').show();
-            $('#navbarDropdownWeb').hide();
-            $("#myNavLinkItem a").removeClass('effect');
-            
-        } else {
-            $('#navbarDropdownMobile').hide();
-            $('#navbarDropdownWeb').show();
-            $("#myNavLinkItem a").addClass('effect');
-        }
-        $(window).resize(function() {
-
-            if ($(this).width() <= 976) {
-                $('#navbarDropdownMobile').show();
-                $('#navbarDropdownWeb').hide();
-                $("#myNavLinkItem a").removeClass('effect');
-            } else {
-                $('#navbarDropdownMobile').hide();
-                $('#navbarDropdownWeb').show();
-                $("#myNavLinkItem a").addClass('effect');
-              } 
-          });
-    });
+    
 
     // ----------------------SHOW/HIDE PASSWORD--------------------------
     $(function(){

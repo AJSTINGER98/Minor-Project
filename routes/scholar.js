@@ -105,15 +105,15 @@ router.post("/",middleware.addSDC,(req,res) =>{
 
                             // SUPERVISED BY
                             if(foundSupervisor.middleName == null)
-                                schData.supervisedBy.supBy = `${foundSupervisor.title}${foundSupervisor.firstName} ${foundSupervisor.lastName}`
+                                schData.supervisedBy.supBy = `${foundSupervisor.title}${foundSupervisor.firstName} ${foundSupervisor.lastName}`;
                             else
-                                schData.supervisedBy.supBy = `${foundSupervisor.title}${foundSupervisor.firstName} ${foundSupervisor.middleName} ${foundSupervisor.lastName}`
+                                schData.supervisedBy.supBy = `${foundSupervisor.title}${foundSupervisor.firstName} ${foundSupervisor.middleName} ${foundSupervisor.lastName}`;
                             
                             // CO-SUPERVISED BY
                             if(foundcoSupervisor.middleName == null)
-                                schData.cosupervisor.cosup = `${foundcoSupervisor.title}${foundcoSupervisor.firstName} ${foundcoSupervisor.lastName}`
+                                schData.cosupervisor.cosup = `${foundcoSupervisor.title}${foundcoSupervisor.firstName} ${foundcoSupervisor.lastName}`;
                             else
-                                schData.cosupervisor.cosup = `${foundcoSupervisor.title}${foundcoSupervisor.firstName} ${foundcoSupervisor.middleName} ${foundcoSupervisor.lastName}`
+                                schData.cosupervisor.cosup = `${foundcoSupervisor.title}${foundcoSupervisor.firstName} ${foundcoSupervisor.middleName} ${foundcoSupervisor.lastName}`;
 
                             // ADD SDC MEMBER
                             for(var i = 0; i < Id.length;i++){
