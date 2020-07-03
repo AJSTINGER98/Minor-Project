@@ -134,7 +134,7 @@ middlewareObject.isScholar = (req,res,next) =>{
 
 // ADD SDC MEMBERS TO ARRAY
 middlewareObject.addSDC = (req,res,next) =>{
-    var sdcMem = sdcMem  = req.body.scholar.sdcMember.ID,
+    var sdcMem = req.body.scholar.sdcMember.ID,
         Id   = [],
         Name = [];
     for(var i = 0; i < sdcMem.length; i++){
@@ -154,8 +154,8 @@ middlewareObject.addSDC = (req,res,next) =>{
             }
         });
     }
-    req.Id   = Id
-    req.Name = Name
+    req.Id   = Id;
+    req.Name = Name;
     next();
 }
 
