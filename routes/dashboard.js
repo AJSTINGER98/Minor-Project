@@ -1,4 +1,5 @@
 const express    = require("express"),
+	  middleware = require("../middleware/middleware"),
       router     = express.Router();
 
 
@@ -27,7 +28,18 @@ router.get("/", (req,res) =>{
 			}
 		}
 	});
+});
 
+router.delete('/:id',middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
+	Drc.findByIdAndDelete({_id : req.params.id},(err,drcComm) =>{
+		if(err || !drcComm){
+			req.flash('error',"Cannot Delete Table!!");
+			res.redirect('/');
+		} else{
+			req.flash('success','DRC Table Deleted Successfully!!');
+			res.redirect('/');
+		}
+	});
 });
 
 module.exports = router;

@@ -293,9 +293,11 @@ function newFunction() {
     if(pathUrl == '/'){
         $("#nv1").show();
         $("#nv2").show();
+        $("#resourceDropdown").show();
     } else {
         $("#nv1").hide();
         $("#nv2").hide();
+        $("#resourceDropdown").hide();
     }
 
     // SUPERVISOR AND SCHOLAR PAGE

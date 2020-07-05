@@ -14,13 +14,13 @@ const school = {
     'IT' : 'School of Computing & Information Technology',
     'CCE' : 'School of Computing & Information Technology'
 };
-// ,middleware.isLoggedIn,middleware.isAdmin, 
-router.get('/',(req,res) =>{
+//  
+router.get('/',middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
     
         res.render('seeds');
 });
 
-router.post('/upload/:person',(req,res) =>{
+router.post('/upload/:person',middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
 
     console.log(req.params.person);
     keyArr = Object.keys(req.body[0]);
