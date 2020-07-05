@@ -11,7 +11,6 @@ router.post('/upload',middleware.isLoggedIn, middleware.isAdmin,middleware.uploa
   formData = {
     formId: req.file.id,
     formName: req.file.originalname,
-    formHexName: req.file.filename,
   };
 
   Form.create(formData, (err,form) =>{

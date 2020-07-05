@@ -20,6 +20,11 @@ const User = require("./models/user");
 mongoURI = process.env.MONGOURL || "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
+
+// SETUP CONNECTION TO LOCAL DATABASE
+// mongoURI = "mongodb://localhost:27017/mydb";
+// mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify : false});
+
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE
 app.set("view engine", "ejs");
 

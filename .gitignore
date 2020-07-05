@@ -1,3 +1,6 @@
 node_modules/
 *.pdf
 .env
+scholar_remove.js
+supervisor_remove.js
+

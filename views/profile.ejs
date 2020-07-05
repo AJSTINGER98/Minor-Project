@@ -59,7 +59,7 @@
             </div>
         <%} else{%> 
             <div class="col-md-3 d-flex justify-content-end" style="margin-top: -100px;" >
-            <%if(person.title == "Mrs." || person.title == "Miss"){%>
+            <%if(person.title == "Mrs." || person.title == "Miss" || person.title == 'Ms.'){%>
                     <img src="/Images/Female.jpg" class="img-thumbnail" alt="Profile Picture" >
             <%} else {%>   
                     <img src="/Images/Male.jpg" class="img-thumbnail" alt="Profile Picture" >
@@ -80,7 +80,7 @@
                 <div id="info" class="col-md-6">
                     <p>
                         <% var x = person.department %>
-                        Department of <%= x.slice(0,x.indexOf("(")) %><br>
+                        Department of <%= x.slice(0, x.indexOf("(") != -1 ? x.indexOf("(") : person.department.length ) %><br>
                         <%= person.school %>
                     </p>
                 </div>
@@ -126,12 +126,17 @@
                             </a>
                         </h5>
                     </div>
-                    <% if(person.cosupervisor.cosup != null){ %>
+                    <% if(person.cosupervisor.cosup != null && person.cosupervisor.cosup != ''){ %>
                         <div id="info1" class="container py-2 col-md-6" style="margin-left: -14px;">
-                            <h5>CO-SUPERVISED BY : 
-                                <a href="/supervisor/<%= person.cosupervisor.ID %>">
+                            <h5>CO-SUPERVISED BY :
+                            <%if(person.cosupervisor.ID){%>
+                                <a href="/supervisor/<%= person.cosupervisor.ID%>">
                                     <span><%= person.cosupervisor.cosup %></span>
                                 </a>
+                            
+                            <%} else{%>
+                                <span><%= person.cosupervisor.cosup %></span>
+                            <%}%> 
                             </h5>
                         </div>
                     <% } %>
@@ -145,19 +150,28 @@
                 </div>
 
                 <hr style="padding-bottom: 20px; width: 50%;">
-
+            <%if(person.sdcMember){%>
                 <div id="info1" class="container py-2">
                     <h5>SDC PANEL :</h5>
                     <ul style="list-style-type:disc; margin-left:20px;">
                         <% person.sdcMember.forEach(function(field){ %>
+                        <%if(field.ID) {%>
                             <a href="/supervisor/<%= field.ID %>">
                                 <li><%= field.name %></li>
                             </a>
+                        
+                        <%} else {%>
+                            <a>
+                                <li><%= field.name %></li>
+                            </a>
+                        
+                            <%}%>
                         <% }); %>
                     </ul>
                 </div>
 
                 <hr style="padding-bottom: 20px; width: 50%;">
+            <%}%>
 
             <% } %>
 

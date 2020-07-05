@@ -227,34 +227,33 @@
                         
                         <% files.forEach(function(file){%> 
                             
-                            <div class= "mb-4">
-                                <div class="card-body">
-                                    <div class="row d-flex justify-content-center mb-3 w-80">
-                                        <a href="/form/<%=file.formId%>/<%= file.formHexName %>"  class="text-secondary" target="_blank">
-                                            <h3 class=""><strong><%=file.formName%></strong></h3>
-                                        </a>
-                                        <div class="embed-responsive embed-responsive-4by3 hide-on-mobile">
-                                            <object data="/form/<%=file.formId%>/<%= file.formHexName %>" type="application/pdf">
-                                                <embed src="/form/<%=file.formId%>/<%= file.formHexName %>" type="application/pdf">
-                                            </object>
+                            <div class= "py-2">
+                                
+                                    <div class="row d-flex justify-content-center  w-80">
+                
+                                        <div class="d-flex list-tile w-75">
+                                            <a href="/form/<%= file.formId %>/<%= file.formName %>" class="pt-2" target="_blank">
+                                                <h5><strong><%= file.formName %></strong></h5>
+                                            </a>
+                                        <%if(currentUser.isAdmin){%>
+                                            <div class="d-inline-block ml-auto">
+                                                <form action="/form/<%=file.formId%>?_method=DELETE" method='POST'>
+                                                    <button type= "submit" class="btn text-danger border-none"><i class="fas fa-trash fa-lg"></i></a>
+                                                </form>
+                                            </div>
+                                            
+                                        <%}%> 
                                         </div>
                                     </div>
-                                </div>
-                                <%if(currentUser.isAdmin){%> 
-                                    <div class="card-footer">
-                                        <div class="form-group">
-                                            <form action="/form/<%=file.formId%>?_method=DELETE" method="POST">
-                                                <button class="btn btn-danger w-100" >Delete File</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                <%}%>
+                               
                             </div> 
                 
                         <% }); %>
                     <% } else { %>
-                        
-                        <h1>No files found</h1>
+                        <div class="d-flex justify-content-center">
+                            <h3 class="text-secondary">No files found</h3>
+
+                        </div>
                         
                     <% } %>
                     

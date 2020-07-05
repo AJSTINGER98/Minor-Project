@@ -84,12 +84,13 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,middleware.addSDC,(req,
                         console.log(err);
                     } else {
                         var Sch = req.body.scholar;
+                        // console.log('Date: ',Sch.regDate);
                         schData = {
                             scID         : Sch.scID,
                             image        : undefined,
                             title        : Sch.title,
                             firstName    : Sch.firstName.trim(),
-                            middleName   : Sch.middleName ? Sch.middleName : "",
+                            middleName   : Sch.middleName ? Sch.middleName.trim() : "",
                             lastName     : Sch.lastName.trim(),
                             email        : Sch.email.trim(),
                             phone        : Sch.phone,
