@@ -20,16 +20,12 @@ const User = require("./models/user");
 mongoURI = process.env.MONGOURL || "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
-
-// SETUP CONNECTION TO LOCAL DATABASE
-// mongoURI = "mongodb://localhost:27017/mydb";
-// mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify : false});
-
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE
 app.set("view engine", "ejs");
 
 // SETUP BODY PARSER
 app.use(express.json());
+
 // Here setting extended to true allows body parser to convert the data of req.body into object and array form where necessary.
 app.use(express.urlencoded({extended: true}));
 
@@ -60,7 +56,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // PASS LOCAL VARIABLES IN ALL ROUTES
 app.use(function(req,res,next){
-    // res.locals.currentUser = req.user? req.user.username : undefined;
+	// res.locals.currentUser = req.user? req.user.username : undefined;
     res.locals.currentUser = req.user;
     res.locals.error     = req.flash("error");
     res.locals.warning   = req.flash("warning");
@@ -86,7 +82,7 @@ const profileRoute = require("./routes/profile");
 const schRoute     = require("./routes/scholar");
 const authRoute    = require("./routes/authentication");
 const resetRoute   = require("./routes/reset");
-const seedRoute   = require("./routes/seeds");
+const seedRoute    = require("./routes/seeds");
 
 // CALL ROUTES
 app.use("/supervisor",supRoute);

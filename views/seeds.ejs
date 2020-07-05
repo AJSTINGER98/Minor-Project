@@ -2,23 +2,29 @@
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 700px;">
     <div class="row d-flex justify-content-center border border-dark h-50 w-75 text-center">
         <div class="col-12 mb-4 mt-2">
-            <h2>Add Data</h2>
+            <h2>ADD DATA</h2>
+            <hr>
         </div>
         
-        <div class="col-12 form-group">
-            <form action="" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <select name="group" id="personSelect" class="form-control" required>
+        <div class="col-8 form-group">
+            <form action="#" method="POST" enctype="multipart/form-data">
+                <div class="form-group mb-4">
+                    <select name="group" id="personSelect" class="form-control selectpicker show-tick" data-style="btn-secondary" required>
                         <option value="supervisor">Supervisor</option>
                         <option value="scholar">Scholar</option>
+                        <optgroup label="DEPARTMENT RESEARCH COMMITTEE">
+                            <option title="Department Research Committee (CSE)" value="Department Research Committee (CSE)">CSE</option>
+                            <option title="Department Research Committee (IT)"  value="Department Research Committee (IT)" >IT</option>
+                            <option title="Department Research Committee (CCE)" value="Department Research Committee (CCE)">CCE</option>
+                        </optgroup>
                     </select>
                 </div>
-                <div class="custom-file h-50 mb-3"> 
+                <div class="custom-file h-50 mb-4"> 
                     <input type="file" name="file" id="file" class="custom-file-input" accept=".xls,.xlsx" required>
                     <label for="file" class="custom-file-label" placeholder = "Choose File"></label>
                 </div>
                 <div class="form-group w-100">
-                    <button class="btn btn-primary w-100 excel-btn" >Upload File</button>
+                    <button class="btn btn-primary w-20 excel-btn" >Upload File</button>
                 </div>
             </form>
         </div>

@@ -210,11 +210,20 @@ function newFunction() {
                 $('.overlap-alert').fadeOut(1000);
             },3000);
         });
-        
-        
+         
     });
 
-    
+    // SLIDE EFFECT ON RESOURCE DROPDOWN
+    $(document).ready(function(){
+        // Slide Down Effect
+        $('.dropdown').on('show.bs.dropdown', function() {
+            $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+        });
+        // Slide Up Effect
+        $('.dropdown').on('hide.bs.dropdown', function() {
+            $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+          });
+    });
 
     // ----------------------SHOW/HIDE PASSWORD--------------------------
     $(function(){
@@ -339,7 +348,6 @@ function newFunction() {
     }
     //--------------------------------------------------------------
 
-
     //REMOVE FOOTER AND NAV LINKS IN CHANGE PASSWORD PAGE
 
     if(pathUrl == '/changepassword'){
@@ -361,27 +369,22 @@ function newFunction() {
             uploadFile = e.target.files[0];
         });
 
-        
-
-
         $(document).on('click','.excel-btn',function(e){
             e.preventDefault();
 
             if(uploadFile && (uploadFile.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'|| uploadFile.type == ' application/vnd.ms-excel')){
                 
-                var person = $('#personSelect option:selected').val();
+                var person = $('#personSelect option:selected').val().replace(/\s/g,"").toLowerCase();
                 var fileReader = new FileReader();
                 fileReader.onload = function(e) {
                     var data = e.target.result;
                     var workbook = XLSX.read(data, {
                         type: 'binary'
                     });
-                    // console.log(workbook);
                     workbook.SheetNames.forEach(sheet =>{
                         let rowObject = XLSX.utils.sheet_to_row_object_array(   
                             workbook.Sheets[sheet]
                         );
-
                         $.ajax({
                             url: `/seeds/upload/${person}`,
                             type: 'POST',
@@ -403,9 +406,7 @@ function newFunction() {
             }
             else{
                 console.log('no file added or file extension not valid');
-            }
-
-            
+            } 
         });
     });
 

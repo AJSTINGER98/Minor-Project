@@ -6,21 +6,23 @@ const router = express.Router();
 
 const Supervisor   = require('../models/supervisor');
 const Scholar      = require('../models/scholar');
-const User      = require('../models/user');
+const User         = require('../models/user');
+const Drc          = require('../models/drc');
 
 const school = {
     'CSE' : 'School of Computing & Information Technology',
     'IT' : 'School of Computing & Information Technology',
     'CCE' : 'School of Computing & Information Technology'
 };
-
-router.get('/',middleware.isLoggedIn,middleware.isAdmin, (req,res) =>{
+// ,middleware.isLoggedIn,middleware.isAdmin, 
+router.get('/',(req,res) =>{
     
         res.render('seeds');
 });
 
-router.post('/upload/:person',middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
+router.post('/upload/:person',(req,res) =>{
 
+    console.log(req.params.person);
     keyArr = Object.keys(req.body[0]);
     if(req.params.person == 'supervisor'){
         var supData = {};
@@ -110,7 +112,36 @@ router.post('/upload/:person',middleware.isLoggedIn,middleware.isAdmin,(req,res)
 
     } else if(req.params.person == 'scholar'){
         return res.json({status : 'error'});
-    } else {
+    } 
+    
+    else if((req.params.person).startsWith("department")) {
+        var x = ((req.params.person).slice((req.params.person).indexOf("(")+1,(req.params.person).length-1)).toLowerCase();
+        var data = {
+            [x] : []
+        };
+        req.body.forEach(dept => {
+            var i = 0;
+            temp = {
+                sno         : dept[keyArr[i++]],
+                name        : dept[keyArr[i++]].trim(),
+                designation : dept[keyArr[i++]].trim(),
+                capacity    : dept[keyArr[i++]].trim(),
+                duration    : dept[keyArr[i++]].trim(),
+            };
+            data[x].push(temp);
+        });
+        // ADD To DATABASE
+        Drc.create(data,(err,drc) =>{
+            if(err){
+                console.log(err);
+                return res.json({status:'error'});
+            } else{
+                return res.json({status:'success'});
+            }
+        });
+    }
+    
+    else {
         return res.json({status : 'error'});
     }
 });
