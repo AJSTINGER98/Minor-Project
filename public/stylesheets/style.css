@@ -80,7 +80,7 @@ html , body {
     right: -10px;
 }
 
-#scholarTable th{
+#scholarTable th,#supervisorTable th{
     outline: none;
 }
 
