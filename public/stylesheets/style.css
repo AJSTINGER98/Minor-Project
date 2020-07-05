@@ -74,6 +74,16 @@ html , body {
     line-height: 1.8em;
 }
 
+.fa-caret-down,.fa-caret-up{
+    position: relative;
+    top: -10px;
+    right: -10px;
+}
+
+#scholarTable th,#supervisorTable th{
+    outline: none;
+}
+
 /* -------------------Profile Page----------------- */
 #back{
     background-image: url("/Images/MUJ4.jpg") ;

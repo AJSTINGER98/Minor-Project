@@ -21,14 +21,14 @@
             <%}%>
 
             <!-- TABLE -->
-            <table class="table table-hover no-margin text-center table-collapsible" id="scholarTable">
+            <table class="table table-hover no-margin text-center table-collapsible  tablesorter" id="scholarTable">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Scholar ID</th>
-                        <th>Name</th>
-                        <th>Department</th>
-                        <th>Email</th>
-                        <th>Supervisor</th>
+                        <th>Scholar ID<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th>Name<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th>Department<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th>Email<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th>Supervisor<i class="fas fa-caret-down fa-sm"></i></th>
                     </tr>
                 </thead>
                 <tbody class="myTable">
@@ -36,7 +36,6 @@
                         <tr class="clickable-row" data-href= "/scholar/<%= sch._id %>" style="cursor: pointer;">
                             <td><%=sch.scID%></td>
                             <td><%=`${sch.title} ${sch.firstName} ${sch.middleName} ${sch.lastName}`%></td>
-                            
                             <td>
                                 <% var x = sch.department %>
                                 <%= x.slice(x.indexOf("(")+1,x.length-1) %>
@@ -133,7 +132,7 @@
                                                 <option selected>None</option>
                                                 <% if(supervisor.length != 0){ %>
                                                     <% for(var i = 0; i<supervisor.length; i++){ %> 
-                                                        <option value="<%= supervisor[i]._id%>"><%= supervisor[i].title %> <%= supervisor[i].firstName %> <%= supervisor[i].lastName %></option> 
+                                                        <option value="<%= supervisor[i]._id%>"><%= `${supervisor[i].title} ${supervisor[i].firstName} ${supervisor[i].middleName} ${supervisor[i].lastName}` %></option> 
                                                     <% } %>
                                                 <% } %>
                                             </select>
@@ -155,16 +154,15 @@
                                                         <option selected >None</option>
                                                         <% if(supervisor.length != 0){ %>
                                                             <% for(var i = 0; i<supervisor.length; i++){ %> 
-                                                                <option value="<%= supervisor[i]._id%>"><%= supervisor[i].title %> <%= supervisor[i].firstName %> <%= supervisor[i].lastName %></option> 
+                                                                <option value="<%= supervisor[i]._id%>"><%= `${supervisor[i].title} ${supervisor[i].firstName} ${supervisor[i].middleName} ${supervisor[i].lastName}` %></option> 
                                                             <% } %>
                                                         <% } %>
-                                                        <option>Dr.Devesh Kumar Srivastava</option>
-                                                        <option>Dr.Himanshu Chaudhary</option>
-                                                        <option>Dr.Jyoti Grover</option>
-                                                        <option>Dr.Manjit Kaur</option>
-                                                        <option>Dr.Manoj Kumar Bohra</option>
-                                                        <option>Dr.Vijay Bhaskar Semwal</option>
-                                                        <option>Dr.Vivek K Verma</option>
+                                                        <option>Dr. Devesh Kumar Srivastava</option>
+                                                        <option>Dr. Himanshu Chaudhary</option>
+                                                        <option>Dr. Manjit Kaur</option>
+                                                        <option>Dr. Manoj Kumar Bohra</option>
+                                                        <option>Dr. Vijay Bhaskar Semwal</option>
+                                                        <option>Dr. Vivek K Verma</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-4">
@@ -205,7 +203,7 @@
                                                     <option selected>None</option>
                                                     <% if(supervisor.length != 0){ %>
                                                         <% for(var i = 0; i<supervisor.length; i++){ %> 
-                                                            <option value="<%= supervisor[i]._id%>"><%= supervisor[i].title %> <%= supervisor[i].firstName %> <%= supervisor[i].lastName %></option> 
+                                                            <option value="<%= supervisor[i]._id%>"><%= `${supervisor[i].title} ${supervisor[i].firstName} ${supervisor[i].middleName} ${supervisor[i].lastName}` %></option> 
                                                         <% } %>
                                                     <% } %>
                                                 </select>
@@ -231,8 +229,6 @@
                     </div>
                 </div>
             <% } %>
-
-
         </div>
     </div>
 </div>
