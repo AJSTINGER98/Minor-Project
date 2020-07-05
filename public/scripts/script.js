@@ -412,6 +412,15 @@ function newFunction() {
         });
     });
 
+    // TABLE SORT IN SCHOLAR.EJS
+    $(document).ready(function(){
+        $(function() {
+            $("#scholarTable").tablesorter({ 
+                sortList: [[0,0]], 
+            });
+        });
+    });
+
 
     
 

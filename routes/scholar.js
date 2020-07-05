@@ -23,6 +23,7 @@ router.get("/",(req,res) =>{
                 temp = {
                     _id        : scholar._id,
                     scID       : scholar.scID,
+                    title      : scholar.title,
                     firstName  : scholar.firstName,
                     middleName : scholar.middleName,
                     lastName   : scholar.lastName,
@@ -33,7 +34,7 @@ router.get("/",(req,res) =>{
                 scholarList.push(temp);
             });
             if(req.user &&  req.user.isAdmin){
-                Supervisor.find({},'_id title firstName lastName',function (err,allsupervisor) {
+                Supervisor.find({},'_id title firstName middleName lastName',function (err,allsupervisor) {
                     if(err){
                         req.flash('error','Something Went Wrong, Please Refresh The Page!!');
                         console.log(err);
