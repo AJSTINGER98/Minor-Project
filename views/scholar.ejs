@@ -35,11 +35,8 @@
                     <% scholar.forEach(function(sch){ %>
                         <tr class="clickable-row" data-href= "/scholar/<%= sch._id %>" style="cursor: pointer;">
                             <td><%=sch.scID%></td>
-                            <% if(sch.middleName == null) { %>
-                                <td><%=sch.firstName%> <%=sch.lastName%></td>
-                            <% } else { %>
-                                <td><%=sch.firstName%> <%=sch.middleName%> <%=sch.lastName%></td>
-                            <% } %>
+                            <td><%=`${sch.title} ${sch.firstName} ${sch.middleName} ${sch.lastName}`%></td>
+                            
                             <td>
                                 <% var x = sch.department %>
                                 <%= x.slice(x.indexOf("(")+1,x.length-1) %>

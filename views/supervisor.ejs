@@ -38,8 +38,17 @@
                             <td><%=sup.spID%></td>
                             <td><%= `${sup.title} ${sup.firstName} ${sup.middleName} ${sup.lastName}` %></td>
                             <td>
-                                <% var x = sup.department %>
-                                <%= x.slice(x.indexOf("(")+1,x.length-1) %>
+                                <% 
+                                    var dep = ['CSE','IT','CCE'];
+                                    var x = -1;
+                                    var count = 0;
+                                    var i = 0;
+                                    while(x == -1 && i < dep.length){
+                                        x = sup.department.search(dep[i])
+                                        count = dep[i++].length;
+                                    }
+                                %>
+                                <%=  x == -1 ? '' : sup.department.slice(x,x+count)%>
                             </td>
                             <td><%=sup.academicRole%></td>
                             <td>

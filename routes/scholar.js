@@ -23,6 +23,7 @@ router.get("/",(req,res) =>{
                 temp = {
                     _id        : scholar._id,
                     scID       : scholar.scID,
+                    title      : scholar.title,
                     firstName  : scholar.firstName,
                     middleName : scholar.middleName,
                     lastName   : scholar.lastName,
@@ -83,12 +84,13 @@ router.post("/",middleware.addSDC,(req,res) =>{
                         console.log(err);
                     } else {
                         var Sch = req.body.scholar;
+                        // console.log('Date: ',Sch.regDate);
                         schData = {
                             scID         : Sch.scID,
                             image        : undefined,
                             title        : Sch.title,
                             firstName    : Sch.firstName.trim(),
-                            middleName   : Sch.middleName ? Sch.middleName : "",
+                            middleName   : Sch.middleName ? Sch.middleName.trim() : "",
                             lastName     : Sch.lastName.trim(),
                             email        : Sch.email.trim(),
                             phone        : Sch.phone,

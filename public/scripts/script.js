@@ -377,10 +377,13 @@ function newFunction() {
                         type: 'binary'
                     });
                     // console.log(workbook);
+                    
                     workbook.SheetNames.forEach(sheet =>{
                         let rowObject = XLSX.utils.sheet_to_row_object_array(   
-                            workbook.Sheets[sheet]
+                            workbook.Sheets[sheet],
+                            {defval : null}
                         );
+
 
                         $.ajax({
                             url: `/seeds/upload/${person}`,
