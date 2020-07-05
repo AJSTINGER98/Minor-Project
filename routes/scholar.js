@@ -51,8 +51,8 @@ router.get("/",(req,res) =>{
 });
 
 // CREATE ROUTE - Add Scholar to database
-router.post("/",middleware.addSDC,(req,res) =>{
-    // ,middleware.isLoggedIn,middleware.isAdmin
+router.post("/",middleware.isLoggedIn,middleware.isAdmin,middleware.addSDC,(req,res) =>{
+    // 
     var supBy   = req.body.scholar.supByID,
         cosupBy = req.body.scholar.cosupID;
     var bool = true;
