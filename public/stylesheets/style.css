@@ -82,6 +82,7 @@ html , body {
 
 #scholarTable th,#supervisorTable th{
     outline: none;
+    vertical-align: middle;
 }
 
 /* -------------------Profile Page----------------- */

@@ -17,11 +17,20 @@ function onPageLoad(){
             $('#navbarDropdownMobile').show();
             $('#navbarDropdownWeb').hide();
             $("#myNavLinkItem a").removeClass('effect');
-            
+            $("#supervisorTable th:nth-of-type(1)")
+                .html('Sup ID<i class="fas fa-caret-down fa-sm">')
+                .css({'white-space':'nowrap',});
+            $("#scholarTable th:nth-of-type(1)")
+                .html('Sch ID<i class="fas fa-caret-down fa-sm">')
+                .css({'white-space':'nowrap',});
         } else {
             $('#navbarDropdownMobile').hide();
             $('#navbarDropdownWeb').show();
             $("#myNavLinkItem a").addClass('effect');
+            $("#supervisorTable th:nth-of-type(1)")
+                .html('Supervisor ID<i class="fas fa-caret-down fa-sm">');
+            $("#scholarTable th:nth-of-type(1)")
+                .html('Scholar ID<i class="fas fa-caret-down fa-sm">');
         }
         $(window).resize(function() {
 
@@ -29,10 +38,20 @@ function onPageLoad(){
                 $('#navbarDropdownMobile').show();
                 $('#navbarDropdownWeb').hide();
                 $("#myNavLinkItem a").removeClass('effect');
+                $("#supervisorTable th:nth-of-type(1)")
+                    .html('Sup ID<i class="fas fa-caret-down fa-sm">')
+                    .css('white-space','nowrap');
+                $("#scholarTable th:nth-of-type(1)")
+                    .html('Sch ID<i class="fas fa-caret-down fa-sm">')
+                    .css({'white-space':'nowrap',});
             } else {
                 $('#navbarDropdownMobile').hide();
                 $('#navbarDropdownWeb').show();
                 $("#myNavLinkItem a").addClass('effect');
+                $("#supervisorTable th:nth-of-type(1)")
+                    .html('Supervisor ID<i class="fas fa-caret-down fa-sm">');
+                $("#scholarTable th:nth-of-type(1)")
+                    .html('Scholar ID<i class="fas fa-caret-down fa-sm">');
               } 
           });
     });
@@ -418,17 +437,24 @@ function newFunction() {
         $(function() {
             $("#scholarTable").tablesorter({ 
                 sortList: [[0,0]], 
+                headers : {
+                    // Zero Column Index
+                    0 : { sorter: true },
+                    1 : { sorter: true },
+                    2 : { sorter: false },
+                    3 : { sorter: false },
+                    4 : { sorter: false },
+                }
             });
             $('#supervisorTable').tablesorter({
                 sortList : [[0,0]],
                 headers : {
-                // Zero Column Index
-                0 : { sorter: true },
-                1 : { sorter: false },
-                2 : { sorter: false },
-                3 : { sorter: false },
-                4 : { sorter: false },
-                5 : { sorter: false }
+                    // Zero Column Index
+                    0 : { sorter: true },
+                    1 : { sorter: false },
+                    2 : { sorter: false },
+                    3 : { sorter: false },
+                    4 : { sorter: false },
                 }
             });
         });
