@@ -148,10 +148,10 @@ html , body {
     font-family: 'Times New Roman', Times, serif;
 }
 
-#info1 strong em{
+#info1 p strong em{
     font-size: 0.9em;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    padding-left: 25px;
+    /* padding-left: 25px; */
 }
 
 #info1 h5 a span{
@@ -165,13 +165,13 @@ html , body {
     color: blue;
 }
 
-#info1 ul a li{
+#info1 ul li a{
     font-size: 1.1em;
     font-weight: 400;
     color: black;
 }
 
-#info1 ul a li:hover{
+#info1 ul li a:hover{
     color: blue;
 }
 
@@ -238,6 +238,9 @@ opacity:0.2;
         margin-top: 50px;
         height: 25vh;
     }
+    #info h6{
+        font-size: 1rem;
+    }
 }
 
 @media (max-width : 560px){
@@ -262,7 +265,7 @@ opacity:0.2;
         margin-top: -60px !important;
     }
     #info h1{
-        font-size: 2.2rem;
+        font-size: 1.8rem;
         font-weight: 400;
     }
     #info p{
@@ -273,16 +276,28 @@ opacity:0.2;
         content: '\a';
         white-space: pre;
     }
-    #profileView .col-md-9 div:nth-of-type(2) strong::before{
+
+    #profileView .col-md-9 div:nth-of-type(2) span::before{
         content: '\a';
         white-space: pre;
     }
-    #profileView .col-md-9 div:nth-of-type(2) em::before{
+
+    #profileView .col-md-9 div:nth-of-type(2) em span::before{
         content: '\a';
         white-space: pre;
     }
+
     #profileView .col-md-9 div:nth-of-type(3){
         padding-bottom: 0px !important;
+    }
+
+    .modePhD,.cosupBy{
+        margin-left: 14px !important; 
+    }
+
+    .regNo span::before, .modePhD span::before, .sup span::before, .cosupBy span::before{
+        content: '\a';
+        white-space: pre;   
     }
 
     #info1 .btn-success{
