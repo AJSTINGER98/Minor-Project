@@ -399,7 +399,7 @@ function newFunction() {
                             if(data.status == 'success'){
                                 alert('Data Added');
                             } else {
-                                alert('Data could not be added');
+                                alert('Data could not be added!\n NOTE: Please make sure you are importing the right excel sheet and have the sheet in the right format');
                             }
                         });
                     });

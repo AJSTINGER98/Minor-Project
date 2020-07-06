@@ -227,18 +227,20 @@
                         
                         <% files.forEach(function(file){%> 
                             
-                            <div class= "py-2">
+                            <div class= "py-1">
                                 
                                     <div class="row d-flex justify-content-center  w-80">
                 
                                         <div class="d-flex list-tile w-75">
-                                            <a href="/form/<%= file.formId %>/<%= file.formName %>" class="pt-2" target="_blank">
-                                                <h5><strong><%= file.formName %></strong></h5>
-                                            </a>
+                                            <div class="col-10 d-inline-block text-truncate">
+                                                <a href="/form/<%= file.formId %>/<%= file.formName %>" class="pt-2" target="_blank">
+                                                    <h6><strong><%= file.formName %></strong></h6>
+                                                </a>
+                                            </div>
                                         <%if(currentUser.isAdmin){%>
-                                            <div class="d-inline-block ml-auto">
-                                                <form action="/form/<%=file.formId%>?_method=DELETE" method='POST'>
-                                                    <button type= "submit" class="btn text-danger border-none"><i class="fas fa-trash fa-lg"></i></a>
+                                            <div class="d-inline-block ml-auto col-2 pr-0">
+                                                <form action="/form/<%=file.formId%>?_method=DELETE" method='POST' class="mr-0">
+                                                    <button type= "submit" class="btn text-danger border-none float-right p-0"><i class="fas fa-trash fa-lg"></i></a>
                                                 </form>
                                             </div>
                                             
