@@ -23,6 +23,7 @@ function onPageLoad(){
             $("#scholarTable th:nth-of-type(1)")
                 .html('Sch ID<i class="fas fa-caret-down fa-sm">')
                 .css({'white-space':'nowrap',});
+            $("#course2 .card").removeClass("hvr-grow-shadow");
         } else {
             $('#navbarDropdownMobile').hide();
             $('#navbarDropdownWeb').show();
@@ -31,6 +32,7 @@ function onPageLoad(){
                 .html('Supervisor ID<i class="fas fa-caret-down fa-sm">');
             $("#scholarTable th:nth-of-type(1)")
                 .html('Scholar ID<i class="fas fa-caret-down fa-sm">');
+            $("#course2 .card").addClass("hvr-grow-shadow");
         }
         $(window).resize(function() {
 
@@ -44,6 +46,7 @@ function onPageLoad(){
                 $("#scholarTable th:nth-of-type(1)")
                     .html('Sch ID<i class="fas fa-caret-down fa-sm">')
                     .css({'white-space':'nowrap',});
+                $("#course2 .card").removeClass("hvr-grow-shadow");
             } else {
                 $('#navbarDropdownMobile').hide();
                 $('#navbarDropdownWeb').show();
@@ -52,8 +55,32 @@ function onPageLoad(){
                     .html('Supervisor ID<i class="fas fa-caret-down fa-sm">');
                 $("#scholarTable th:nth-of-type(1)")
                     .html('Scholar ID<i class="fas fa-caret-down fa-sm">');
+                $("#course2 .card").addClass("hvr-grow-shadow");
               } 
           });
+    });
+
+    // SLIDE EFFECT FOR COURSES (SLICK.js)
+    $(document).ready(function(){
+        $('.courseDisp').slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            pauseOnFocus: false,
+            nextArrow: '<button type="button" class="slick-next"><i class="fas fa-chevron-right"></i></button>',
+            prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-chevron-left"></i></button>',
+            responsive: [{
+                breakpoint : 768,
+                settings :{
+                    slidesToShow : 1,
+                    slidesToScroll : 1,
+                    autoplay :true,
+                    autoplaySpeed: 2000,
+                    arrows : false,
+                }
+            }]
+        });
     });
 
 }

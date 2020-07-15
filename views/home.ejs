@@ -9,11 +9,18 @@
 					<span aria-hidden="true">&times;</span>
 					</button>
                 </div>
+
                 <% if(drc){ %>
                     <div class="modal-body">
                         <h4>DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</h4>
-                        <h5>DEPARTMENT RESEARCH COMMITTIEE</h5>
-                        <table class="table table-striped table-collapsible">
+                        <h5>DEPARTMENT RESEARCH COMMITTEE</h5>
+                        
+                        <!-- DOWNLOAD BUTTON -->
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-outline-success btn-sm mb-3" onclick="exportexcel('drcTable')"><span class="mr-1 d-none d-md-inline-block">Export</span> <span><i class="fas fa-download"></i> </span></button>
+                        </div> 
+
+                        <table class="table table-striped table-collapsible" id="drcTable">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">S.No.</th>
@@ -35,7 +42,8 @@
                                 <% }); %>
                             </tbody>
                         </table>
-                    </div>                
+                    </div>   
+
                     <div class="modal-footer py-1">
                         <div class="form-group">
                             <button type="button" class="btn btn-outline-primary btn-sm py-1" data-dismiss="modal">CLOSE</button>
@@ -48,6 +56,7 @@
                             </div>
                         <% } %>
                     </div>
+
                 <% } else { %>
                     <h5>NO DATA FOUND</h5>
                 <% } %>
@@ -84,67 +93,9 @@
         <hr>
     </div>
     <div id="course2" class="container-fluid">
-        <div class="row justify-content-center">
-            <!-- BIG DATA -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card" style="width: 20rem;">
-                    <img class="card-img-top" src="/Images/course1.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">BIG DATA</h5>
-                        <p class="card-text">
-                            Big data is a field that treats ways to systematically extract information from data sets that are too large or complex to be dealt with by traditional data-processing application software.
-                        </p>
-                        <a href="https://en.wikipedia.org/wiki/Big_data" target="_blank" class="btn btn-outline-info">
-                            READ
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- CLOUD COMPUTING -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card" style="width: 20rem;">
-                    <img class="card-img-top" src="/Images/course2(a).jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">CLOUD COMPUTING</h5>
-                        <p class="card-text">
-                            Cloud computing is the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. 
-                        </p>
-                        <a href="https://en.wikipedia.org/wiki/Cloud_computing" target="_blank" class="btn btn-outline-info">
-                            READ
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- ARTIFICIAL INTELLIGENCE -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card" style="width: 20rem;">
-                    <img class="card-img-top" src="/Images/course3.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">ARTIFICIAL INTELLIGENCE</h5>
-                        <p class="card-text">
-                            Artificial intelligence, sometimes called machine intelligence, is intelligence demonstrated by machines, in contrast to the natural intelligence displayed by humans and animals.
-                            </p>
-                        <a href="https://en.wikipedia.org/wiki/Artificial_intelligence" target="_blank" class="btn btn-outline-info">
-                            READ
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- NETWORK SECURITY -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card" style="width: 20rem;">
-                    <img class="card-img-top" src="/Images/course4(a).png" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">NETWORK SECURITY</h5>
-                        <p class="card-text">
-                            Network security consists of the policies and practices adopted to prevent and monitor unauthorized access, misuse, or denial of a computer network and network-accessible resources.
-                        </p>
-                        <a href="https://en.wikipedia.org/wiki/Network_security" target="_blank" class="btn btn-outline-info">
-                            READ
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <div class="row justify-content-center courseDisp">
+            <!-- IMPORT THE COURSES DATA FROM "course.ejs" -->
+            <%- include('course') %>
         </div>
     </div>
 </div>
