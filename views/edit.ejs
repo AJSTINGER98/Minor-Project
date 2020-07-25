@@ -121,7 +121,7 @@
         </div>
 
         <!-- ---------------ACADEMIC QUALIFICATION(SUPERVISOR)----------------- -->
-        <% if(currentUser.isSupervisor || currentUser.isAdmin){ %>
+        <% if(person['academicQ']){ %>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>ACADEMIC QUALIFICATIONS</em></h5>
@@ -185,7 +185,7 @@
         <% } %>
 
         <!-- ----------------EXPERIENCE(SUPERVISOR)----------------- -->
-        <% if(currentUser.isSupervisor || currentUser.isAdmin){ %>
+        <% if(person['experience']){ %>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>EXPERIENCE</em></h5>
@@ -243,7 +243,7 @@
         <% } %>
         
         <!-- --------------------RESEARCH PROJECT(SUPERVISOR)---------------- -->
-        <% if(currentUser.isSupervisor || currentUser.isAdmin){ %>
+        <% if(person['research']){ %>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>RESEARCH PROJECT</em></h5>
