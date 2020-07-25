@@ -128,7 +128,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
 
     data = {
         email : req.body.email,
-        phone : req.body.phone,
+        phone : req.body.phone != '' ? req.body.phone : undefined,
         
     };
     if(req.body.firstName){

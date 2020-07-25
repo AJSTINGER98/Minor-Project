@@ -75,9 +75,8 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,middleware.addSDC,(req,
                         req.flash('error',"Either Co-Supervisor doesn't Exists or has been moved somewhere else!!");
                     }
                 }
-                console.log('In scholar.js',req.Id,req.Name);
                 var Sch = req.body.scholar;
-                
+
                 schData = {
                     scID         : Sch.scID,
                     image        : undefined,
@@ -86,7 +85,7 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,middleware.addSDC,(req,
                     middleName   : Sch.middleName ? Sch.middleName.trim() : "",
                     lastName     : Sch.lastName.trim(),
                     email        : Sch.email.trim(),
-                    phone        : Sch.phone,
+                    phone        : Sch.phone != '' ? Sch.phone : undefined,
                     department   : Sch.department,
                     school       : Sch.school,
                     supervisedBy : {
