@@ -52,7 +52,7 @@ router.post("/", middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
         lastName: Sup.lastName.trim(),
         email: Sup.email.trim(),
         phone: Sup.phone,
-        age: Sup.age,
+        age: Sup.age == 'None' || Sup.age == undefined ? undefined : Sup.age,
         academicRole: Sup.academicRole,
         department: Sup.department,
         school: Sup.school,

@@ -129,10 +129,41 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
     data = {
         email : req.body.email,
         phone : req.body.phone,
+        
     };
+    if(req.body.firstName){
+        data.firstName = req.body.firstName;
+    }
+    if(req.body.middleName){
+        data.middleName = req.body.middleName;
+    }
+    if(req.body.lastName){
+        data.lastName = req.body.lastName;
+    }
+    if(req.body.department){
+        data.department = req.body.department;
+    }
+    if(req.body.school){
+        data.school = req.body.school;
+    }
+
     // Update Age
     if(req.body.age){
         data.age = req.body.age != 'None' ? req.body.age : undefined;
+    }
+
+    if(req.body.academicRole){
+        data.academicRole = req.body.academicRole;
+    }
+    if(req.body.regDate){
+        data.regDate = req.body.regDate;
+    }
+    if(req.body.reschTitle){
+        data.reschTitle = req.body.reschTitle;
+    }
+
+    if(req.body.mode){
+        data.mode = req.body.mode;
     }
 
     var i;

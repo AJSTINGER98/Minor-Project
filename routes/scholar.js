@@ -77,7 +77,7 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,middleware.addSDC,(req,
                 }
                 console.log('In scholar.js',req.Id,req.Name);
                 var Sch = req.body.scholar;
-                // console.log('Date: ',Sch.regDate);
+                
                 schData = {
                     scID         : Sch.scID,
                     image        : undefined,

@@ -29,7 +29,7 @@
             
             <div class="form-group col-md-3">
                 <label for="input_lname">Middle Name</label>
-                <input type="text" id="input_lname" class="form-control" name= "lastName" value="<%= person.middleName ? person.middleName : '' %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                <input type="text" id="input_lname" class="form-control" name= "middleName" value="<%= person.middleName ? person.middleName : '' %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
             </div>
 
             <div class="form-group col-md-3">
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="regNo">Registration No.</label>
-                    <input type="text" id="regNo" class="form-control" name="regNo" value="<%= person.scID %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                    <input type="text" id="regNo" class="form-control" name="regNo" value="<%= person.scID %>" disabled>
                 </div>
             </div>
         <% } %>
@@ -90,14 +90,16 @@
             <div class="form-group col-md-4">
                 <label for="inputDep">Department</label>
                 <select id="inputDep" class="form-control"  name= "department" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
-                    <option selected><%= person.department %></option>
+                    <option <%= person.department == 'Computer Science & Engineering(CSE)' ? 'selected' : '' %>>Computer Science & Engineering(CSE)</option>
+                    <option <%= person.department == 'Information Technology(IT)' ? 'selected' : '' %>>Information Technology(IT)</option>
+                    <option <%= person.department == 'Computer & Communication Engineering(CCE)' ? 'selected' : '' %>>Computer & Communication Engineering(CCE)</option>
                 </select>
             </div>
 
             <div class="form-group col-md-4">
                 <label for="inputSchool">School</label>
                 <select id="inputSchool" class="form-control" name= "school" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
-                    <option selected><%= person.school %></option>
+                    <option <%= person.school == 'School of Computing and Information Technology' ? 'selected' : '' %>>School of Computing and Information Technology</option>
                 </select>
             </div>
 
@@ -105,7 +107,14 @@
                 <div class="form-group col-md-4">
                     <label for="inputAcademic">Academic Role</label>
                     <select id="inputAcademic" class="form-control" name="academicRole" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
-                        <option selected><%= person.academicRole %></option>
+                        <option <%= person.academicRole == 'Professor and Director' ? 'selected' : ''%>>Professor and Director</option>
+                        <option <%= person.academicRole == 'Director' ? 'selected' : ''%>>Director</option>
+                        <option <%= person.academicRole == 'Professor and HOD' ? 'selected' : ''%>>Professor and HOD</option>
+                        <option <%= person.academicRole == 'Head Of The Department' ? 'selected' : ''%>>Head Of The Department</option>
+                        <option <%= person.academicRole == 'Professor' ? 'selected' : ''%>>Professor</option>
+                        <option <%= person.academicRole == 'Associate Professor' ? 'selected' : ''%>>Associate Professor</option>
+                        <option <%= person.academicRole == 'Assistant Professor' ? 'selected' : ''%>>Assistant Professor</option>
+                        <option <%= person.academicRole == 'Adhoc' ? 'selected' : ''%>>Adhoc</option>
                     </select>
                 </div>
             <% } %>
@@ -113,7 +122,7 @@
             <% if(person["supervisedBy"]){ %>
                 <div class="form-group col-md-4">
                     <label for="supervisor">Supervisor</label>
-                    <select id="supervisor" class="form-control" name= "supByID" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                    <select id="supervisor" class="form-control" name= "supByID" disabled>
                         <option selected><%= person.supervisedBy.supBy %></option>
                     </select>
                 </div>
@@ -355,7 +364,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="cosupervisor">Co-Supervisor (<em>if any</em>)</label>
-                            <select id="cosupervisor" class="form-control" name= "cosup" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                            <select id="cosupervisor" class="form-control" name= "cosup" disabled>
                                 <option selected><%= person.cosupervisor.cosup %></option>
                             </select>
                         </div>
@@ -363,11 +372,29 @@
                             <label for="mode">Mode of Ph.D</label>
                             <select id="mode" class="form-control" name= "mode" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
                                 <option selected><%= person.mode %></option>
+                                <option <%= person.mode == 'Part-Time (Internal)' ?  'selected' : '' %>>Part-Time (Internal)</option>
+                                <option <%= person.mode == 'Part-Time (External)' ?  'selected' : '' %>>Part-Time (External)</option>
+                                <option <%= person.mode == 'Full-Time' ?  'selected' : '' %>>Full-Time</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
+                            <%
+                                if(person.regDate){
+                                    var date = new Date(person.regDate);
+                                    var year = date.getFullYear();
+                                    var month = date.getMonth()+1;
+                                    var dt = date.getDate();
+    
+                                    if (dt < 10) {
+                                    dt = '0' + dt;
+                                    }
+                                    if (month < 10) {
+                                    month = '0' + month;
+                                    }
+                                }
+                            %>
                             <label for="registerDate">Registration Date</label>
-                            <input type="date" id="registerDate" class="form-control" name="regDate" value="<%= person.regDate %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                            <input type="date" id="registerDate" class="form-control" name="regDate" value="<%=`${year}-${month}-${dt}`%>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
                         </div>
                     </div>
                     
