@@ -75,10 +75,7 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,middleware.addSDC,(req,
                         req.flash('error',"Either Co-Supervisor doesn't Exists or has been moved somewhere else!!");
                     }
                 }
-                var Id   = req.Id,
-                    Name = req.Name;
-
- 
+                console.log('In scholar.js',req.Id,req.Name);
                 var Sch = req.body.scholar;
                 // console.log('Date: ',Sch.regDate);
                 schData = {
@@ -123,11 +120,11 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,middleware.addSDC,(req,
                 }
 
                 // ADD SDC MEMBER
-                if(Id){
-                    for(var i = 0; i < Id.length;i++){
+                if(req.Id && req.Id.length != 0){
+                    for(var i = 0; i < req.Id.length;i++){
                         temp = {
-                            ID : Id[i],
-                            name : Name[i]
+                            ID : req.Id[i],
+                            name : req.Name[i]
                         };
                         
                         schData.sdcMember.push(temp);

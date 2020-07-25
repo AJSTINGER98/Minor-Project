@@ -204,7 +204,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
         if(req.Id && req.Id.length != 0 && req.Name && req.Name.length != 0){
             for(i = 0; i < req.Id.length;i++){
                 temp = {
-                    ID : req.Id[i],
+                    ID : req.Id[i] != 0 ? req.Id[i] : undefined,
                     name : req.Name[i]
                 };
                 
