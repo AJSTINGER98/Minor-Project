@@ -86,14 +86,14 @@ router.post('/:person/:id/image/upload',middleware.isLoggedIn,middleware.checkOw
 });
 
 // EDIT ROUTE - Add,Remove or Update Value of Individuals---------------------------
-router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
+router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.hasAuthority,function(req,res){
     if(req.params.person == "supervisor"){
         Supervisor.findById(req.params.id,function(err,foundSupervisor){
             if(err || !foundSupervisor){
                 req.flash("error","Something Went Wrong!!");
                 res.redirect('back');
             } else {
-                res.render("edit",{person : foundSupervisor, path : "supervisor"});
+                res.render("edit",{person : foundSupervisor, path : "supervisor",allSupervisor: false});
             }
         });
     } else if(req.params.person == "scholar") {
@@ -102,7 +102,19 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,funct
                 req.flash("error","Something Went Wrong!!");
                 res.redirect('back');
             } else {
-                res.render("edit",{person : foundScholar, path : "scholar"});
+                if(req.user.isAdmin){
+                    Supervisor.find({},(err,allSupervisor) =>{
+                        if(err){
+                            req.flash('error','Supervisor for SDC Panel not found');
+                            res.redirect('back');
+                        } else {
+                            res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: allSupervisor});
+                        }
+                    });
+                } else{
+                    res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: false});
+                        
+                }
             }
         });
     } else{
@@ -112,7 +124,7 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,funct
 });
 
 // UPDATE ROUTE - Store Changes to Database (if any) exists-----------------------------
-router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
+router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middleware.addSDC,function(req,res){
 
     data = {
         email : req.body.email,
@@ -184,6 +196,22 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     // Update Research Title
     if(req.body.reschTitle){
         data.reschTitle = req.body.reschTitle;
+    }
+
+    // ADD SDC MEMBER
+    if(req.params.person == 'scholar'){
+        data.sdcMember = [];
+        if(req.Id && req.Id.length != 0 && req.Name && req.Name.length != 0){
+            for(i = 0; i < req.Id.length;i++){
+                temp = {
+                    ID : req.Id[i],
+                    name : req.Name[i]
+                };
+                
+                data.sdcMember.push(temp);
+            }
+        }
+
     }
 
     if(req.params.person == "supervisor"){

@@ -61,27 +61,29 @@ function onPageLoad(){
     });
 
     // SLIDE EFFECT FOR COURSES (SLICK.js)
-    $(document).ready(function(){
-        $('.courseDisp').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-            pauseOnFocus: false,
-            nextArrow: '<button type="button" class="slick-next"><i class="fas fa-chevron-right"></i></button>',
-            prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-chevron-left"></i></button>',
-            responsive: [{
-                breakpoint : 768,
-                settings :{
-                    slidesToShow : 1,
-                    slidesToScroll : 1,
-                    autoplay :true,
-                    autoplaySpeed: 2000,
-                    arrows : false,
-                }
-            }]
+    if(window.location.pathname == '/'){
+        $(document).ready(function(){
+            $('.courseDisp').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                pauseOnFocus: false,
+                nextArrow: '<button type="button" class="slick-next"><i class="fas fa-chevron-right"></i></button>',
+                prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-chevron-left"></i></button>',
+                responsive: [{
+                    breakpoint : 768,
+                    settings :{
+                        slidesToShow : 1,
+                        slidesToScroll : 1,
+                        autoplay :true,
+                        autoplaySpeed: 2000,
+                        arrows : false,
+                    }
+                }]
+            });
         });
-    });
+    }
 
 }
 onPageLoad();

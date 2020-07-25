@@ -360,7 +360,7 @@
                 <%}%>
             <%}%>
 
-            <%if(isOwner){%>
+            <%if(isOwner || currentUser.isAdmin){%>
                 <div class="float-right mb-3">
                     <a class="btn btn-xs btn-warning px-2 py-1" href="/<%= path %>/<%= person._id %>/edit">EDIT PROFILE</a>
                 </div>
