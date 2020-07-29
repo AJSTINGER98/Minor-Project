@@ -35,6 +35,7 @@ var scholarSchema = new mongoose.Schema({
         reportHexName  : String,
         reportName     : String
     }],
+    phdCompleted  : Boolean,
 });
 
 // RETURN MODEL

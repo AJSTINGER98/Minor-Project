@@ -26,8 +26,9 @@
                     <tr>
                         <th>Scholar ID<i class="fas fa-caret-down fa-sm"></i></th>
                         <th>Name<i class="fas fa-caret-down fa-sm"></i></th>
-                        <th>Department</th>
-                        <th>Email</th>
+                        <th class="d-none d-sm-table-cell">Department</th>
+                        <th class="d-none d-sm-table-cell">PhD Status</th>
+                        <th class="d-none d-md-table-cell">Email</th>
                         <th>Supervisor</th>
                     </tr>
                 </thead>
@@ -36,11 +37,12 @@
                         <tr class="clickable-row" data-href= "/scholar/<%= sch._id %>" style="cursor: pointer;">
                             <td><%=sch.scID%></td>
                             <td><%=`${sch.title} ${sch.firstName} ${sch.middleName} ${sch.lastName}`%></td>
-                            <td>
+                            <td class="d-none d-sm-table-cell">
                                 <% var x = sch.department %>
                                 <%= x.slice(x.indexOf("(")+1,x.length-1) %>
                             </td>
-                            <td><%=sch.email%></td>
+                            <td class="d-none d-sm-table-cell"><%= sch.phdCompleted ? 'Completed' : 'Incomplete' %></td>
+                            <td class="d-none d-md-table-cell"><%=sch.email%></td>
                             <td>
                                 <%=sch.supervisor%>
                                 <div class="d-inline-block float-right"><a class = "text-secondary" href="/scholar/<%= sch._id %>"><i class="fas fa-chevron-right"></i></a></div>

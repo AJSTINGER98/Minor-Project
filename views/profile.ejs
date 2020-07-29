@@ -81,7 +81,11 @@
                     <p>
                         <% var x = person.department %>
                         Department of <%= x.slice(0, x.indexOf("(") != -1 ? x.indexOf("(") : person.department.length ) %><br>
-                        <%= person.school %>
+                        <%= person.school %> 
+                    <%if(path == 'scholar'){%>
+                        <br>
+                        PhD Status :<%= person.phdCompleted ? ' COMPLETED' : ' INCOMPLETE'%>     
+                    <%}%>
                     </p>
                 </div>
                 <div id="info1" class="col-md-6 pl-5">
@@ -366,7 +370,7 @@
                 </div>
             <%}%>
             <%if(currentUser.isAdmin){%>
-                <div class="float-right mb-3">
+                <div class="float-sm-right mb-3 float-left">
                     <form class="delete float-right" action="/<%= path %>/<%= person._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-xs btn-danger px-3 py-1">DELETE PROFILE</button>
                     </form>

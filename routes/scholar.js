@@ -29,7 +29,8 @@ router.get("/",(req,res) =>{
                     lastName   : scholar.lastName,
                     department : scholar.department,
                     supervisor : scholar.supervisedBy.supBy,
-                    email      : scholar.email
+                    email      : scholar.email,
+                    phdCompleted : scholar.phdCompleted
                 };
                 scholarList.push(temp);
             });
@@ -101,6 +102,7 @@ router.post("/",middleware.isLoggedIn,middleware.isAdmin,middleware.addSDC,(req,
                     reschTitle   : Sch.reschTitle,
                     sdcMember    : [],
                     report       : [],
+                    phdCompleted : false,
                 };
 
                 // SUPERVISED BY

@@ -166,6 +166,10 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
         data.mode = req.body.mode;
     }
 
+    if(req.body.phdStatus){
+        data.phdCompleted = req.body.phdStatus;
+    }
+
     var i;
     // Update Academic Qualifications (if any)
 
