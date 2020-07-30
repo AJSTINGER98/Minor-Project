@@ -387,11 +387,7 @@ opacity:0.2;
         display: none;
         
     }
-    #scheduleTable{
-        transform: scale(0.7) translateX(-70px);
-
-        
-    }
+    
 
 } 
 @media only screen and (max-width: 300px) {
@@ -492,23 +488,57 @@ opacity:0.2;
     font-family: 'Times New Roman', Times, serif;
 }
 
-/* DROPDOWN ROW STYLING */
+/* SCHEDULE DROPDOWN ROW STYLING */
 .parent-row{
     cursor: pointer;
 }
-/* .dropdown-row {
-    display: none;
 
-} */
-/* .dropdown-row td{
-    display: none;
-} */
-/* .dropdown-row td div{
-    height: 0%;
-    display: none;
-    transition: all 1s ease;
-} */
-/* .dropdown-row-active td div{
-    display: table-row;
-    height: 100%;
-} */
+.dropdown-row td{
+    height: 0px;
+    padding: 0px 12px;
+}
+
+.dropdown-row td div{
+
+    height: 0px;
+    overflow: hidden;
+
+    transition: height 1s ease;
+}
+.dropdown-row-active td div{
+    height: 250px;
+}
+
+@media screen and (max-width: 440px){
+    #scheduleFormTable #scheduleTable{
+        transform: scale(0.7) translateX(-70px);
+    
+    }
+    
+}
+@media screen and (max-width: 350px){
+    #scheduleFormTable #scheduleTable{
+        transform: scale(0.6) translateX(-120px);
+    
+    }
+    
+}
+/* SCHEDULE TABLE MODAL DESIGN */
+
+#scheduleModal #scheduleTable{
+    transform:scale(0.95);
+}
+@media screen and (max-width: 480px){
+    #scheduleModal #scheduleTable{
+        transform: scale(0.7) translateX(-40px)
+    
+    }
+    
+}
+@media screen and (max-width: 380px){
+    #scheduleModal #scheduleTable{
+        transform: scale(0.5) translateX(-60px)
+    
+    }
+    
+}

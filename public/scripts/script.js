@@ -526,12 +526,10 @@ function newFunction() {
     });
     // SLIDE ANIMATION OF DROPDOWN ROW
 
-    // $( ".parent-row" ).click(function() {
-    //     $(this).next('.dropdown-row').toggleClass( "dropdown-row-active");
-    //     // $(this).next('.dropdown-row').children('td').children('div').slideToggle(500);
-    //     // $(this).next('.dropdown-row').children('td').children('div').children().slideToggle(500);
-    //     $(this).next('.dropdown-row').children('td').slideToggle(1000);
-    // });
+    $( ".parent-row" ).click(function() {
+        $(this).next('.dropdown-row').toggleClass( "dropdown-row-active");
+
+    });
 
 
     
