@@ -7,6 +7,28 @@ const express    = require("express"),
 const Supervisor = require("../models/supervisor"),
       User       = require('../models/user');
 
+      
+// SORT BASED ON ACADEMIC ROLE
+
+var Designation = ['Director and Professor', 'Director' , 'Professor and HOD','Head Of the Department','Professor','Associate Professor','Assistant Professor','Adhoc'];
+    
+function sortAlgo(a, b) {
+    var index1 = Designation.indexOf(a.academicRole);
+    var index2 = Designation.indexOf(b.academicRole);
+    if (index1 == index2) {
+        return 0;
+    } else {
+        if(index1 != -1 && index2 != -1){
+            return index1 < index2 ? -1 : 1;
+        } else if(index1 == -1){
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+}
+
+
 // INDEX ROUTE - Show all Supervisors
 router.get("/",(req,res)=>{
 
@@ -31,6 +53,7 @@ router.get("/",(req,res)=>{
                 };
                 supervisorList.push(temp);
             });
+            supervisorList.sort(sortAlgo);
 
             res.render("supervisor",{supervisor : supervisorList});
 		}

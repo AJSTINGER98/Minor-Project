@@ -475,16 +475,19 @@ function newFunction() {
                     4 : { sorter: false },
                 }
             });
-            $('#supervisorTable').tablesorter({
-                sortList : [[0,0]],
-                headers : {
-                    // Zero Column Index
-                    0 : { sorter: true },
-                    1 : { sorter: false },
-                    2 : { sorter: false },
-                    3 : { sorter: false },
-                    4 : { sorter: false },
-                }
+            $('#supervisorTable .sorter').click(function(){
+                $('#supervisorTable').tablesorter({
+                    sortList : [[0,0]],
+                    headers : {
+                        // Zero Column Index
+                        0 : { sorter: true },
+                        1 : { sorter: false },
+                        2 : { sorter: false },
+                        3 : { sorter: false },
+                        4 : { sorter: false },
+                    }
+                });
+
             });
         });
         $('#scholarTable th, #supervisorTable th').click(function() {
