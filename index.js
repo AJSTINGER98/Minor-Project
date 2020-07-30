@@ -88,12 +88,14 @@ const schRoute     = require("./routes/scholar");
 const authRoute    = require("./routes/authentication");
 const resetRoute   = require("./routes/reset");
 const seedRoute    = require("./routes/seeds");
+const scheduleRoute    = require("./routes/schedule");
 
 // CALL ROUTES
 app.use("/supervisor",supRoute);
 app.use("/scholar",schRoute);
 app.use("/form",formRoute);
 app.use("/seeds",seedRoute);
+app.use("/schedule",scheduleRoute);
 app.use("/",resetRoute);
 app.use("/",profileRoute);
 app.use("/",authRoute);

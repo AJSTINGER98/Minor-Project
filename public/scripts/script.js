@@ -220,6 +220,7 @@ function newFunction() {
     });
 
     // INCLUDE ADD/REMOVE FOR RESEARCH
+    
     $(function(){
 
         $(document).ready(function(){
@@ -248,6 +249,32 @@ function newFunction() {
             return false;
         });
     });
+
+    // INCLUDE ADD/REMOVE FOR PRESENTATION SCHEDULE
+    if(window.location.pathname == '/schedule'){
+        $(function(){
+    
+            $(document).on('click','.addSchedule',function(e){
+                e.preventDefault();
+                var scheduleForm = $('.schedule'),
+                    scheduleEntry = $(this).parents('.scheduleField'),
+                    newscheduleEntry = $(scheduleEntry.clone()).appendTo(scheduleForm);
+    
+                    newscheduleEntry.find('input').val('');
+                    newscheduleEntry.find('select').val('None');
+                    scheduleForm.find('.scheduleField:not(:last) .addSchedule')
+                    .removeClass('addSchedule').addClass('delSchedule')
+                    .removeClass('btn-success').addClass('btn-danger')
+                    .html('REMOVE');
+            }).on('click','.delSchedule',function(e){
+                $(this).parents('.scheduleField:first').remove();
+                e.preventDefault();
+                return false;
+            });
+        });
+        
+    }
+
 
     // FADING EFFECT IN ALERT 
 
@@ -377,11 +404,14 @@ function newFunction() {
     function exportexcel(x){
 
         //Import table object
-        var myTable = document.getElementById(`${x}`);
+        var myTable = document.getElementById(`${x}`).cloneNode(true);
 
         // Remove row with display none
         $(myTable).find('tr').each(function(){
             if($(this).hasClass('d-none')){
+                $(this).remove();
+            }
+            else if($(this).hasClass('dropdown-row')){
                 $(this).remove();
             }
         });
@@ -494,6 +524,14 @@ function newFunction() {
             $("i", this).toggleClass("fas fa-caret-down fa-sm fas fa-caret-up fa-sm");
         });
     });
+    // SLIDE ANIMATION OF DROPDOWN ROW
+
+    // $( ".parent-row" ).click(function() {
+    //     $(this).next('.dropdown-row').toggleClass( "dropdown-row-active");
+    //     // $(this).next('.dropdown-row').children('td').children('div').slideToggle(500);
+    //     // $(this).next('.dropdown-row').children('td').children('div').children().slideToggle(500);
+    //     $(this).next('.dropdown-row').children('td').slideToggle(1000);
+    // });
 
 
     

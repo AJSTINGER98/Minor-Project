@@ -1,5 +1,8 @@
 <%- include ("partials/header")%>
-
+    <!-- MODAL FOR PPT SCHEDULE -->
+    <%if(currentUser){%>
+        <%- include("schedule")%>
+    <%}%>
 	<!-- MODAL FOR DEPARTMENT RESEARCH COMMITTEE -->
 	<div class="modal fade" id="reschComm" tabindex="-1" role="dialog" aria-labelledby="dept" aria-hidden="true">
 		<div class="modal-dialog modal-lg modal-dialog-centered">

@@ -387,6 +387,11 @@ opacity:0.2;
         display: none;
         
     }
+    #scheduleTable{
+        transform: scale(0.7) translateX(-70px);
+
+        
+    }
 
 } 
 @media only screen and (max-width: 300px) {
@@ -481,3 +486,29 @@ opacity:0.2;
     right: 0;
     z-index: 1000; 
 }
+/* PRESENTATION SCHEDULE MODAL DESIGN */
+
+#scheduleModal h4{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* DROPDOWN ROW STYLING */
+.parent-row{
+    cursor: pointer;
+}
+/* .dropdown-row {
+    display: none;
+
+} */
+/* .dropdown-row td{
+    display: none;
+} */
+/* .dropdown-row td div{
+    height: 0%;
+    display: none;
+    transition: all 1s ease;
+} */
+/* .dropdown-row-active td div{
+    display: table-row;
+    height: 100%;
+} */
