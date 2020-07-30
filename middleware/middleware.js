@@ -64,7 +64,8 @@ middlewareObject.isAdmin = (req, res , next) => {
 middlewareObject.checkOwner = (req,res,next) =>{
   if(req.isAuthenticated()){
     if(!req.user.isAdmin){
-      if(req.user.refID === req.params.id){
+      console.log(req.user.refID,req.params.id);
+      if(req.user.refID == req.params.id){
         next();
       }
       else{
