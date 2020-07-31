@@ -12,58 +12,61 @@ const Supervisor = require("../models/supervisor"),
 
 router.get("/", (req,res) =>{
 	Drc.find({},(err,foundDrc) =>{
-		if(err)
+		if(err){
 			console.log(err);
-		else {
-			if(req.isAuthenticated()){  
-				Form.find({},(err,formList) =>{
-					if(err || formList.length == 0){
-						return res.render('home',{files:false, drc : foundDrc[0], scheduleData: false});
-					} else {
-						Schedule.find({},(err,sched)=>{
-							if(err || !sched || sched.length == 0){
-								res.render('home',{files:formList, drc : foundDrc[0], scheduleData: false});
-							} else{
-								scheduleArr = [];
-								if(req.user.isAdmin){
-									scheduleArr = sched;
-								} else {
-									if(req.user.isSupervisor){
-										sched.forEach(schedule =>{
-											if(schedule.supervisedBy && schedule.supervisedBy.ID && schedule.supervisedBy.ID.toString() == req.user.refID.toString()){
-												scheduleArr.push(schedule);
-											} else if(schedule.cosupervisor && schedule.cosupervisor.ID && schedule.cosupervisor.ID.toString() == req.user.refID.toString()){
-												scheduleArr.push(schedule);
-											} else if(schedule.sdcMember && schedule.sdcMember.length != 0){
-												
-												for(var i=0;i<schedule.sdcMember.length;i++){
-													
-													if(schedule.sdcMember[i].ID && schedule.sdcMember[i].ID.toString() == req.user.refID.toString()){
-														scheduleArr.push(schedule);
-														break;
-													}
-												}
-												
-											}
-										});
-									} else {
-										sched.forEach(schedule =>{
-											if(schedule.ID && schedule.ID.toString() == req.user.refID.toString()){
-												scheduleArr.push(schedule);
-											}
-										});
-									}
-								}
-					
-								res.render('home',{files:formList, drc : foundDrc[0], scheduleData: scheduleArr});
-							}
-						});
-					}
-				});
-			} else { 
-				res.render('home',{drc : foundDrc[0]});
-			}
+			foundDrc = [];
 		}
+		
+		if(req.isAuthenticated()){  
+			Form.find({},(err,formList) =>{
+				if(err){
+					console.log('Form not found');
+					formList = [];
+				} 
+				Schedule.find({},(err,sched)=>{
+					if(err || !sched || sched.length == 0){
+						sched = [];
+					}
+					scheduleArr = [];
+					if(req.user.isAdmin){
+						scheduleArr = sched;
+					} else {
+						if(req.user.isSupervisor && sched.length >0){
+							sched.forEach(schedule =>{
+								if(schedule.supervisedBy && schedule.supervisedBy.ID && schedule.supervisedBy.ID.toString() == req.user.refID.toString()){
+									scheduleArr.push(schedule);
+								} else if(schedule.cosupervisor && schedule.cosupervisor.ID && schedule.cosupervisor.ID.toString() == req.user.refID.toString()){
+									scheduleArr.push(schedule);
+								} else if(schedule.sdcMember && schedule.sdcMember.length != 0){
+									
+									for(var i=0;i<schedule.sdcMember.length;i++){
+										
+										if(schedule.sdcMember[i].ID && schedule.sdcMember[i].ID.toString() == req.user.refID.toString()){
+											scheduleArr.push(schedule);
+											break;
+										}
+									}
+									
+								}
+							});
+						} else  if(sched.length > 0){
+							sched.forEach(schedule =>{
+								if(schedule.ID && schedule.ID.toString() == req.user.refID.toString()){
+									scheduleArr.push(schedule);
+								}
+							});
+						}
+					}
+					
+					res.render('home',{files:formList, drc : foundDrc[0], scheduleData: scheduleArr});
+					
+				});
+				
+			});
+		} else { 
+			res.render('home',{drc : foundDrc[0]});
+		}
+		
 	});
 });
 

@@ -78,19 +78,19 @@ router.post('/',middleware.isLoggedIn,middleware.isAdmin,(req,res)=>{
                 }
                 scheduleData.push(temp);
                 count++;
-                if(count == scholarData.length){
-                    console.log(scheduleData);
-                    Schedule.create(scheduleData,function(err,data){
-                        if(err){
-                            console.log(err);
-                            req.flash('error','Schedule Could not be added');
-                            res.redirect('back');
-                        } else{
-                            console.log('All Data Added');
-                            res.redirect('back');
-                        }
-                    });
-                }
+            }
+            if(count == scholarData.length){
+                console.log(scheduleData);
+                Schedule.create(scheduleData,function(err,data){
+                    if(err){
+                        console.log(err);
+                        req.flash('error','Schedule Could not be added');
+                        res.redirect('back');
+                    } else{
+                        console.log('All Data Added');
+                        res.redirect('back');
+                    }
+                });
             }
         });
     });
