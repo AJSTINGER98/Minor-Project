@@ -64,7 +64,7 @@ middlewareObject.isAdmin = (req, res , next) => {
 middlewareObject.checkOwner = (req,res,next) =>{
   if(req.isAuthenticated()){
     if(!req.user.isAdmin){
-      console.log(req.user.refID,req.params.id);
+      // console.log(req.user.refID,req.params.id);
       if(req.user.refID == req.params.id){
         next();
       }
@@ -86,14 +86,13 @@ middlewareObject.checkOwner = (req,res,next) =>{
 
 middlewareObject.isScholar = (req,res,next) =>{
   if(req.isAuthenticated()){
-    if(!req.user.isAdmin){
-      if(!req.user.isSupervisor){
+    if(!req.user.isAdmin && !req.user.isSupervisor){      
         next();
-      }
-      else{
-        req.flash('error','Cannot upload report!');
-        res.redirect('back');
-      }
+
+    }
+    else{
+      req.flash('error','Cannot upload report!');
+      res.redirect('back');
     }
   }
 };
@@ -120,17 +119,14 @@ middlewareObject.addSDC = (req,res,next) =>{
       }else {
         Supervisor.findById(memberId, function(err,foundSDC){
           if(err || !foundSDC){
-              console.log(err);
-              req.flash('error',"Either SDC Member doesn't Exists or has been moved somewhere else!!");
-              res.redirect('back');
-  
-          } else if(!foundSDC){
+              // console.log(err);
+              // req.flash('error',"Either SDC Member doesn't Exists or has been moved somewhere else!!");
+              // res.redirect('back');
               Id.push(0);
               Name.push(req.body.dispName[index]);
-          }
   
+          } 
           else {
-  
             Id.push(foundSDC._id);
             if(foundSDC.middleName == null)
                 Name.push(`${foundSDC.title} ${foundSDC.firstName} ${foundSDC.lastName}`);          

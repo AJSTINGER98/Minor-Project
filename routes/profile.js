@@ -105,11 +105,12 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.hasAuthority,fun
                 if(req.user.isAdmin){
                     Supervisor.find({},(err,allSupervisor) =>{
                         if(err){
-                            req.flash('error','Supervisor for SDC Panel not found');
-                            res.redirect('back');
-                        } else {
-                            res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: allSupervisor});
-                        }
+                            req.flash('warning','Error while looking for Supervisors');
+                            // res.redirect('back');
+                            allSupervisor = [];
+                        } 
+                        res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: allSupervisor});
+                        
                     });
                 } else{
                     res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: false});
@@ -127,10 +128,12 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.hasAuthority,fun
 router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middleware.addSDC,function(req,res){
 
     data = {
-        email : req.body.email,
         phone : req.body.phone != '' ? req.body.phone : undefined,
         
     };
+    if(req.body.email && req.body.email != ''){
+        data.email = req.body.email;
+    }
     if(req.body.firstName){
         data.firstName = req.body.firstName;
     }
@@ -276,7 +279,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
     }
 
     // UPDATE EMAIL ID IN USER MODEL AS WELL ------------> IMPORTANT
-    if(req.params.id == req.user.refID && req.body.email != req.user.email){
+    if(req.body.email && req.body.email != '' && req.params.id == req.user.refID && req.body.email != req.user.email){
         User.findByIdAndUpdate(req.user.id,{$set: {email : req.body.email}},function(err,user){
             if(err || !user){
                 console.log(err);
@@ -292,7 +295,7 @@ router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(r
         Supervisor.findByIdAndDelete(req.params.id,function(err,supervisor){
             if(err || !supervisor){
                 req.flash('error','Could not delete Supervisor');
-                res.redirect("/supervisor/"+req.params.id);
+                res.redirect("/supervisor");
             } else {
                 User.findOneAndDelete({refID: req.params.id}, (err,supUser)=>{
                     if(err || !supUser){
@@ -310,7 +313,7 @@ router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(r
         Scholar.findByIdAndDelete(req.params.id,function(err,scholar){
             if(err || !scholar){
                 req.flash('error','Could not delete Scholar');
-                res.redirect("/scholar/"+req.params.id);  
+                res.redirect("/scholar");  
             } else {
                 // REMOVE USER --------->
                 User.findOneAndDelete({refID: req.params.id}, (err,schUser)=>{

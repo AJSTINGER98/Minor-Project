@@ -39,6 +39,7 @@ router.get("/",(req,res) =>{
                     if(err){
                         req.flash('error','Something Went Wrong, Please Refresh The Page!!');
                         console.log(err);
+                        allsupervisor = [];
                     }
                     res.render("scholar",{scholar : scholarList, supervisor : allsupervisor});
                 });   

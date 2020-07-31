@@ -16,11 +16,11 @@ router.get('/',middleware.isLoggedIn,middleware.isAdmin,(req,res)=>{
         } else{
             Schedule.find({},(err,allSchedule)=>{
                 if(err){
-                    req.flash('error','Something went wrong');
-                    res.redirect('back');
-                } else{
+                    req.flash('error','Something went wrong while finding schedule');
+                    allSchedule = [];
+                } 
                     res.render('scheduleForm',{scholarData : allScholar,scheduleData : allSchedule});
-                }
+                
             });
         }
     });

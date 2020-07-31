@@ -20,11 +20,12 @@ router.get("/", (req,res) =>{
 		if(req.isAuthenticated()){  
 			Form.find({},(err,formList) =>{
 				if(err){
-					console.log('Form not found');
+					console.log('Error while finding Form');
 					formList = [];
 				} 
 				Schedule.find({},(err,sched)=>{
-					if(err || !sched || sched.length == 0){
+					if(err){
+						console.log('Error while adding schedule');
 						sched = [];
 					}
 					scheduleArr = [];
