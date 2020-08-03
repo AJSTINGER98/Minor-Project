@@ -296,7 +296,51 @@
                 <% } %>
    
             <% } %>
-
+                <% if(path == 'supervisor' && isOwner){%>
+                    <div id="info1" class="container">
+                        <h5>REPORTS</h5>
+                        <table class="table table-hover">
+                            <% if(person.report && person.report.length != 0){%>
+                                <thead>
+                                    <tr>
+                                        <th>Scholar Name</th>
+                                        <th>Report</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <% person.report.forEach(function(foundReport){%>
+                                    <tr>
+                                        <th><%=foundReport.scholarName%></th>  
+                                        <th class="scope" colspan=""><a href="/form/<%= foundReport.reportId%>/<%= foundReport.reportName%>" target="_blank"><%=foundReport.reportName%></a></th>
+                                        <%if(isOwner){%>
+                                        <td>
+                                            <span class="d-flex justify-content-end">
+                                                <form action="/supervisor/<%=person._id%>/report/<%=foundReport.reportId%>?_method=DELETE" method="POST">
+                                                    <button class="btn text-danger"><i class="fas fa-times fa-lg"></i></button>
+                                                </form>
+                                            </span>
+                                        </td>
+                                        <%}%>
+                                    </tr>
+                                <%});%>
+                                    
+                                </tbody>
+                            <%}%>
+                                <% if(isOwner){%>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3">
+                                                <span class="d-flex justify-content-end"><button class="btn btn-success py-0 px-1" style="cursor: pointer;" data-toggle="modal" data-target="#uploadReport">ADD REPORT</button></span>      
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                <%}%>
+                            </table>
+                            <hr style="padding-bottom: 20px; width: 50%;"> 
+                        </div>
+                    
+                <%}%>
             <% if (path == 'scholar' && (isOwner || currentUser.isSupervisor || currentUser.isAdmin)){%> 
                 <div id="info1" class="container">
                     <h5>REPORTS</h5>
@@ -305,7 +349,7 @@
                         <tbody>
                         <% person.report.forEach(function(foundReport){%>
                             <tr>
-                                <th class="scope" colspan=""><a href="/form/<%= foundReport.reportId%>/<%= foundReport.reportHexName%>" target="_blank"><%=foundReport.reportName%></a></th>
+                                <th class="scope" colspan=""><a href="/form/<%= foundReport.reportId%>/<%= foundReport.reportName%>" target="_blank"><%=foundReport.reportName%></a></th>
                                 <%if(isOwner){%>
                                 <td>
                                     <span class="d-flex justify-content-end">
@@ -332,6 +376,7 @@
                     </table>
                     <hr style="padding-bottom: 20px; width: 50%;"> 
                 </div>
+                <%}%>
                 <%if(isOwner){%>
                     <div class="modal fade" id="uploadReport" tabindex="-1" role="dialog" aria-labelledby="uploadReportLabel" aria-hidden="true">
                         <div class="modal-dialog modal-sm" role="document">
@@ -342,13 +387,35 @@
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="/scholar/<%=person._id%>/report/upload" method="POST" enctype="multipart/form-data">
+                            <form action="/<%=path%>/<%=person._id%>/report/upload" method="POST" enctype="multipart/form-data">
                                 <div class="modal-body">
-                                    <div class="row d-flex justify-content-center">
+                                    <%if(isOwner && currentUser.isSupervisor){%>
+                                        <div class="row d-flex justify-content-center mb-4">
+                                            <div class="col-sm-8 for-group">
+                                                <div class="custom-file h-50">
+                                                    <label for="scholarName">Scholar</label>
+                                                    <select id="scholarName" class="form-control" name="scholar" required>
+                                                        <%if(person.schUnder && person.schUnder.length != 0){%>
+                                                            <%person.schUnder.forEach((foundSch)=>{%>
+                                                                <option value="<%=foundSch.sch%>"><%= foundSch.sch%></option>
+                                                            <%})%>
+                                                            
+                                                        <%}%>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <%}%>
+                                <div class="row d-flex justify-content-center">
                                         <div class="col-sm-8 form-group">
                                             <div class="custom-file h-50">
-                                                <input type="file" name="reportpdf" id="reportpdf" class="custom-file-input" accept="application/pdf" required>
-                                                <label for="reportpdf" class="custom-file-label" placeholder = "Choose PDF"></label>
+                                            <%if(path == 'scholar'){%>
+                                                <input type="file" name="report" id="report" class="custom-file-input" accept="application/pdf" required>
+                                            <%} else if(path == 'supervisor'){%>
+                                                    <input type="file" name="report" id="report" class="custom-file-input" accept=".xls,.xlsx,.csv" required>
+                                            
+                                            <%}%>
+                                                <label for="report" class="custom-file-label" placeholder = "Choose PDF"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -362,7 +429,6 @@
                         </div>
                     </div>
                 <%}%>
-            <%}%>
 
             <%if(isOwner || currentUser.isAdmin || (person.supervisedBy && person.supervisedBy.ID.toString() == currentUser.refID)){%>
                 <div class="float-right mb-3">

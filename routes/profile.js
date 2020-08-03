@@ -450,13 +450,12 @@ router.post("/:person/:id/image/edit/:imgid",middleware.isLoggedIn,middleware.ch
 
 //UPLOAD A REPORT
 
-router.post('/:person/:id/report/upload',middleware.isLoggedIn,middleware.checkOwner,middleware.isScholar,middleware.upload.single('reportpdf'), (req,res) =>{
+router.post('/:person/:id/report/upload',middleware.isLoggedIn,middleware.checkOwner,middleware.upload.single('report'), (req,res) =>{
     if(req.params.person == 'scholar'){
 
         Scholar.findByIdAndUpdate(req.params.id,
             {$push: {"report": {
                 reportId: req.file.id,
-                reportHexName: req.file.filename , 
                 reportName: req.file.originalname
             }}},
             {safe: true , upsert:true},(err,foundSch)=>{
@@ -469,7 +468,25 @@ router.post('/:person/:id/report/upload',middleware.isLoggedIn,middleware.checkO
                     res.redirect('back');
                 }
             });
-    } else {
+    } else if(req.params.person == 'supervisor'){
+        Supervisor.findByIdAndUpdate(req.params.id,
+            {$push: {"report": {
+                reportId: req.file.id,
+                reportName: req.file.originalname,
+                scholarName: req.body.scholar
+            }}},
+            {safe: true , upsert:true},(err,foundSch)=>{
+                if(err || !foundSch){
+                    req.flash('error','Scholar not found');
+                    res.redirect('back');
+                }
+                else {
+                    req.flash('success', 'Report Uploaded');
+                    res.redirect('back');
+                }
+        });
+    } 
+    else {
         req.flash('error', 'Could not upload Report!');
         res.redirect('back');
     }
@@ -478,27 +495,56 @@ router.post('/:person/:id/report/upload',middleware.isLoggedIn,middleware.checkO
 
 //DELETE A REPORT
 router.delete('/:person/:id/report/:rid',middleware.isLoggedIn,middleware.checkOwner, (req,res) =>{
-    Scholar.findByIdAndUpdate(req.params.id,
-        {$pull : {
-            'report':{
-                reportId: req.params.rid
-            }
-        }}, (err, foundScholar)=>{
-            if(err || !foundScholar){
-                req.flash('err','Report Not Found');
-                res.redirect('back');
-            } else{
-                gfs.delete(new mongoose.Types.ObjectId(req.params.rid),(err)=>{
-                    if(err){
-                        req.flash('error', 'Could not delete Report');
-                        res.redirect('back');
-                    } else{
-                        req.flash('success','Report Removed');
-                        res.redirect('back');
-                    }
-                });
-            }
-        });
+    if(req.params.person == 'scholar'){
+        Scholar.findByIdAndUpdate(req.params.id,
+            {$pull : {
+                'report':{
+                    reportId: req.params.rid
+                }
+            }}, (err, foundScholar)=>{
+                if(err || !foundScholar){
+                    req.flash('err','Report Not Found');
+                    res.redirect('back');
+                } else{
+                    gfs.delete(new mongoose.Types.ObjectId(req.params.rid),(err)=>{
+                        if(err){
+                            req.flash('error', 'Could not delete Report');
+                            res.redirect('back');
+                        } else{
+                            req.flash('success','Report Removed');
+                            res.redirect('back');
+                        }
+                    });
+                }
+            });
+
+    } else if(req.params.person == 'supervisor'){
+        Supervisor.findByIdAndUpdate(req.params.id,
+            {$pull : {
+                'report':{
+                    reportId: req.params.rid
+                }
+            }}, (err, foundScholar)=>{
+                if(err || !foundScholar){
+                    req.flash('err','Report Not Found');
+                    res.redirect('back');
+                } else{
+                    gfs.delete(new mongoose.Types.ObjectId(req.params.rid),(err)=>{
+                        if(err){
+                            req.flash('error', 'Could not delete Report');
+                            res.redirect('back');
+                        } else{
+                            req.flash('success','Report Removed');
+                            res.redirect('back');
+                        }
+                    });
+                }
+            });
+    }
+    else {
+        req.flash('error', 'Could not remove Report!');
+        res.redirect('back');
+    }
 });
 
 
