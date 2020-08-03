@@ -40,6 +40,11 @@ var supervisorSchema = new mongoose.Schema({
         role     : String,
         amount   : String
     }],
+    report       :[{
+        reportId       : mongoose.Schema.Types.ObjectId,
+        reportName     : String,
+        scholarName    : String,
+    }],
     FoE: [String]
 });
 
