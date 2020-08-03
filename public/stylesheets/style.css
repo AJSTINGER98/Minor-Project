@@ -330,7 +330,7 @@ opacity:0.2;
 }
 
 
-/* -------------------EDIT PAGE --------------------- */
+/* -------------------EDIT PROFILE PAGE --------------------- */
 #editTitle{
     margin-top: 80px;
     text-align: center;
@@ -363,6 +363,107 @@ opacity:0.2;
 #edit hr{
     background-color: cadetblue;
 }
+
+/* ------------------------ END ---------------------------- */
+
+/* ------------------ Notification Page -------------------- */
+.notify{
+    margin-top: 100px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 75%;
+}
+
+.notify h3{
+    padding-top: 10px;
+    text-align: center;
+}
+
+.notify ol > li{
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+
+.notify ol > li > h6{
+    padding-bottom: 15px;
+}
+
+.notify ul{
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.notify ul > li:nth-of-type(1){
+    padding-bottom: 5px;
+}
+
+.notify ol > li > span{
+    line-height: 0.1em  ;
+}
+
+.notify ol > li > span form{
+    display: inline;
+}
+
+.notify ol > li > span .fa-edit{
+    color: black;
+}
+
+.notify ol > li > span > a:focus, .notify ol > li > span > form > button:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.notify ol > li > span .fa-trash{
+    color: red;
+}
+
+.notify div{
+    margin-bottom: 12px;
+}
+
+.notify div a:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.createNotify{
+    font-size: 0.7em;
+    color: rgba(0,0,0,0.5);
+    margin-bottom: 10px;
+
+}
+
+#editnotification .modal-header, #newnotification .modal-header{
+    height: 10px !important;
+}
+
+#editnotification .modal-header >button, #newnotification .modal-header > button{
+    padding-top: 4px;
+    outline: none;
+}
+
+#editnotification .modal-body > h5 , #newnotification .modal-body > h5{
+    text-align: center;
+    font-family: 'Lucida Sans', sans-serif;
+}
+
+#editnotification .modal-body .input-group, #newnotification .modal-body .input-group{
+    width: 80%;
+    margin: 10px auto;
+}
+
+#editnotification .modal-footer, #newnotification .modal-footer{
+    height: 50px !important;
+}
+
+#editnotification .modal-footer > button, #newnotification .modal-footer > button{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+/* -------------------------- END -------------------------- */
 
 /* COLLAPSE TABLE COLUMN ON SHRINKING */
 @media only screen and (max-width: 730px) {

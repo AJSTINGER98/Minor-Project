@@ -15,8 +15,9 @@ const app = express();
 
 // IMPORT MODELS
 const User = require("./models/user");
+const Notification = require("./models/notification");
 
-// SETUP CONNECTION TO  CLOUD DATABASE
+// SETUP CONNECTION TO  CLOUD & LOCAL DATABASE
 mongoURI = process.env.MONGOURL || "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
@@ -66,6 +67,18 @@ app.use(function(req,res,next){
     res.locals.error     = req.flash("error");
     res.locals.warning   = req.flash("warning");
     res.locals.success   = req.flash("success");
+
+    // Extract Notifications and set it locally
+    Notification.find({},(err,foundNotify) => {
+      if(err || foundNotify.length == 0){
+        console.log(err);
+        res.locals.notifyData = [];
+      }
+      else{
+        res.locals.notifyData = foundNotify;
+
+      }
+    });
     next();
 });
 
@@ -80,22 +93,24 @@ conn.once("open", () => {
 });
 
 // IMPORT ROUTES
-const supRoute     = require("./routes/supervisor");
-const dashRoute    = require("./routes/dashboard");
-const formRoute    = require("./routes/form");
-const profileRoute = require("./routes/profile");
-const schRoute     = require("./routes/scholar");
-const authRoute    = require("./routes/authentication");
-const resetRoute   = require("./routes/reset");
-const seedRoute    = require("./routes/seeds");
-const scheduleRoute    = require("./routes/schedule");
+const supRoute      = require("./routes/supervisor");
+const dashRoute     = require("./routes/dashboard");
+const formRoute     = require("./routes/form");
+const profileRoute  = require("./routes/profile");
+const schRoute      = require("./routes/scholar");
+const authRoute     = require("./routes/authentication");
+const resetRoute    = require("./routes/reset");
+const seedRoute     = require("./routes/seeds");
+const notifyRoute   = require("./routes/notification");
+const scheduleRoute = require("./routes/schedule");
 
 // CALL ROUTES
+app.use("/notification",notifyRoute);
+app.use("/schedule",scheduleRoute);
 app.use("/supervisor",supRoute);
 app.use("/scholar",schRoute);
-app.use("/form",formRoute);
 app.use("/seeds",seedRoute);
-app.use("/schedule",scheduleRoute);
+app.use("/form",formRoute);
 app.use("/",resetRoute);
 app.use("/",profileRoute);
 app.use("/",authRoute);
