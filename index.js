@@ -70,12 +70,14 @@ app.use(function(req,res,next){
 
     // Extract Notifications and set it locally
     Notification.find({},(err,foundNotify) => {
-      if(err)
+      if(err || !foundNotify){
         console.log(err);
-      else
-        res.locals.notifyData = foundNotify;
+      }
+      else{
+        res.locals.notifyData = foundNotify || [];
+      }
+      next();
     });
-    next();
 });
 
 // SETTING UP GRIDFS
