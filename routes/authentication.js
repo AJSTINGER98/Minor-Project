@@ -20,19 +20,16 @@ router.post('/signup' ,middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
             username: req.body.username,
             email: req.body.email,
             isAdmin: true,
-    
         }), req.body.password, function(err,user){
             if(err || !user){
-                req.flash('error', 'Unable to Sign Up');
+                req.flash('error','Unable to Sign Up');
                 return res.redirect('/signup');
-            } else{
+            } else {
                 req.flash('success','New Admin Added');
                 res.redirect('/');
             }
         });
-
-    }
-    else{
+    } else {
         req.flash('error', 'Password Fields do not match');
         res.redirect('/signup');
     }
@@ -73,7 +70,6 @@ router.post('/changepassword',middleware.isLoggedIn, (req,res) =>{
                 res.redirect('/');
             }
         });
-
     } else {
         req.flash('warning','New Passwords do not match !');
         res.redirect('back');
