@@ -84,7 +84,7 @@
                         <%= person.school %> 
                     <%if(path == 'scholar'){%>
                         <br>
-                        PhD Status :<%= person.phdCompleted ? ' COMPLETED' : ' INCOMPLETE'%>     
+                        PhD Status :<%= person.phdCompleted ? ' COMPLETED' : ' ONGOING '%>     
                     <%}%>
                     </p>
                 </div>
@@ -364,7 +364,7 @@
                 <%}%>
             <%}%>
 
-            <%if(isOwner || currentUser.isAdmin){%>
+            <%if(isOwner || currentUser.isAdmin || (person.supervisedBy && person.supervisedBy.ID.toString() == currentUser.refID)){%>
                 <div class="float-right mb-3">
                     <a class="btn btn-xs btn-warning px-2 py-1" href="/<%= path %>/<%= person._id %>/edit">EDIT PROFILE</a>
                 </div>

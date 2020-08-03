@@ -98,9 +98,10 @@ middlewareObject.isScholar = (req,res,next) =>{
 };
 
 middlewareObject.hasAuthority = (req,res,next) =>{
-  if(req.user.isAdmin || req.user.refID == req.params.id){
+  if(req.user.isAdmin || req.user.refID == req.params.id || req.user.isSupervisor){
     next(); 
-  } else {
+  } 
+  else {
     req.flash('error', 'You are not authorized');
     res.redirect('back');
   }

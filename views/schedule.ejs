@@ -6,14 +6,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <% if(currentUser.isAdmin) {%>
-                <div class="w-100 d-flex justify-content-center my-4">
-                    <a href="/schedule">
-                        <button class="btn btn-primary">Add/Remove Schedule</button>
-                    </a>
-                </div><br>
-                <hr>
-            <%}%>
+
             <%if(scheduleData && scheduleData.length >0){%>
                 <h4 class="w-100 text-center my-2">YOUR PRESENTATION SCHEDULES</h4>
                 <!-- DOWNLOAD BUTTON -->
@@ -108,6 +101,13 @@
             <%}%>
 
             <div class="modal-footer py-1">
+                <% if(currentUser.isAdmin) {%>
+                    <div class="form-group">
+                        <a href="/schedule" class="p-0">
+                            <button class="btn btn-outline-info btn-sm py-1">Add/Remove Schedule</button>
+                        </a>
+                    </div>
+                <%}%>
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-primary btn-sm py-1" data-dismiss="modal">CLOSE</button>
                 </div>

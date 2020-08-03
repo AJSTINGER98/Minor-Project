@@ -12,38 +12,56 @@ const Supervisor    = require("../models/supervisor"),
 // SHOW ROUTE - Display Profile of Individuals
 router.get("/:person/:id",middleware.isLoggedIn,function(req,res){
     if(req.params.person == "supervisor"){
-        // FIND SUPERVISOR
-        Supervisor.findById(req.params.id,function(err,foundSupervisor){
-            if(err || !foundSupervisor){
-                req.flash("error","Supervisor Doesn't Exists!!");
-                res.redirect("/supervisor");
-            } else {
-                if(foundSupervisor._id.equals(req.user.refID)){
-                    isOwner =  true;
-                    res.render("profile",{person : foundSupervisor, path : "supervisor", isOwner:isOwner});
-                
+        if(req.user.isAdmin || req.user.refID == req.params.id){
+            // FIND SUPERVISOR
+            Supervisor.findById(req.params.id,function(err,foundSupervisor){
+                if(err || !foundSupervisor){
+                    req.flash("error","Supervisor Doesn't Exists!!");
+                    res.redirect("/supervisor");
                 } else {
-                    isOwner = false;
-                    res.render("profile",{person : foundSupervisor, path : "supervisor", isOwner:isOwner});
+                    if(foundSupervisor._id.equals(req.user.refID)){
+                        isOwner =  true;
+                        res.render("profile",{person : foundSupervisor, path : "supervisor", isOwner:isOwner});
+                    
+                    } else {
+                        isOwner = false;
+                        res.render("profile",{person : foundSupervisor, path : "supervisor", isOwner:isOwner});
+                    }
                 }
-            }
-        });
+            });
+        } else{
+            req.flash('warning','You are not allowed to view this profile');
+            res.redirect('/supervisor');
+        }
     } else if (req.params.person == "scholar"){
+    
         // FIND SCHOLAR
-        Scholar.findById(req.params.id,function(err,foundScholar){
-            if(err || !foundScholar){
-                req.flash("error","Scholar Doesn't Exists!!");
-                res.redirect("/scholar");
-            } else {
-                if(foundScholar._id.equals(req.user.refID)){
-                    isOwner =  true;
-                    res.render("profile",{person : foundScholar, path : "scholar", isOwner:isOwner});
+        if(req.user.isAdmin || req.user.isSupervisor || req.user.refID == req.params.id){
+            Scholar.findById(req.params.id,function(err,foundScholar){
+                if(err || !foundScholar){
+                    req.flash("error","Scholar Doesn't Exists!!");
+                    res.redirect("/scholar");
                 } else {
-                    isOwner = false;
-                    res.render("profile",{person : foundScholar, path : "scholar",isOwner:isOwner});
+                    if(req.user.isAdmin || req.user.refID == req.params.id || req.user.refID == foundScholar.supervisedBy.ID.toString()){
+                        if(foundScholar._id.equals(req.user.refID)){
+                            isOwner =  true;
+                            res.render("profile",{person : foundScholar, path : "scholar", isOwner:isOwner});
+                        } else {
+                            isOwner = false;
+                            res.render("profile",{person : foundScholar, path : "scholar",isOwner:isOwner});
+                        }
+
+                    } else {
+                        req.flash('warning','You are not allowed to view this profile');
+                        res.redirect('/scholar');
+                    }
                 }
-            }
-        });
+            });
+
+        } else {
+            req.flash('warning','You are not allowed to view this profile');
+            res.redirect('/scholar');
+        }
     } else {
         req.flash('error',"Profile does not exist");
         res.redirect('back');
@@ -93,7 +111,13 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.hasAuthority,fun
                 req.flash("error","Something Went Wrong!!");
                 res.redirect('back');
             } else {
-                res.render("edit",{person : foundSupervisor, path : "supervisor",allSupervisor: false});
+                if(req.user.isAdmin || req.user.refID == req.params.id){
+                    res.render("edit",{person : foundSupervisor, path : "supervisor",allSupervisor: false});
+
+                } else{
+                    req.flash('error','You are not authorized');
+                    res.redirect('back');
+                }
             }
         });
     } else if(req.params.person == "scholar") {
@@ -102,7 +126,7 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.hasAuthority,fun
                 req.flash("error","Something Went Wrong!!");
                 res.redirect('back');
             } else {
-                if(req.user.isAdmin){
+                if(req.user.isAdmin || req.user.refID == foundScholar.supervisedBy.ID.toString()){
                     Supervisor.find({},(err,allSupervisor) =>{
                         if(err){
                             req.flash('warning','Error while looking for Supervisors');
@@ -112,9 +136,12 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.hasAuthority,fun
                         res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: allSupervisor});
                         
                     });
-                } else{
+                } else if(req.user.refID == req.params.id){
                     res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: false});
                         
+                } else {
+                    req.flash('error','You are not authorized');
+                    res.redirect('back');
                 }
             }
         });
@@ -126,15 +153,15 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.hasAuthority,fun
 
 // UPDATE ROUTE - Store Changes to Database (if any) exists-----------------------------
 router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middleware.addSDC,function(req,res){
-
-    data = {
-        phone : req.body.phone != '' ? req.body.phone : undefined,
-        
-    };
+    // console.log(req.body);
+    var data = {};
+    if(req.body.phone){
+        data.phone = req.body.phone != '' ? req.body.phone : undefined;
+    }
     if(req.body.email && req.body.email != ''){
         data.email = req.body.email;
     }
-    if(req.body.firstName){
+    if(req.body.firstName && req.body.firstName != ''){
         data.firstName = req.body.firstName;
     }
     if(req.body.middleName){
@@ -143,10 +170,10 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
     if(req.body.lastName){
         data.lastName = req.body.lastName;
     }
-    if(req.body.department){
+    if(req.body.department && req.body.email != 'None'){
         data.department = req.body.department;
     }
-    if(req.body.school){
+    if(req.body.school && req.body.email != 'None'){
         data.school = req.body.school;
     }
 
@@ -252,7 +279,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
 
     }
 
-    if(req.params.person == "supervisor"){
+    if(req.params.person == "supervisor" && (req.user.isAdmin || req.user.refID == req.params.id)){
         Supervisor.findByIdAndUpdate(req.params.id,{$set:data},function(err,updateSupervisor){
             if(err || !updateSupervisor){
                 console.log(err);
@@ -263,7 +290,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
                 res.redirect("/supervisor/"+req.params.id);
             }
         });
-    } else if(req.params.person == "scholar") {
+    } else if(req.params.person == "scholar" && (req.user.isAdmin || req.user.refID == req.params.id)) {
         Scholar.findByIdAndUpdate(req.params.id,{$set:data},function(err,updateScholar){
             if(err || !updateScholar){
                 req.flash("error","Could Not Submit,Kindly Try Again!!");  
@@ -273,7 +300,29 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
                 res.redirect("/scholar/"+req.params.id);
             }
         });
-    } else {
+    } else if(req.params.person == "scholar" && req.user.isSupervisor){
+        Scholar.findById(req.params.id, (err,foundSch)=>{
+            if(err || !foundSch){
+                req.flash('error','No Scholar of that id found');
+                res.redirect('/scholar');
+            } else if(foundSch.supervisedBy.ID.toString() == req.user.refID){
+                Scholar.findByIdAndUpdate(req.params.id,{$set:data},function(err,updateScholar){
+                    if(err || !updateScholar){
+                        req.flash("error","Could Not Submit,Kindly Try Again!!");  
+                        res.redirect('/scholar');  
+                    } else {
+                        req.flash('success','Profile Updated!');
+                        res.redirect("/scholar/"+req.params.id);
+                    }
+                });
+            }
+            else{
+                req.flash('error','You are not authorized to do that');
+                res.redirect('/scholar/'+req.params.id);
+            }
+        });
+    } 
+    else{
         req.flash('error','Profile does not exist !');
         res.redirect('/');
     }

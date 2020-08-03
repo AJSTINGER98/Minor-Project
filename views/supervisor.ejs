@@ -11,7 +11,7 @@
                 <input type="text" class="form-control" placeholder="Search . . ." aria-label="username">
             </div>
 
-        <%if(currentUser && (currentUser.isAdmin || currentUser.isSupervisor)){%>
+        <%if(currentUser && (currentUser.isAdmin)){%>
         
             <!-- DOWNLOAD BUTTON -->
             <div class="d-flex justify-content-end">
@@ -25,16 +25,22 @@
             <table class="table table-hover no-margin text-center table-collapsible tablesorter" id="supervisorTable">
                 <thead class="thead-dark">
                     <tr>
-                        <th class="sorter">Supervisor ID<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th class="sorter">ID<i class="fas fa-caret-down fa-sm"></i></th>
                         <th>Name</th>
                         <th>Department</th>
                         <th>Designation</th>
                         <th>Email</th>
+                    <%if(currentUser && currentUser.isAdmin){%>
+                        <th class = "d-none"> Phone No.</th>
+                        <th class = "d-none"> School</th>
+                        <th class = "d-none"> Scholars Under</th>
+                        <th class = "d-none"> Field of Expertise</th>
+                    <%}%>
                     </tr>
                 </thead>
                 <tbody class="myTable">
                     <% supervisor.forEach(function(sup){ %>
-                        <tr class="clickable-row" data-href= "/supervisor/<%= sup._id %>" style="cursor: pointer;">
+                        <tr class="<%= currentUser && currentUser.isAdmin ? 'clickable-row' : ''%>"  <% if(currentUser && currentUser.isAdmin) {%> data-href= "/supervisor/<%= sup._id %>" style = "cursor:pointer;" <%}%>>
                             <td><%=sup.spID%></td>
                             <td><%= `${sup.title} ${sup.firstName} ${sup.middleName} ${sup.lastName}` %></td>
                             <td>
@@ -53,8 +59,22 @@
                             <td><%=sup.academicRole%></td>
                             <td>
                                 <%=sup.email%>
-                                <div class="d-inline-block float-right"><a class = "text-secondary" href="/supervisor/<%= sup._id %>"><i class="fas fa-chevron-right"></i></a></div>
+                                <div class="d-inline-block float-right"><a class = "text-secondary"><i class="fas fa-chevron-right"></i></a></div>
                             </td>
+                        <%if(currentUser && currentUser.isAdmin){%>
+                            <td class="d-none"><%= sup.phone%></td>
+                            <td class="d-none"><%= sup.school%></td>
+                            <td class="d-none">
+                                <%sup.schUnder.forEach(scholars =>{%>
+                                    <%=`${scholars.sch}` %>,
+                                <%});%>
+                            </td>
+                            <td class="d-none">
+                                <%sup.FoE.forEach(field =>{%>
+                                    <%= field %>,
+                                <%});%>
+                            </td>
+                        <%}%>
                             
                         </tr>
                     <% }); %>
@@ -315,7 +335,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+                                        
                                     <!-- ----------------------FOE---------------------- -->
                                     <hr id="suphr">
                                     <br>

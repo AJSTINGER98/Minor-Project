@@ -18,22 +18,7 @@ router.get("/",(req,res) =>{
             res.redirect('back');
 		}
 		else{
-            scholarList = [];
-            allscholar.forEach((scholar)=>{
-                temp = {
-                    _id        : scholar._id,
-                    scID       : scholar.scID,
-                    title      : scholar.title,
-                    firstName  : scholar.firstName,
-                    middleName : scholar.middleName,
-                    lastName   : scholar.lastName,
-                    department : scholar.department,
-                    supervisor : scholar.supervisedBy.supBy,
-                    email      : scholar.email,
-                    phdCompleted : scholar.phdCompleted
-                };
-                scholarList.push(temp);
-            });
+           
             if(req.user &&  req.user.isAdmin){
                 Supervisor.find({},'_id title firstName middleName lastName',function (err,allsupervisor) {
                     if(err){
@@ -41,10 +26,10 @@ router.get("/",(req,res) =>{
                         console.log(err);
                         allsupervisor = [];
                     }
-                    res.render("scholar",{scholar : scholarList, supervisor : allsupervisor});
+                    res.render("scholar",{scholar : allscholar, supervisor : allsupervisor});
                 });   
             } else{
-                res.render("scholar",{scholar : scholarList, supervisor : {}});
+                res.render("scholar",{scholar : allscholar, supervisor : {}});
             }
             
             

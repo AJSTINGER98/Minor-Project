@@ -12,7 +12,7 @@
                 <input type="text" class="form-control" placeholder="Search . . ." aria-label="username">
             </div>
             
-            <%if(currentUser && (currentUser.isAdmin || currentUser.isSupervisor)){%>
+            <%if(currentUser && (currentUser.isAdmin)){%>
                 <!-- DOWNLOAD BUTTON -->
                 <div class="d-flex justify-content-end">
                     <button class="btn btn-outline-success btn-sm mb-4" onclick="exportexcel('scholarTable')"><span class="mr-1 d-none d-md-inline-block">Export</span> <span><i class="fas fa-download"></i> </span></button>
@@ -24,29 +24,53 @@
             <table class="table table-hover no-margin text-center table-collapsible  tablesorter" id="scholarTable">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Scholar ID<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th>ID<i class="fas fa-caret-down fa-sm"></i></th>
                         <th>Name<i class="fas fa-caret-down fa-sm"></i></th>
                         <th class="d-none d-sm-table-cell">Department</th>
-                        <th class="d-none d-sm-table-cell">PhD Status</th>
-                        <th class="d-none d-md-table-cell">Email</th>
                         <th>Supervisor</th>
+                        <th>Co-Supervisor</th>
+                        <th class="d-none d-sm-table-cell">PhD Status</th>
+                    <% if(currentUser && (currentUser.isAdmin)){%>
+                        <th class="d-none">Email</th>
+                        <th class="d-none">Phone No.</th>
+                        <th class="d-none">School</th>
+                        <th class="d-none">Mode of PhD</th>
+                        <th class="d-none">Registration Date</th>
+                        <th class="d-none">Research Title</th>
+                        <th class="d-none">SDC Members</th>
+                    
+                    <%}%>
                     </tr>
                 </thead>
                 <tbody class="myTable">
                     <% scholar.forEach(function(sch){ %>
-                        <tr class="clickable-row" data-href= "/scholar/<%= sch._id %>" style="cursor: pointer;">
+                        <tr class="<%= currentUser && (currentUser.isAdmin || currentUser.refID == sch.supervisedBy.ID.toString()) ? 'clickable-row' : ''%>" <% if(currentUser && (currentUser.isAdmin || currentUser.refID == sch.supervisedBy.ID.toString())) {%> data-href= "/scholar/<%= sch._id %>" style = "cursor:pointer;" <%}%>>
                             <td><%=sch.scID%></td>
                             <td><%=`${sch.title} ${sch.firstName} ${sch.middleName} ${sch.lastName}`%></td>
                             <td class="d-none d-sm-table-cell">
                                 <% var x = sch.department %>
                                 <%= x.slice(x.indexOf("(")+1,x.length-1) %>
                             </td>
-                            <td class="d-none d-sm-table-cell"><%= sch.phdCompleted ? 'Completed' : 'Incomplete' %></td>
-                            <td class="d-none d-md-table-cell"><%=sch.email%></td>
-                            <td>
-                                <%=sch.supervisor%>
-                                <div class="d-inline-block float-right"><a class = "text-secondary" href="/scholar/<%= sch._id %>"><i class="fas fa-chevron-right"></i></a></div>
+                            <td><%=sch.supervisedBy.supBy%></td>
+                            <td><%=sch.cosupervisor ? sch.cosupervisor.cosup : 'None' %></td>
+                            <td class="d-none d-sm-table-cell">
+                                <%= sch.phdCompleted ? 'Completed' : 'Ongoing' %>
+                                <div class="d-inline-block float-right"><a class = "text-secondary"><i class="fas fa-chevron-right"></i></a></div>
                             </td>
+                            <% if(currentUser && (currentUser.isAdmin)){ %>
+                            <td class="d-none"><%=sch.email%></td>
+                            <td class="d-none"><%=sch.phone%></td>
+                            <td class="d-none"><%=sch.school%></td>
+                            <td class="d-none"><%=sch.mode%></td>
+                            <td class="d-none"><%=sch.regDate.toDateString()%></td>
+                            <td class="d-none"><%=sch.reschTitle%></td>
+                            <td class="d-none">
+                                <% sch.sdcMember.forEach(member=>{%>
+                                    <%= member.name%>,
+                                    
+                                <%});%>
+                            </td>
+                            <%}%>
                         </tr>
                     <% }); %>
                 </tbody>

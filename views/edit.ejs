@@ -9,6 +9,8 @@
 
 <div id="edit" class="container text-secondary">
     <form action="/<%= path %>/<%= person._id %>?_method=PUT" method="POST" enctype="">
+    <%if(currentUser.isAdmin || currentUser.refID == person._id.toString() || !currentUser.isSupervisor){%>
+        
         <!-- --------------BASIC INFORMATION--------------- -->
         <h5 id="title"><em>BASIC INFORMATION</em></h5>
         <br>    
@@ -350,9 +352,10 @@
                     
             </div>
         <% } %>
-
+        <%}%>
         <% if(path == 'scholar') { %>
-
+        <%if(currentUser.isAdmin || currentUser.refID == person._id.toString() || !currentUser.isSupervisor){%>
+        
             <!-- -----------------ADDITIONAL INFO(SCHOLAR)--------------------- -->
             <hr id="suphr">
             <br>
@@ -406,6 +409,7 @@
                     </div>
                 </div>
             </div>
+            <%}%>
 
             <!-- ------------------SDC MEMBER LIST--------------------- -->
             <hr id="suphr">
@@ -416,7 +420,7 @@
                 <div class="form-row d-flex justify-content-center">
                     <div class="form-group col-md-4">
                         <label for="sdc">Panel Members</label>
-                        <select id="sdc" class="form-control" name="sdc" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                        <select id="sdc" class="form-control" name="sdc" <%= !currentUser.isAdmin && !currentUser.isSupervisor ? 'disabled' : '' %>>
                             <option selected>None</option>
                             <%if(allSupervisor && allSupervisor.length != 0){%>
                             <%allSupervisor.forEach((supervisor)=>{%>
@@ -430,16 +434,16 @@
                 <div class="form-row">
                     <!-- ADD BUTTON -->
                     <div class="container d-flex justify-content-center pr-0 pt-1 pb-3">
-                        <button class="btn btn-primary addSDC px-4 py-1" <%= !currentUser.isAdmin ? 'disabled' : ''%>>ADD</button>
+                        <button class="btn btn-primary addSDC px-4 py-1" <%= !currentUser.isAdmin && !currentUser.isSupervisor ? 'disabled' : '' %>>ADD</button>
                     </div>
                 </div>
                 <% for(var i = 0; i < person['sdcMember'].length ; i++ ){ %>
                     <div class = "form-row d-flex justify-content-center my-2">
                         <div class="input-group col-md-4">
-                            <input type = "text" class = "form-control" name = "dispName" value="<%= person.sdcMember[i].name %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                            <input type = "text" class = "form-control" name = "dispName" value="<%= person.sdcMember[i].name %>" <%= !currentUser.isAdmin && !currentUser.isSupervisor ? 'disabled' : '' %>>
                             <input type="hidden" class="form-control" name="scholar[sdcMember][ID][]" value="<%=person.sdcMember[i].ID ? person.sdcMember[i].ID : 0 %>">
                             <span class="input-group-append">
-                                <button class="btn btn-danger btn-sdc-rem" type="button" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                                <button class="btn btn-danger btn-sdc-rem" type="button" <%= !currentUser.isAdmin && !currentUser.isSupervisor ? 'disabled' : ''%>>
                                     <i class="fas fa-minus"></i>   
                                 </button>                                       
                             </span>
@@ -447,20 +451,21 @@
                     </div>
                 <% } %>
             </div>
+            <%if(currentUser.isAdmin || currentUser.refID == person._id.toString() || !currentUser.isSupervisor){%>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>PhD STATUS</em></h5>
             <div class="form-row d-flex justify-content-center">
                 <div class="form-group col-md-4">
                     <label for="phdStatus">Status</label>
-                    <select id="phdStatus" class="form-control" name="phdStatus" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
-                        <option <%= !person.phdCompleted ? 'selected' : ''%> value="false">Incomplete</option>
+                    <select id="phdStatus" class="form-control" name="phdStatus" <%= !currentUser.isAdmin && !currentUser.isSupervisor ? 'disabled' : ''%>>
+                        <option <%= !person.phdCompleted ? 'selected' : ''%> value="false">Ongoing</option>
                         <option <%= person.phdCompleted ? 'selected' : ''%> value="true">Completed</option>
                         
                     </select>
                 </div>
             </div>
-
+            <% }%>
         <% } %>
 
         <!-- ----------------------SUBMIT BUTTON -------------------------- -->

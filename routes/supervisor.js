@@ -10,7 +10,7 @@ const Supervisor = require("../models/supervisor"),
       
 // SORT BASED ON ACADEMIC ROLE
 
-var Designation = ['Director and Professor', 'Director' , 'Professor and HOD','Head Of the Department','Professor','Associate Professor','Assistant Professor','Adhoc'];
+var Designation = ['Professor and Director', 'Director' , 'Professor and HOD','Head Of the Department','Professor','Associate Professor','Assistant Professor','Adhoc'];
     
 function sortAlgo(a, b) {
     var index1 = Designation.indexOf(a.academicRole);
@@ -38,24 +38,8 @@ router.get("/",(req,res)=>{
             console.log(err);
             res.redirect('back');
 		} else {
-            supervisorList = [];
-            allsupervisor.forEach((supervisor)=>{
-                temp = {
-                    _id: supervisor._id,
-                    spID : supervisor.spID,
-                    title : supervisor.title,
-                    firstName : supervisor.firstName,
-                    middleName: supervisor.middleName,
-                    lastName : supervisor.lastName,
-                    academicRole : supervisor.academicRole,
-                    department: supervisor.department,
-                    email : supervisor.email,
-                };
-                supervisorList.push(temp);
-            });
-            supervisorList.sort(sortAlgo);
-
-            res.render("supervisor",{supervisor : supervisorList});
+            allsupervisor.sort(sortAlgo);
+            res.render("supervisor",{supervisor : allsupervisor});
 		}
 	});
 });
