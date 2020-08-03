@@ -26,8 +26,9 @@
                     <tr>
                         <th>Scholar ID<i class="fas fa-caret-down fa-sm"></i></th>
                         <th>Name<i class="fas fa-caret-down fa-sm"></i></th>
-                        <th>Department</th>
-                        <th>Email</th>
+                        <th class="d-none d-sm-table-cell">Department</th>
+                        <th class="d-none d-sm-table-cell">PhD Status</th>
+                        <th class="d-none d-md-table-cell">Email</th>
                         <th>Supervisor</th>
                     </tr>
                 </thead>
@@ -36,11 +37,12 @@
                         <tr class="clickable-row" data-href= "/scholar/<%= sch._id %>" style="cursor: pointer;">
                             <td><%=sch.scID%></td>
                             <td><%=`${sch.title} ${sch.firstName} ${sch.middleName} ${sch.lastName}`%></td>
-                            <td>
+                            <td class="d-none d-sm-table-cell">
                                 <% var x = sch.department %>
                                 <%= x.slice(x.indexOf("(")+1,x.length-1) %>
                             </td>
-                            <td><%=sch.email%></td>
+                            <td class="d-none d-sm-table-cell"><%= sch.phdCompleted ? 'Completed' : 'Incomplete' %></td>
+                            <td class="d-none d-md-table-cell"><%=sch.email%></td>
                             <td>
                                 <%=sch.supervisor%>
                                 <div class="d-inline-block float-right"><a class = "text-secondary" href="/scholar/<%= sch._id %>"><i class="fas fa-chevron-right"></i></a></div>
@@ -100,7 +102,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="phone">Phone</label>
-                                            <input type="text" id="phone" class="form-control"  pattern=".{10}" name="scholar[phone]" required>
+                                            <input type="text" id="phone" class="form-control"  pattern=".{10}" name="scholar[phone]">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="regNo">Registration No.</label>
@@ -114,7 +116,7 @@
                                             <label for="inputDep">Department</label>
                                             <select id="inputDep" class="form-control"  name= "scholar[department]" required>
                                                 <option selected>None</option>
-                                                <option>Computer Sicence & Engineering(CSE)</option>
+                                                <option>Computer Science & Engineering(CSE)</option>
                                                 <option>Information Technology(IT)</option>
                                                 <option>Computer & Communication Engineering(CCE)</option>
                                             </select>
@@ -123,7 +125,7 @@
                                             <label for="inputSchool">School</label>
                                             <select id="inputSchool" class="form-control" name= "scholar[school]" required>
                                                 <option selected>None</option>
-                                                <option>School of Computing &  Information Technology</option>
+                                                <option>School of Computing & Information Technology</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
@@ -157,12 +159,6 @@
                                                                 <option value="<%= supervisor[i]._id%>"><%= `${supervisor[i].title} ${supervisor[i].firstName} ${supervisor[i].middleName} ${supervisor[i].lastName}` %></option> 
                                                             <% } %>
                                                         <% } %>
-                                                        <option>Dr. Devesh Kumar Srivastava</option>
-                                                        <option>Dr. Himanshu Chaudhary</option>
-                                                        <option>Dr. Manjit Kaur</option>
-                                                        <option>Dr. Manoj Kumar Bohra</option>
-                                                        <option>Dr. Vijay Bhaskar Semwal</option>
-                                                        <option>Dr. Vivek K Verma</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-4">

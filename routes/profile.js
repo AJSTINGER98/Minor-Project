@@ -86,14 +86,14 @@ router.post('/:person/:id/image/upload',middleware.isLoggedIn,middleware.checkOw
 });
 
 // EDIT ROUTE - Add,Remove or Update Value of Individuals---------------------------
-router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
+router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.hasAuthority,function(req,res){
     if(req.params.person == "supervisor"){
         Supervisor.findById(req.params.id,function(err,foundSupervisor){
             if(err || !foundSupervisor){
                 req.flash("error","Something Went Wrong!!");
                 res.redirect('back');
             } else {
-                res.render("edit",{person : foundSupervisor, path : "supervisor"});
+                res.render("edit",{person : foundSupervisor, path : "supervisor",allSupervisor: false});
             }
         });
     } else if(req.params.person == "scholar") {
@@ -102,7 +102,20 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,funct
                 req.flash("error","Something Went Wrong!!");
                 res.redirect('back');
             } else {
-                res.render("edit",{person : foundScholar, path : "scholar"});
+                if(req.user.isAdmin){
+                    Supervisor.find({},(err,allSupervisor) =>{
+                        if(err){
+                            req.flash('warning','Error while looking for Supervisors');
+                            // res.redirect('back');
+                            allSupervisor = [];
+                        } 
+                        res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: allSupervisor});
+                        
+                    });
+                } else{
+                    res.render("edit",{person : foundScholar, path : "scholar",allSupervisor: false});
+                        
+                }
             }
         });
     } else{
@@ -112,15 +125,52 @@ router.get("/:person/:id/edit",middleware.isLoggedIn,middleware.checkOwner,funct
 });
 
 // UPDATE ROUTE - Store Changes to Database (if any) exists-----------------------------
-router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(req,res){
+router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middleware.addSDC,function(req,res){
 
     data = {
-        email : req.body.email,
-        phone : req.body.phone,
+        phone : req.body.phone != '' ? req.body.phone : undefined,
+        
     };
+    if(req.body.email && req.body.email != ''){
+        data.email = req.body.email;
+    }
+    if(req.body.firstName){
+        data.firstName = req.body.firstName;
+    }
+    if(req.body.middleName){
+        data.middleName = req.body.middleName;
+    }
+    if(req.body.lastName){
+        data.lastName = req.body.lastName;
+    }
+    if(req.body.department){
+        data.department = req.body.department;
+    }
+    if(req.body.school){
+        data.school = req.body.school;
+    }
+
     // Update Age
     if(req.body.age){
         data.age = req.body.age != 'None' ? req.body.age : undefined;
+    }
+
+    if(req.body.academicRole){
+        data.academicRole = req.body.academicRole;
+    }
+    if(req.body.regDate){
+        data.regDate = req.body.regDate;
+    }
+    if(req.body.reschTitle){
+        data.reschTitle = req.body.reschTitle;
+    }
+
+    if(req.body.mode){
+        data.mode = req.body.mode;
+    }
+
+    if(req.body.phdStatus){
+        data.phdCompleted = req.body.phdStatus;
     }
 
     var i;
@@ -186,6 +236,22 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
         data.reschTitle = req.body.reschTitle;
     }
 
+    // ADD SDC MEMBER
+    if(req.params.person == 'scholar'){
+        data.sdcMember = [];
+        if(req.Id && req.Id.length != 0 && req.Name && req.Name.length != 0){
+            for(i = 0; i < req.Id.length;i++){
+                temp = {
+                    ID : req.Id[i] != 0 ? req.Id[i] : undefined,
+                    name : req.Name[i]
+                };
+                
+                data.sdcMember.push(temp);
+            }
+        }
+
+    }
+
     if(req.params.person == "supervisor"){
         Supervisor.findByIdAndUpdate(req.params.id,{$set:data},function(err,updateSupervisor){
             if(err || !updateSupervisor){
@@ -213,7 +279,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.checkOwner,function(r
     }
 
     // UPDATE EMAIL ID IN USER MODEL AS WELL ------------> IMPORTANT
-    if(req.params.id == req.user.refID && req.body.email != req.user.email){
+    if(req.body.email && req.body.email != '' && req.params.id == req.user.refID && req.body.email != req.user.email){
         User.findByIdAndUpdate(req.user.id,{$set: {email : req.body.email}},function(err,user){
             if(err || !user){
                 console.log(err);
@@ -229,7 +295,7 @@ router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(r
         Supervisor.findByIdAndDelete(req.params.id,function(err,supervisor){
             if(err || !supervisor){
                 req.flash('error','Could not delete Supervisor');
-                res.redirect("/supervisor/"+req.params.id);
+                res.redirect("/supervisor");
             } else {
                 User.findOneAndDelete({refID: req.params.id}, (err,supUser)=>{
                     if(err || !supUser){
@@ -247,7 +313,7 @@ router.delete("/:person/:id",middleware.isLoggedIn,middleware.isAdmin,function(r
         Scholar.findByIdAndDelete(req.params.id,function(err,scholar){
             if(err || !scholar){
                 req.flash('error','Could not delete Scholar');
-                res.redirect("/scholar/"+req.params.id);  
+                res.redirect("/scholar");  
             } else {
                 // REMOVE USER --------->
                 User.findOneAndDelete({refID: req.params.id}, (err,schUser)=>{

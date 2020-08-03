@@ -6,27 +6,68 @@ const express    = require("express"),
 // IMPORT MODELS
 const Supervisor = require("../models/supervisor"),
 	  Form       = require("../models/form"),
-	  Drc		 = require('../models/drc');
-
+	  Drc		 = require('../models/drc'),
+	  Schedule	 = require('../models/schedule');
 //HOMEPAGE
 
 router.get("/", (req,res) =>{
 	Drc.find({},(err,foundDrc) =>{
-		if(err)
+		if(err){
 			console.log(err);
-		else {
-			if(req.isAuthenticated()){  
-				Form.find({},(err,formList) =>{
-					if(err || formList.length == 0){
-						return res.render('home',{files:false, drc : foundDrc[0]});
-					} else {
-						return res.render('home',{files:formList, drc : foundDrc[0]});
-					}
-				});
-			} else { 
-				res.render('home',{drc : foundDrc[0]});
-			}
+			foundDrc = [];
 		}
+		
+		if(req.isAuthenticated()){  
+			Form.find({},(err,formList) =>{
+				if(err){
+					console.log('Error while finding Form');
+					formList = [];
+				} 
+				Schedule.find({},(err,sched)=>{
+					if(err){
+						console.log('Error while adding schedule');
+						sched = [];
+					}
+					scheduleArr = [];
+					if(req.user.isAdmin){
+						scheduleArr = sched;
+					} else {
+						if(req.user.isSupervisor && sched.length >0){
+							sched.forEach(schedule =>{
+								if(schedule.supervisedBy && schedule.supervisedBy.ID && schedule.supervisedBy.ID.toString() == req.user.refID.toString()){
+									scheduleArr.push(schedule);
+								} else if(schedule.cosupervisor && schedule.cosupervisor.ID && schedule.cosupervisor.ID.toString() == req.user.refID.toString()){
+									scheduleArr.push(schedule);
+								} else if(schedule.sdcMember && schedule.sdcMember.length != 0){
+									
+									for(var i=0;i<schedule.sdcMember.length;i++){
+										
+										if(schedule.sdcMember[i].ID && schedule.sdcMember[i].ID.toString() == req.user.refID.toString()){
+											scheduleArr.push(schedule);
+											break;
+										}
+									}
+									
+								}
+							});
+						} else  if(sched.length > 0){
+							sched.forEach(schedule =>{
+								if(schedule.ID && schedule.ID.toString() == req.user.refID.toString()){
+									scheduleArr.push(schedule);
+								}
+							});
+						}
+					}
+					
+					res.render('home',{files:formList, drc : foundDrc[0], scheduleData: scheduleArr});
+					
+				});
+				
+			});
+		} else { 
+			res.render('home',{drc : foundDrc[0]});
+		}
+		
 	});
 });
 

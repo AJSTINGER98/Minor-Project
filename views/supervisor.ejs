@@ -1,5 +1,5 @@
 <%- include ("partials/header") %>
-
+\
 <div class="container">
     <div class="row d-flex justify-content-center div-center">
         <div class="col">
@@ -25,7 +25,7 @@
             <table class="table table-hover no-margin text-center table-collapsible tablesorter" id="supervisorTable">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Supervisor ID<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th class="sorter">Supervisor ID<i class="fas fa-caret-down fa-sm"></i></th>
                         <th>Name</th>
                         <th>Department</th>
                         <th>Designation</th>
@@ -107,7 +107,11 @@
 
                                     <!-- SECOND ROW -->
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-2">
+                                            <label for="spID">ID</label>
+                                            <input type="text" id="spID" class="form-control" name="supervisor[spID]" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
                                             <label for="email">Email</label>
                                             <input type="email" id="email" class="form-control" name="supervisor[email]" required>
                                         </div>
@@ -132,7 +136,7 @@
                                             <label for="inputDep">Department</label>
                                             <select id="inputDep" class="form-control"  name= "supervisor[department]" required>
                                                 <option selected>None</option>
-                                                <option>Computer Sicence & Engineering(CSE)</option>
+                                                <option>Computer Science & Engineering(CSE)</option>
                                                 <option>Information Technology(IT)</option>
                                                 <option>Computer & Communication Engineering(CCE)</option>
                                             </select>
@@ -141,7 +145,7 @@
                                             <label for="inputSchool">School</label>
                                             <select id="inputSchool" class="form-control" name= "supervisor[school]" required>
                                                 <option selected>None</option>
-                                                <option>School of Computing &  Information Technology</option>
+                                                <option>School of Computing & Information Technology</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">

@@ -89,22 +89,24 @@ conn.once("open", () => {
 });
 
 // IMPORT ROUTES
-const supRoute     = require("./routes/supervisor");
-const dashRoute    = require("./routes/dashboard");
-const formRoute    = require("./routes/form");
-const profileRoute = require("./routes/profile");
-const schRoute     = require("./routes/scholar");
-const authRoute    = require("./routes/authentication");
-const resetRoute   = require("./routes/reset");
-const seedRoute    = require("./routes/seeds");
-const notifyRoute  = require("./routes/notification");
+const supRoute      = require("./routes/supervisor");
+const dashRoute     = require("./routes/dashboard");
+const formRoute     = require("./routes/form");
+const profileRoute  = require("./routes/profile");
+const schRoute      = require("./routes/scholar");
+const authRoute     = require("./routes/authentication");
+const resetRoute    = require("./routes/reset");
+const seedRoute     = require("./routes/seeds");
+const notifyRoute   = require("./routes/notification");
+const scheduleRoute = require("./routes/schedule");
 
 // CALL ROUTES
 app.use("/notification",notifyRoute);
+app.use("/schedule",scheduleRoute);
 app.use("/supervisor",supRoute);
 app.use("/scholar",schRoute);
-app.use("/form",formRoute);
 app.use("/seeds",seedRoute);
+app.use("/form",formRoute);
 app.use("/",resetRoute);
 app.use("/",profileRoute);
 app.use("/",authRoute);

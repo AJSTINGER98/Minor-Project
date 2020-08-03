@@ -23,18 +23,18 @@
 
             <div class="form-group col-md-4">
                 <label for="input_fname">First Name</label>
-                <input type="text" id="input_fname" class="form-control"  name="firstName" value="<%= person.firstName %>" disabled>
+                <input type="text" id="input_fname" class="form-control"  name="firstName" value="<%= person.firstName %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
             </div>
             
             
             <div class="form-group col-md-3">
                 <label for="input_lname">Middle Name</label>
-                <input type="text" id="input_lname" class="form-control" name= "lastName" value="<%= person.middleName ? person.middleName : '' %>" disabled>
+                <input type="text" id="input_lname" class="form-control" name= "middleName" value="<%= person.middleName ? person.middleName : '' %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
             </div>
 
             <div class="form-group col-md-3">
                 <label for="input_lname">Last Name</label>
-                <input type="text" id="input_lname" class="form-control" name= "lastName" value="<%= person.lastName %>" disabled>
+                <input type="text" id="input_lname" class="form-control" name= "lastName" value="<%= person.lastName %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
             </div>
         </div>
 
@@ -45,7 +45,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" name="email" value="<%= person.email ? person.email : '' %>" required>
+                    <input type="email" id="email" class="form-control" name="email" value="<%= person.email ? person.email : '' %>" <%= currentUser.isAdmin ?  'disabled' : ''%> <%= currentUser.isAdmin ?  '' : 'required'%>>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="phone">Phone</label>
@@ -71,11 +71,11 @@
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" name="email" value="<%= person.email ? person.email : '' %>" required>
+                    <input type="email" id="email" class="form-control" name="email" value="<%= person.email ? person.email : '' %>" <%= currentUser.isAdmin ?  'disabled' : ''%> <%= currentUser.isAdmin ?  '' : 'required'%>>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="phone">Phone</label>
-                    <input type="text" id="phone" class="form-control"  pattern=".{10}" name="phone" value="<%= person.phone ? person.phone : '' %>" required>
+                    <input type="text" id="phone" class="form-control"  pattern=".{10}" name="phone" value="<%= person.phone ? person.phone : '' %>">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="regNo">Registration No.</label>
@@ -89,23 +89,32 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="inputDep">Department</label>
-                <select id="inputDep" class="form-control"  name= "department" disabled>
-                    <option selected><%= person.department %></option>
+                <select id="inputDep" class="form-control"  name= "department" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                    <option <%= person.department == 'Computer Science & Engineering(CSE)' ? 'selected' : '' %>>Computer Science & Engineering(CSE)</option>
+                    <option <%= person.department == 'Information Technology(IT)' ? 'selected' : '' %>>Information Technology(IT)</option>
+                    <option <%= person.department == 'Computer & Communication Engineering(CCE)' ? 'selected' : '' %>>Computer & Communication Engineering(CCE)</option>
                 </select>
             </div>
 
             <div class="form-group col-md-4">
                 <label for="inputSchool">School</label>
-                <select id="inputSchool" class="form-control" name= "school" disabled>
-                    <option selected><%= person.school %></option>
+                <select id="inputSchool" class="form-control" name= "school" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                    <option <%= person.school == 'School of Computing and Information Technology' ? 'selected' : '' %>>School of Computing and Information Technology</option>
                 </select>
             </div>
 
             <% if(person["academicRole"]){ %>
                 <div class="form-group col-md-4">
                     <label for="inputAcademic">Academic Role</label>
-                    <select id="inputAcademic" class="form-control" name="academicRole" disabled>
-                        <option selected><%= person.academicRole %></option>
+                    <select id="inputAcademic" class="form-control" name="academicRole" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                        <option <%= person.academicRole == 'Professor and Director' ? 'selected' : ''%>>Professor and Director</option>
+                        <option <%= person.academicRole == 'Director' ? 'selected' : ''%>>Director</option>
+                        <option <%= person.academicRole == 'Professor and HOD' ? 'selected' : ''%>>Professor and HOD</option>
+                        <option <%= person.academicRole == 'Head Of The Department' ? 'selected' : ''%>>Head Of The Department</option>
+                        <option <%= person.academicRole == 'Professor' ? 'selected' : ''%>>Professor</option>
+                        <option <%= person.academicRole == 'Associate Professor' ? 'selected' : ''%>>Associate Professor</option>
+                        <option <%= person.academicRole == 'Assistant Professor' ? 'selected' : ''%>>Assistant Professor</option>
+                        <option <%= person.academicRole == 'Adhoc' ? 'selected' : ''%>>Adhoc</option>
                     </select>
                 </div>
             <% } %>
@@ -121,7 +130,7 @@
         </div>
 
         <!-- ---------------ACADEMIC QUALIFICATION(SUPERVISOR)----------------- -->
-        <% if(currentUser.isSupervisor){ %>
+        <% if(person['academicQ']){ %>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>ACADEMIC QUALIFICATIONS</em></h5>
@@ -185,7 +194,7 @@
         <% } %>
 
         <!-- ----------------EXPERIENCE(SUPERVISOR)----------------- -->
-        <% if(currentUser.isSupervisor){ %>
+        <% if(person['experience']){ %>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>EXPERIENCE</em></h5>
@@ -243,7 +252,7 @@
         <% } %>
         
         <!-- --------------------RESEARCH PROJECT(SUPERVISOR)---------------- -->
-        <% if(currentUser.isSupervisor){ %>
+        <% if(person['research']){ %>
             <hr id="suphr">
             <br>
             <h5 id="title"><em>RESEARCH PROJECT</em></h5>
@@ -361,13 +370,30 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="mode">Mode of Ph.D</label>
-                            <select id="mode" class="form-control" name= "mode" disabled>
-                                <option selected><%= person.mode %></option>
+                            <select id="mode" class="form-control" name= "mode" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                                <option <%= person.mode == 'Part-Time (Internal)' ?  'selected' : '' %>>Part-Time (Internal)</option>
+                                <option <%= person.mode == 'Part-Time (External)' ?  'selected' : '' %>>Part-Time (External)</option>
+                                <option <%= person.mode == 'Full-Time' ?  'selected' : '' %>>Full-Time</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
+                            <%
+                                if(person.regDate){
+                                    var date = new Date(person.regDate);
+                                    var year = date.getFullYear();
+                                    var month = date.getMonth()+1;
+                                    var dt = date.getDate();
+    
+                                    if (dt < 10) {
+                                    dt = '0' + dt;
+                                    }
+                                    if (month < 10) {
+                                    month = '0' + month;
+                                    }
+                                }
+                            %>
                             <label for="registerDate">Registration Date</label>
-                            <input type="date" id="registerDate" class="form-control" name="regDate" value="<%= person.regDate %>" disabled>
+                            <input type="date" id="registerDate" class="form-control" name="regDate" value="<%=`${year}-${month}-${dt}`%>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
                         </div>
                     </div>
                     
@@ -390,23 +416,49 @@
                 <div class="form-row d-flex justify-content-center">
                     <div class="form-group col-md-4">
                         <label for="sdc">Panel Members</label>
-                        <select id="sdc" class="form-control" name="sdc" disabled>
+                        <select id="sdc" class="form-control" name="sdc" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
                             <option selected>None</option>
+                            <%if(allSupervisor && allSupervisor.length != 0){%>
+                            <%allSupervisor.forEach((supervisor)=>{%>
+                                <option value="<%=supervisor._id%>"><%=`${supervisor.title} ${supervisor.firstName} ${supervisor.middleName} ${supervisor.lastName}`%></option>
+                            <%})%>
+                                
+                            <%}%>
                         </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <!-- ADD BUTTON -->
+                    <div class="container d-flex justify-content-center pr-0 pt-1 pb-3">
+                        <button class="btn btn-primary addSDC px-4 py-1" <%= !currentUser.isAdmin ? 'disabled' : ''%>>ADD</button>
                     </div>
                 </div>
                 <% for(var i = 0; i < person['sdcMember'].length ; i++ ){ %>
                     <div class = "form-row d-flex justify-content-center my-2">
                         <div class="input-group col-md-4">
-                            <input type = "text" class = "form-control" name = "dispName" value="<%= person.sdcMember[i].name %>" disabled>
+                            <input type = "text" class = "form-control" name = "dispName" value="<%= person.sdcMember[i].name %>" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                            <input type="hidden" class="form-control" name="scholar[sdcMember][ID][]" value="<%=person.sdcMember[i].ID ? person.sdcMember[i].ID : 0 %>">
                             <span class="input-group-append">
-                                <button class="btn btn-danger btn-sdc-rem" type="button" disabled>
+                                <button class="btn btn-danger btn-sdc-rem" type="button" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
                                     <i class="fas fa-minus"></i>   
                                 </button>                                       
                             </span>
                         </div>
                     </div>
                 <% } %>
+            </div>
+            <hr id="suphr">
+            <br>
+            <h5 id="title"><em>PhD STATUS</em></h5>
+            <div class="form-row d-flex justify-content-center">
+                <div class="form-group col-md-4">
+                    <label for="phdStatus">Status</label>
+                    <select id="phdStatus" class="form-control" name="phdStatus" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
+                        <option <%= !person.phdCompleted ? 'selected' : ''%> value="false">Incomplete</option>
+                        <option <%= person.phdCompleted ? 'selected' : ''%> value="true">Completed</option>
+                        
+                    </select>
+                </div>
             </div>
 
         <% } %>

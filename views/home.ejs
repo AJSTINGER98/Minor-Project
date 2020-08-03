@@ -1,14 +1,19 @@
 <%- include ("partials/header")%>
 
-<!-- MODAL FOR DEPARTMENT RESEARCH COMMITTEE -->
-<div class="modal fade" id="reschComm" tabindex="-1" role="dialog" aria-labelledby="dept" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header py-2">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+    <!-- MODAL FOR PPT SCHEDULE -->
+    <%if(currentUser){%>
+        <%- include("schedule")%>
+    <%}%>
+    
+	<!-- MODAL FOR DEPARTMENT RESEARCH COMMITTEE -->
+	<div class="modal fade" id="reschComm" tabindex="-1" role="dialog" aria-labelledby="dept" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header py-2">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+                </div>
 
             <% if(drc){ %>
                 <div class="modal-body">

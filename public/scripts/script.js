@@ -174,8 +174,7 @@ newFunction();
                 experienceForm.find('.experienceField:not(:last) .addEX')
                 .removeClass('addEX').addClass('delEX')
                 .removeClass('btn-success').addClass('btn-danger')
-                .html('REMOVE');    
-                
+                .html('REMOVE');        
             });
             $(document).on('click','.addEX',function(e){
                 e.preventDefault();
@@ -198,7 +197,6 @@ newFunction();
     
         // INCLUDE ADD/REMOVE FOR RESEARCH
         $(function(){
-
             $(document).ready(function(){
                 var researchForm = $('.research');
                 researchForm.find('.researchField:not(:last) .addRP')
@@ -206,7 +204,6 @@ newFunction();
                     .removeClass('btn-success').addClass('btn-danger')
                     .html('REMOVE');
             });
-
             $(document).on('click','.addRP',function(e){
                 e.preventDefault();
                 var researchForm = $('.research'),
@@ -358,6 +355,30 @@ newFunction();
         });
     });
 
+    // INCLUDE ADD/REMOVE FOR PRESENTATION SCHEDULE
+    if(window.location.pathname == '/schedule'){
+        $(function(){
+    
+            $(document).on('click','.addSchedule',function(e){
+                e.preventDefault();
+                var scheduleForm = $('.schedule'),
+                    scheduleEntry = $(this).parents('.scheduleField'),
+                    newscheduleEntry = $(scheduleEntry.clone()).appendTo(scheduleForm);
+    
+                    newscheduleEntry.find('input').val('');
+                    newscheduleEntry.find('select').val('None');
+                    scheduleForm.find('.scheduleField:not(:last) .addSchedule')
+                    .removeClass('addSchedule').addClass('delSchedule')
+                    .removeClass('btn-success').addClass('btn-danger')
+                    .html('REMOVE');
+            }).on('click','.delSchedule',function(e){
+                $(this).parents('.scheduleField:first').remove();
+                e.preventDefault();
+                return false;
+            });
+        });  
+    }
+
     // SLIDE EFFECT ON RESOURCE DROPDOWN ----------------------------->
     $(document).ready(function(){
         // Slide Down Effect
@@ -368,6 +389,11 @@ newFunction();
         $('.dropdown').on('hide.bs.dropdown', function() {
             $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
         });
+    });
+
+    // SLIDE ANIMATION OF DROPDOWN ROW
+    $( ".parent-row" ).click(function() {
+        $(this).next('.dropdown-row').toggleClass( "dropdown-row-active");
     });
 
 // -------------------------- END ------------------------------- //
@@ -472,11 +498,14 @@ newFunction();
     function exportexcel(x){
 
         //Import table object
-        var myTable = document.getElementById(`${x}`);
+        var myTable = document.getElementById(`${x}`).cloneNode(true);
 
         // Remove row with display none
         $(myTable).find('tr').each(function(){
             if($(this).hasClass('d-none')){
+                $(this).remove();
+            }
+            else if($(this).hasClass('dropdown-row')){
                 $(this).remove();
             }
         });
@@ -544,7 +573,6 @@ newFunction();
             } 
         });
     });
-
     // --------------------------- END ----------------------------- //
 
 

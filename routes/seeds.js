@@ -202,7 +202,7 @@ router.post('/upload/:person', middleware.isLoggedIn , middleware.isAdmin,(req,r
                                 
                                 schData.department = foundSupervisor.department;
                                 schData.school = school[schData.department];
-                                
+                                schData.phdCompleted = false;
                                 // console.log(schData);
                                 // ADD CONTENT TO DATABASE
                                 Scholar.create(schData, (err,scholarData) => {
