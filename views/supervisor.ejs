@@ -34,6 +34,7 @@
                 </thead>
                 <tbody class="myTable">
                     <% supervisor.forEach(function(sup){ %>
+                        
                         <tr class="clickable-row" data-href= "/supervisor/<%= sup._id %>" style="cursor: pointer;">
                             <td><%=sup.spID%></td>
                             <td><%= `${sup.title} ${sup.firstName} ${sup.middleName} ${sup.lastName}` %></td>

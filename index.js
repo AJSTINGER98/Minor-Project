@@ -15,8 +15,9 @@ const app = express();
 
 // IMPORT MODELS
 const User = require("./models/user");
+const Notification = require("./models/notification");
 
-// SETUP CONNECTION TO  CLOUD DATABASE
+// SETUP CONNECTION TO  CLOUD & LOCAL DATABASE
 mongoURI = process.env.MONGOURL || "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
@@ -66,6 +67,14 @@ app.use(function(req,res,next){
     res.locals.error     = req.flash("error");
     res.locals.warning   = req.flash("warning");
     res.locals.success   = req.flash("success");
+
+    // Extract Notifications and set it locally
+    Notification.find({},(err,foundNotify) => {
+      if(err)
+        console.log(err);
+      else
+        res.locals.notifyData = foundNotify;
+    });
     next();
 });
 
@@ -88,8 +97,10 @@ const schRoute     = require("./routes/scholar");
 const authRoute    = require("./routes/authentication");
 const resetRoute   = require("./routes/reset");
 const seedRoute    = require("./routes/seeds");
+const notifyRoute  = require("./routes/notification");
 
 // CALL ROUTES
+app.use("/notification",notifyRoute);
 app.use("/supervisor",supRoute);
 app.use("/scholar",schRoute);
 app.use("/form",formRoute);

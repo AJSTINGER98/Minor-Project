@@ -92,8 +92,13 @@
         // Hide Icons on Navbar
         $("#mainNavbar ul li a").hide();
         $("#mainNavbar ul li a").first().show();
-        $("#mainNavbar ul li a").first().css({
-            marginRight: "13em"
+        $("#mainNavbar ul li:nth-of-type(1)").css({
+            'margin-right' : '8rem', 
+        });
+        // Hide Announcement Bar
+        $('.topbar').css({
+            'visibility': 'hidden',
+            'height'    : '0px'
         });
     }
 

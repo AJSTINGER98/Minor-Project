@@ -36,7 +36,33 @@
 		</div>
 	</div>
 
-  <div class="page">
+	<div class="page">
+
+	<!-- ANNOUNCEMENT BAR -->
+	<div class="topbar container-fluid">
+		<button type="button" class="close float-right" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="row">
+			<div class="col-md-2">
+				Announcements<i class="fas fa-grip-lines-vertical"></i>
+			</div>
+			<div class="announce col-md-8">
+				<% notifyData.forEach(function(nf){ %>
+					<div>
+						<% if(nf.link) { %>
+							<a href="<%= nf.link %>" target="_blank">
+								<%= nf.text %>
+							</a>
+						<% } else { %>
+							<%= nf.text %>
+						<% } %>
+					</div>
+				<% }); %>
+			</div>
+		</div>
+	</div>
+
 	<!-- NAVBAR -->
 	<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-light fixed-top py-0 px-0">
 		<div class="container-fluid px-2">
@@ -96,6 +122,7 @@
 							<%if(currentUser.isAdmin){%> 
 								<a href="/signup" class="dropdown-item"><i class="fas fa-user-plus"></i> Add Admin</a>
 								<a href="/seeds" class="dropdown-item"><i class="fas fa-list"></i> Import Excel Data</a>
+								<a href="/notification" class="dropdown-item"><i class="fas fa-flag"></i> Notifications</a>
 							<%}%>
 								<a class="dropdown-item" href="/changepassword"><i class="fas fa-key"></i> Change Password</a>
 								<div class="dropdown-divider"></div>

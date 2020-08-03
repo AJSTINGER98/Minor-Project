@@ -2,12 +2,62 @@ html,body{
     height: 100%;
     width: 100%;
 }
+/* ------------ Announcement Bar ------------ */
+.topbar{
+    height: 30px;
+    padding-top: 2px;
+    top : 50px;
+    position: relative;
+    background-color: gold;
+    color: rgba(0, 0, 0, 0.7);
+    border: 2px solid black;
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.topbar i{
+    font-size: 15px;
+}
+
+.topbar .row{
+    margin-left: 180px !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+}
+
+.topbar .row .col-md-2{
+    text-align: center;
+}
+
+.topbar .row .col-md-2 i{
+    padding-left: 30px;
+    line-height: 0.1em;
+}
+
+.topbar button{
+    line-height: 0.8em;
+    outline: none;
+}
+
+.announce{
+    text-align: center;
+}
+
+.announce a{
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.announce a:focus{
+    outline: none;
+}
+/* ------------------ END ------------------- */
+
 /*---------------- NAVBAR --------------------*/
 #mainNavbar{
     font-size: 1rem;
     font-weight: 100;
     background-color: #66cdaa;
-    
+    /* margin-top: 30px; */
 }
 
 #mainNavbar .navbar-brand img{
