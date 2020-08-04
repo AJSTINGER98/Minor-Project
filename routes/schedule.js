@@ -8,6 +8,7 @@ const express       = require("express"),
 const Scholar       = require("../models/scholar");
 const Schedule      = require("../models/schedule");
 
+// SHOW ROUTE
 router.get('/',middleware.isLoggedIn,middleware.isAdmin,(req,res)=>{
     Scholar.find({},(err,allScholar)=>{
         if(err || allScholar.length == 0){
@@ -26,6 +27,7 @@ router.get('/',middleware.isLoggedIn,middleware.isAdmin,(req,res)=>{
     });
 });
 
+//  CREATE ROUTE 
 router.post('/',middleware.isLoggedIn,middleware.isAdmin,(req,res)=>{
     scholarData = [];
     var i;
@@ -96,6 +98,7 @@ router.post('/',middleware.isLoggedIn,middleware.isAdmin,(req,res)=>{
     });
 });
 
+// DELETE ROUTE
 router.delete('/:id',middleware.isLoggedIn,middleware.isAdmin,(req,res)=>{
     Schedule.findByIdAndDelete(req.params.id,(err,data)=>{
         if(err){

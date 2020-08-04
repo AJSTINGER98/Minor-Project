@@ -198,11 +198,13 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
 
     if(req.body.phdStatus){
         data.phdCompleted = req.body.phdStatus;
+        console.log(req.body.phdStatus);
+        // Set Date on the Basis of phD Status
+        data.completeDate =  req.body.phdStatus == 'true' ? req.body.completeDate : null;
     }
 
     var i;
     // Update Academic Qualifications (if any)
-
     if(req.body.academicQ){
         data.academicQ = [];
         for(i = 0; i < req.body.academicQ.degree.length;i++){

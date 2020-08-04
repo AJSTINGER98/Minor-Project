@@ -11,7 +11,6 @@ html,body{
     background-color: gold;
     color: rgba(0, 0, 0, 0.7);
     border: 2px solid black;
-    border-radius: 5px;
     z-index: 999;
 }
 
@@ -138,6 +137,11 @@ html,body{
 #reschComm table{
     border: 1px solid black;
 }
+
+#reschComm .modal-header > button{
+    outline: none;
+}
+
 #reschComm h4{
     text-align: center;
     padding-top: 15px;

@@ -109,9 +109,9 @@
                 <div class="form-group col-md-4">
                     <label for="inputAcademic">Academic Role</label>
                     <select id="inputAcademic" class="form-control" name="academicRole" <%= !currentUser.isAdmin ? 'disabled' : ''%>>
-                        <option <%= person.academicRole == 'Professor and Director' ? 'selected' : ''%>>Professor and Director</option>
+                        <option <%= person.academicRole == 'Director and Professor' ? 'selected' : ''%>>Director and Professor</option>
                         <option <%= person.academicRole == 'Director' ? 'selected' : ''%>>Director</option>
-                        <option <%= person.academicRole == 'Professor and HOD' ? 'selected' : ''%>>Professor and HOD</option>
+                        <option <%= person.academicRole == 'HOD and Professor' ? 'selected' : ''%>>HOD and Professor</option>
                         <option <%= person.academicRole == 'Head Of The Department' ? 'selected' : ''%>>Head Of The Department</option>
                         <option <%= person.academicRole == 'Professor' ? 'selected' : ''%>>Professor</option>
                         <option <%= person.academicRole == 'Associate Professor' ? 'selected' : ''%>>Associate Professor</option>
@@ -461,8 +461,32 @@
                     <select id="phdStatus" class="form-control" name="phdStatus" <%= !currentUser.isAdmin && !currentUser.isSupervisor ? 'disabled' : ''%>>
                         <option <%= !person.phdCompleted ? 'selected' : ''%> value="false">Ongoing</option>
                         <option <%= person.phdCompleted ? 'selected' : ''%> value="true">Completed</option>
-                        
                     </select>
+                </div>
+            </div>
+            <!-- Add Date to PhD if Completed -->
+            <% 
+                if (person.phdCompleted) { 
+                    if(person.completeDate){
+                        var date = new Date(person.completeDate);
+                        var year = date.getFullYear();
+                        var month = date.getMonth()+1;
+                        var dt = date.getDate();
+
+                        if (dt < 10) {
+                        dt = '0' + dt;
+                        }
+                        if (month < 10) {
+                        month = '0' + month;
+                        }
+                        var compPhdDate = `${year}-${month}-${dt}`
+                    }
+                } 
+            %>
+            <div id="compDate" class="form-row justify-content-center">
+                <div class="form-group col-md-2">
+                    <label for="completeDate">Completion Date</label>
+                    <input type="date" id="completeDate" class="form-control" name="completeDate" value="<%= person.phdCompleted ? compPhdDate : '' %>" max="<%=new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0]%>" <%= !currentUser.isAdmin && !currentUser.isSupervisor ? 'disabled' : ''%> required>
                 </div>
             </div>
             <% }%>
