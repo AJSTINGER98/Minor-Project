@@ -18,8 +18,7 @@ const User = require("./models/user");
 const Notification = require("./models/notification");
 
 // SETUP CONNECTION TO  CLOUD & LOCAL DATABASE
-// mongoURI = process.env.MONGOURL || "mongodb://localhost:27017/mydb";
-mongoURI = "mongodb+srv://AbhishekAmann:ghgOLSXlE4uqMEXe@cluster0-ajeew.mongodb.net/mydb?retryWrites=true&w=majority";
+mongoURI = process.env.MONGOURL || "mongodb://localhost:27017/mydb";
 mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , useFindAndModify : false});
 
 
@@ -119,10 +118,6 @@ app.use("/",dashRoute);
 app.use(helmet());
 
 // INITIALISE PORT TO START SERVER
-// app.listen(process.env.PORT||3000,()=>{
-//     console.log('Server Started');
-// });
-
-app.listen(3000,()=>{
-  console.log('Server Started');
+app.listen(process.env.PORT||3000,()=>{
+    console.log('Server Started');
 });
