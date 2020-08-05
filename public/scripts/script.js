@@ -412,7 +412,7 @@ newFunction();
 
 // -------------------- NOTIFICATION PAGE ----------------------- //
     if(pathUrl == '/notification'){
-
+        
         // NEW NOTIFICATION
             $(document).ready(function(){
                 $('.notify div a').click(function(event) {
