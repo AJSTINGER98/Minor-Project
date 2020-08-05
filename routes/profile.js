@@ -266,7 +266,7 @@ router.put("/:person/:id",middleware.isLoggedIn,middleware.hasAuthority,middlewa
     }
 
     // ADD SDC MEMBER
-    if(req.params.person == 'scholar'){
+    if(req.params.person == 'scholar' && req.Id){
         data.sdcMember = [];
         if(req.Id && req.Id.length != 0 && req.Name && req.Name.length != 0){
             for(i = 0; i < req.Id.length;i++){

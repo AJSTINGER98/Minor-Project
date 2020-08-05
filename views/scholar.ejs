@@ -24,12 +24,12 @@
             <table class="table table-hover no-margin text-center table-collapsible  tablesorter" id="scholarTable">
                 <thead class="thead-dark">
                     <tr>
-                        <th>ID<i class="fas fa-caret-down fa-sm"></i></th>
-                        <th>Name<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th class="sorter">ID<i class="fas fa-caret-down fa-sm"></i></th>
+                        <th class="sorter">Name<i class="fas fa-caret-down fa-sm"></i></th>
                         <th class="d-none d-sm-table-cell">Department</th>
                         <th>Supervisor</th>
                         <th>Co-Supervisor</th>
-                        <th class="d-none d-sm-table-cell">PhD Status</th>
+                        <th class="d-none d-sm-table-cell sorter">PhD Status<i class="fas fa-caret-down fa-sm"></i></th>
                     <% if(currentUser && (currentUser.isAdmin)){%>
                         <th class="d-none">Email</th>
                         <th class="d-none">Phone No.</th>
@@ -55,7 +55,7 @@
                             <td><%= sch.cosupervisor.cosup == "" ? 'NA' : sch.cosupervisor.cosup %></td>
                             <td class="d-none d-sm-table-cell">
                                 <%= sch.phdCompleted ? 'Completed' : 'Ongoing' %>
-                                <% if(sch.phdCompleted){ %>
+                                <% if(sch.phdCompleted && sch.completeDate){ %>
                                         <div class="d-inline-block float-right">
                                             <a class = "text-secondary">
                                                 <i id="popoverData" class="fas fa-chevron-right" data-container="body" data-toggle="popover" data-placement="right" data-content="<%= (sch.completeDate).toDateString().split(' ').slice(1,5).join('/') %>" data-trigger="hover"></i>

@@ -74,13 +74,35 @@ function newFunction() {
         if(window.location.pathname == '/supervisor' || window.location.pathname == '/scholar'){
             $(".search-bar input").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
-                $(".myTable tr").filter(function () {
-                    if($(this).text().toLowerCase().indexOf(value) > -1){
-                        $(this).removeClass('d-none');
-                    } else{
-                        $(this).addClass('d-none');
-                    }
-                });
+                if(value.indexOf(':') == -1){
+                    $(".myTable tr").filter(function () {
+                        if($(this).text().toLowerCase().indexOf(value) > -1){
+                            $(this).removeClass('d-none');
+                        } else{
+                            $(this).addClass('d-none');
+                        }
+                    });
+ 
+                } else {
+                    var Key = value.slice(0,value.indexOf(':')).trim().toLowerCase();
+                    var Val = value.slice(value.indexOf(':')+1,value.length).trim().toLowerCase();
+                    $("thead th").each(function(){
+                        var index ; 
+                        if($(this).text().toLowerCase() == Key){
+                            index = $('th').index(this);
+                            
+                            $('.myTable tr').each(function(){
+                                var col = $(this).find(`td:nth-child(${index+1})`);
+                                if(col.text().toLowerCase().indexOf(Val) > -1){
+                                    $(this).removeClass('d-none');
+                                } else {
+                                    $(this).addClass('d-none');
+                                }
+
+                            });
+                        }
+                    });
+                }
             });
 
         }
@@ -230,33 +252,35 @@ newFunction();
         // TABLE SORT IN SCHOLAR.EJS
         $(document).ready(function(){
             $(function() {
-                    $("#scholarTable").tablesorter({ 
-                        sortList: [[0,0]], 
-                        headers : {
-                            // Zero Column Index
-                            0 : { sorter: true },
-                            1 : { sorter: true },
-                            2 : { sorter: false },
-                            3 : { sorter: false },
-                            4 : { sorter: false },
-                        }
-                    });
-                    $('#supervisorTable').tablesorter({
-                        sortList : [[0,0]],
-                        headers : {
-                            // Zero Column Index
-                            0 : { sorter: true },
-                            1 : { sorter: false },
-                            2 : { sorter: false },
-                            3 : { sorter: false },
-                            4 : { sorter: false },
-                        }
-                    });
-                });
-                $('#scholarTable th, #supervisorTable th').click(function() {
-                    $("i", this).toggleClass("fas fa-caret-down fa-sm fas fa-caret-up fa-sm");
+                $("#scholarTable").tablesorter({ 
+                    sortList: [[0,0]], 
+                    headers : {
+                        // Zero Column Index
+                        0 : { sorter: true },
+                        1 : { sorter: true },
+                        2 : { sorter: false },
+                        3 : { sorter: false },
+                        4 : { sorter: false },
+                        5 : { sorter: true },
+                    }
+                }); 
+            });
+            $('#scholarTable .sorter, #supervisorTable .sorter').click(function() {
+                $("i", this).toggleClass("fas fa-caret-down fa-sm fas fa-caret-up fa-sm");
+                
+                $('#supervisorTable').tablesorter({
+                    sortList : [[0,0]],
+                    headers : {
+                        // Zero Column Index
+                        0 : { sorter: true },
+                        1 : { sorter: false },
+                        2 : { sorter: false },
+                        3 : { sorter: false },
+                        4 : { sorter: false },
+                    }
                 });
             });
+        });
 
             // MAKE TABLE ROW CLICKABLE
             $(document).ready(function(){
@@ -429,7 +453,8 @@ newFunction();
 
     // Show phd completion date if status == 'Completed'
     $(document).ready(function(){
-        if($('#completeDate').val().length == 0){
+        var dateVar =  $('#completeDate').val();
+        if(dateVar && dateVar.length == 0){
             $('#completeDate').parent().parent().hide();
         } else {
             $('#completeDate').parent().parent().show();
@@ -440,7 +465,7 @@ newFunction();
 
 // -------------------- NOTIFICATION PAGE ----------------------- //
     if(pathUrl == '/notification'){
-
+        
         // NEW NOTIFICATION
             $(document).ready(function(){
                 $('.notify div a').click(function(event) {
