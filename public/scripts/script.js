@@ -229,11 +229,7 @@ newFunction();
                             
         // TABLE SORT IN SCHOLAR.EJS
         $(document).ready(function(){
-            // $(function() {
-                    
-            //     });
-            $('#scholarTable .sorter, #supervisorTable .sorter').click(function() {
-                $("i", this).toggleClass("fas fa-caret-down fa-sm fas fa-caret-up fa-sm");
+            $(function() {
                 $("#scholarTable").tablesorter({ 
                     sortList: [[0,0]], 
                     headers : {
@@ -243,8 +239,13 @@ newFunction();
                         2 : { sorter: false },
                         3 : { sorter: false },
                         4 : { sorter: false },
+                        5 : { sorter: true },
                     }
-                });
+                }); 
+            });
+            $('#scholarTable .sorter, #supervisorTable .sorter').click(function() {
+                $("i", this).toggleClass("fas fa-caret-down fa-sm fas fa-caret-up fa-sm");
+                
                 $('#supervisorTable').tablesorter({
                     sortList : [[0,0]],
                     headers : {
@@ -430,7 +431,8 @@ newFunction();
 
     // Show phd completion date if status == 'Completed'
     $(document).ready(function(){
-        if($('#completeDate').val().length == 0){
+        var dateVar =  $('#completeDate').val();
+        if(dateVar && dateVar.length == 0){
             $('#completeDate').parent().parent().hide();
         } else {
             $('#completeDate').parent().parent().show();
