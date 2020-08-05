@@ -74,13 +74,35 @@ function newFunction() {
         if(window.location.pathname == '/supervisor' || window.location.pathname == '/scholar'){
             $(".search-bar input").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
-                $(".myTable tr").filter(function () {
-                    if($(this).text().toLowerCase().indexOf(value) > -1){
-                        $(this).removeClass('d-none');
-                    } else{
-                        $(this).addClass('d-none');
-                    }
-                });
+                if(value.indexOf(':') == -1){
+                    $(".myTable tr").filter(function () {
+                        if($(this).text().toLowerCase().indexOf(value) > -1){
+                            $(this).removeClass('d-none');
+                        } else{
+                            $(this).addClass('d-none');
+                        }
+                    });
+ 
+                } else {
+                    var Key = value.slice(0,value.indexOf(':')).trim().toLowerCase();
+                    var Val = value.slice(value.indexOf(':')+1,value.length).trim().toLowerCase();
+                    $("thead th").each(function(){
+                        var index ; 
+                        if($(this).text().toLowerCase() == Key){
+                            index = $('th').index(this);
+                            
+                            $('.myTable tr').each(function(){
+                                var col = $(this).find(`td:nth-child(${index+1})`);
+                                if(col.text().toLowerCase().indexOf(Val) > -1){
+                                    $(this).removeClass('d-none');
+                                } else {
+                                    $(this).addClass('d-none');
+                                }
+
+                            });
+                        }
+                    });
+                }
             });
 
         }
