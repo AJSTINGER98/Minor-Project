@@ -366,7 +366,7 @@ newFunction();
                 autoplay : true,
                 autoplaySpeed : 2000,
                 pauseOnFocus : false,
-                arrows : false
+                arrows : false,
             });
         });
     }

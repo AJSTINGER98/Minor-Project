@@ -49,6 +49,12 @@ html,body{
 .announce a:focus{
     outline: none;
 }
+
+@media only screen and (max-width: 768px) {
+    .topbar{
+        display: none !important;
+    }
+}
 /* ------------------ END ------------------- */
 
 /*---------------- NAVBAR --------------------*/
