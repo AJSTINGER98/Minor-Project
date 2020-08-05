@@ -85,6 +85,10 @@ html , body {
     vertical-align: middle;
 }
 
+.popover {
+    width: 100px !important;
+}
+
 /* -------------------Profile Page----------------- */
 #back{
     background-image: url("/Images/MUJ4.jpg") ;
@@ -345,10 +349,11 @@ opacity:0.2;
     border-radius: 10px;
     padding: 30px 20px 10px 20px;
     margin-bottom: 20px;
-    background-image: url("/Images/EditBack1.jpg");
-    background-repeat: no-repeat;
+    background-color: rgba(47,79,79,0.9)
+    /* background-image: url("/Images/EditBg.jpg"); */
+    /* background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: center; */
 }
 
 #edit h5{
@@ -585,13 +590,47 @@ opacity:0.2;
 }
 /* PRESENTATION SCHEDULE MODAL DESIGN */
 
+#scheduleModal .modal-lg{
+    max-width: 70%;
+}
+
+#scheduleModal .modal-header > button{
+     outline: none;
+}
+
 #scheduleModal h4{
     font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    word-spacing:5px;
+}
+
+#scheduleTable th,td{
+    text-align: center;
+    vertical-align: top;
+}
+
+#scheduleTable .fa-chevron-right{
+    line-height: 1.5em;
 }
 
 /* SCHEDULE DROPDOWN ROW STYLING */
-.parent-row{
+.parent-row {
+    -webkit-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+}
+    
+.parent-row .down{
+    -webkit-transform:rotate(90deg);
+    transform:rotate(90deg);
+}
+.parent-row i{
     cursor: pointer;
+}
+
+.dropdown-row .col-6{
+    padding: 0 50px;
 }
 
 .dropdown-row td{
@@ -607,7 +646,15 @@ opacity:0.2;
     transition: height 1s ease;
 }
 .dropdown-row-active td div{
-    height: 250px;
+    height: 160px;
+}
+
+.dropdown-row .row{
+    padding-top: 10px;
+}
+
+.dropdown-row .row div:nth-of-type(2) > p > a:nth-of-type(n+2){
+    padding-left: 120px;
 }
 
 @media screen and (max-width: 440px){

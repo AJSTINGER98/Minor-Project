@@ -226,10 +226,10 @@ newFunction();
                     return false;
                 });
             });
-    
-            // TABLE SORT IN SCHOLAR.EJS
-            $(document).ready(function(){
-                $(function() {
+                            
+        // TABLE SORT IN SCHOLAR.EJS
+        $(document).ready(function(){
+            $(function() {
                     $("#scholarTable").tablesorter({ 
                         sortList: [[0,0]], 
                         headers : {
@@ -257,17 +257,21 @@ newFunction();
                     $("i", this).toggleClass("fas fa-caret-down fa-sm fas fa-caret-up fa-sm");
                 });
             });
-    
+
             // MAKE TABLE ROW CLICKABLE
             $(document).ready(function(){
                 $('.clickable-row').click(function() {
                     window.location = $(this).data('href');
                 });
             });
-    
-    
+
+            // Hover Popover
+            $('#popoverData').popover();
+
         }); // End Document Ready
     }
+
+
     
 // --------------------------- END ------------------------------ //
 
@@ -404,8 +408,32 @@ newFunction();
     });
 
     // SLIDE ANIMATION OF DROPDOWN ROW
-    $( ".parent-row" ).click(function() {
-        $(this).next('.dropdown-row').toggleClass( "dropdown-row-active");
+    $( ".parent-row i" ).click(function() {
+        $(this).toggleClass("down");
+        $(this).parent().parent().next('.dropdown-row').toggleClass( "dropdown-row-active");
+    });
+
+    // PhD Completion Date change on DropDown Selection
+    $(document).ready(function(){
+        $('#phdStatus').change(function(){
+            if ($(this).val() == 'true') {
+                $('#compDate').css({
+                    'display':'flex',
+                    'justify-content' : 'center'
+                });           
+            } else {
+                $('#compDate').css({'display':'none'}); 
+            }
+        });
+    });
+
+    // Show phd completion date if status == 'Completed'
+    $(document).ready(function(){
+        if($('#completeDate').val().length == 0){
+            $('#completeDate').parent().parent().hide();
+        } else {
+            $('#completeDate').parent().parent().show();
+        }
     });
 
 // -------------------------- END ------------------------------- //
@@ -425,25 +453,25 @@ newFunction();
                 });
             });
         
-            // EDIT NOTIFICATION
-            $(document).ready(function(){
-                $('.notify span a').click(function(event) {
-                    var url = $(this).attr('href');
-                    console.log(url);
-                    // Pass data to Modal
-                    var text = $(this).data('val').text;
-                    var link = $(this).data('val').link;
-                    // Set value attr of Input Tag
-                    $(".modal-body #notifyText").val(text);
-                    $(".modal-body #notifyLink").val(link);
-                    $("#editnotification form").attr('action', url.slice(0,url.length-5)+'?_method=PUT');
-                    history.pushState(null, null, url);
-                });
-            
-                $('#editnotification').on('hidden.bs.modal', function () {
-                    history.pushState(null, null, "/notification");
-                });
+        // EDIT NOTIFICATION
+        $(document).ready(function(){
+            $('.notify span a').click(function(event) {
+                var url = $(this).attr('href');
+                console.log(url);
+                // Pass data to Modal
+                var text = $(this).data('val').text;
+                var link = $(this).data('val').link;
+                // Set value attr of Input Tag
+                $(".modal-body #notifyText").val(text);
+                $(".modal-body #notifyLink").val(link);
+                $("#editnotification form").attr('action', url.slice(0,url.length-5)+'?_method=PUT');
+                history.pushState(null, null, url);
             });
+        
+            $('#editnotification').on('hidden.bs.modal', function () {
+                history.pushState(null, null, "/notification");
+            });
+        });
     }
 
 // -------------------------- END ------------------------------- //

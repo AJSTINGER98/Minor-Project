@@ -10,7 +10,7 @@ const Supervisor = require("../models/supervisor"),
       
 // SORT BASED ON ACADEMIC ROLE
 
-var Designation = ['Professor and Director', 'Director' , 'Professor and HOD','Head Of the Department','Professor','Associate Professor','Assistant Professor','Adhoc'];
+var Designation = ['Director and Professor', 'Director' , 'HOD and Professor','Head Of the Department','Professor','Associate Professor','Assistant Professor','Adhoc'];
     
 function sortAlgo(a, b) {
     var index1 = Designation.indexOf(a.academicRole);
@@ -28,10 +28,8 @@ function sortAlgo(a, b) {
     }
 }
 
-
 // INDEX ROUTE - Show all Supervisors
 router.get("/",(req,res)=>{
-
     Supervisor.find({},function(err, allsupervisor){
 		if(err){
             req.flash('error',"Something went wrong, Please Try Again!!");
