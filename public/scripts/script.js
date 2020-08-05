@@ -229,34 +229,35 @@ newFunction();
                             
         // TABLE SORT IN SCHOLAR.EJS
         $(document).ready(function(){
-            $(function() {
-                    $("#scholarTable").tablesorter({ 
-                        sortList: [[0,0]], 
-                        headers : {
-                            // Zero Column Index
-                            0 : { sorter: true },
-                            1 : { sorter: true },
-                            2 : { sorter: false },
-                            3 : { sorter: false },
-                            4 : { sorter: false },
-                        }
-                    });
-                    $('#supervisorTable').tablesorter({
-                        sortList : [[0,0]],
-                        headers : {
-                            // Zero Column Index
-                            0 : { sorter: true },
-                            1 : { sorter: false },
-                            2 : { sorter: false },
-                            3 : { sorter: false },
-                            4 : { sorter: false },
-                        }
-                    });
+            // $(function() {
+                    
+            //     });
+            $('#scholarTable .sorter, #supervisorTable .sorter').click(function() {
+                $("i", this).toggleClass("fas fa-caret-down fa-sm fas fa-caret-up fa-sm");
+                $("#scholarTable").tablesorter({ 
+                    sortList: [[0,0]], 
+                    headers : {
+                        // Zero Column Index
+                        0 : { sorter: true },
+                        1 : { sorter: true },
+                        2 : { sorter: false },
+                        3 : { sorter: false },
+                        4 : { sorter: false },
+                    }
                 });
-                $('#scholarTable th, #supervisorTable th').click(function() {
-                    $("i", this).toggleClass("fas fa-caret-down fa-sm fas fa-caret-up fa-sm");
+                $('#supervisorTable').tablesorter({
+                    sortList : [[0,0]],
+                    headers : {
+                        // Zero Column Index
+                        0 : { sorter: true },
+                        1 : { sorter: false },
+                        2 : { sorter: false },
+                        3 : { sorter: false },
+                        4 : { sorter: false },
+                    }
                 });
             });
+        });
 
             // MAKE TABLE ROW CLICKABLE
             $(document).ready(function(){

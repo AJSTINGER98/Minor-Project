@@ -102,6 +102,7 @@ middlewareObject.hasAuthority = (req,res,next) =>{
 
 // ADD SDC MEMBERS TO ARRAY
 middlewareObject.addSDC = (req,res,next) =>{
+
     if(req.body.scholar && req.body.scholar.sdcMember && req.body.scholar.sdcMember.ID.length != 0){
         var sdcMem = req.body.scholar.sdcMember.ID,
             Id   = [],
