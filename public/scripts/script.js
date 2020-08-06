@@ -454,7 +454,7 @@ newFunction();
     // Show phd completion date if status == 'Completed'
     $(document).ready(function(){
         var dateVar =  $('#completeDate').val();
-        if(dateVar && dateVar.length == 0){
+        if(dateVar == '' && dateVar.length == 0){
             $('#completeDate').parent().parent().hide();
         } else {
             $('#completeDate').parent().parent().show();

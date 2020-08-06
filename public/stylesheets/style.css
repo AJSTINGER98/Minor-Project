@@ -467,6 +467,47 @@ opacity:0.2;
     margin-bottom: auto;
 }
 
+@media only screen and (max-width: 768px){
+    .notify{
+        width: 100%;
+        margin: auto;
+        overflow-wrap: break-word;
+    }
+
+    .notify h3{
+        font-size: 1.5em;
+    }
+
+    .notify h6{
+        font-size: 1em;
+        padding-bottom: 5px !important;
+        padding-top: 5px !important;
+    }
+
+    .notify > ol{
+        padding-left: 15px;
+    }
+
+    .notify ol > li > span {
+        margin-top: -10px;
+    }
+
+    .notify > ol > li > ul{
+        padding-left: 0px;
+    }
+
+    .notify .float-right > a{
+        font-size: 1em;
+    }
+}
+
+/* Display Notification Button in Hamburger Menu only */
+@media (min-width: 992px) {
+    #notifyMenu {
+      display: none !important;
+    }
+}
+
 
 /* -------------------------- END -------------------------- */
 
