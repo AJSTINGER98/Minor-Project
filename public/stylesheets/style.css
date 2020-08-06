@@ -89,6 +89,11 @@ html , body {
     width: 100px !important;
 }
 
+#ssInput .drop-down-btn button:focus{
+    outline: none;
+    box-shadow: none;
+}
+
 /* -------------------Profile Page----------------- */
 #back{
     background-image: url("/Images/MUJ4.jpg") ;
@@ -111,6 +116,10 @@ html , body {
 .col-md-3 img{
     height: 215px;
     width: 215px;
+}
+
+#profileImage .modal-header > button{
+    outline: none;
 }
 
 #info h1{
@@ -201,6 +210,10 @@ html , body {
     font-size: 1em;
     line-height: 1.8em;
     margin-bottom: 50px;
+}
+
+#uploadReport .modal-header >button:focus{
+    outline: none;
 }
 
 /* CREATE PROFILE PIC HOVER EFFECT */
@@ -550,6 +563,32 @@ opacity:0.2;
 
 } 
 
+/* -------------- AJUST SEEDS.EJS IN MOBILE VIEW ----------------- */
+@media only screen and (max-width: 768px){
+    #seedsPage{
+        width: 100% !important;
+    }
+
+    #seedsPage h2{
+        font-size: 1.8em;
+    }
+
+    #seedsPage div > form > div > button{
+        font-size: 1em;
+    }
+
+    /* Adjusted using selectpicker properties(using Chrome inspect element) */
+    .bootstrap-select .dropdown-menu {
+        width: inherit;
+        font-size: 0.9em;
+    }
+
+    .bootstrap-select .dropdown-header {
+        font-size: 0.9em;
+    }
+
+}
+
 /* ADJUST SUPERVIOSR HEADING IN SUPERVISOR PAGE FOR MOBILE VIEW */
 
 @media only screen and (max-width: 480px) {
@@ -589,7 +628,7 @@ opacity:0.2;
 
 } 
 
-/* CHANGE PASSWORD PAGE FOR MOBILE VIEW */
+/* ---------------- CHANGE PASSWORD PAGE FOR MOBILE VIEW ------------------ */
 
 @media only screen and (max-width: 600px) {
     .div-changepassword {
@@ -629,7 +668,7 @@ opacity:0.2;
     right: 0;
     z-index: 1000; 
 }
-/* PRESENTATION SCHEDULE MODAL DESIGN */
+/*--------------- PRESENTATION SCHEDULE MODAL DESIGN ----------------- */
 
 #scheduleModal .modal-lg{
     max-width: 70%;
@@ -712,7 +751,9 @@ opacity:0.2;
     }
     
 }
-/* SCHEDULE TABLE MODAL DESIGN */
+/* ----------------------- END ------------------------- */
+
+/* --------------- SCHEDULE TABLE MODAL DESIGN --------------*/
 
 #scheduleModal #scheduleTable{
     transform:scale(0.95);

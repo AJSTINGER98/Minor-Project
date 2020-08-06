@@ -461,6 +461,10 @@ html,body{
 }
 
 /* ------------ MODAL FOR PHD FORM --------------*/
+#phdForm .modal-header > button:focus{
+    outline: none;
+}
+
 .modal .modal-dialog {
     max-width: 800px;
 }
