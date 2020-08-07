@@ -27,7 +27,7 @@
                             <th scope="col" class="d-none">SDC Member</th>
                             <th scope="col">Presentation I</th>
                             <th scope="col">Presentation II</th>
-                            <th scope="col">Final Presentation</th>
+                            <th scope="col" class="d-none d-sm-table-cell">Final Presentation</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,12 +58,12 @@
                                 </td>
                                 <td><%= field.presentation.first.toDateString().split(' ').slice(1,5).join('-') %></td>
                                 <td><%= field.presentation.second.toDateString().split(' ').slice(1,5).join('-') %></td>
-                                <td><%= field.presentation.final.toDateString().split(' ').slice(1,5).join('-') %> <i class="fas fa-chevron-right float-right d-none d-sm-block"></i> </td>
+                                <td class="d-none d-sm-table-cell"><%= field.presentation.final.toDateString().split(' ').slice(1,5).join('-') %> <i class="fas fa-chevron-right float-right d-none d-sm-block"></i></td>
                             </tr>
                             <tr class="dropdown-row">
                                 <td colspan="6">
                                     <div class="row px-1">
-                                        <div class="col-6 text-left">
+                                        <div class="col-6 px-2 text-left">
                                             <p>
                                                 <strong>Supervisor <span style="padding-left: 26px;">:</span> </strong> 
                                                 <a href="<%=`/supervisor/${field.supervisedBy.ID}`%>" class="text-dark">
@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="col-6 text-left">                                           
                                             <p>
-                                                <strong>SDC Members : </strong> <br>
+                                                <strong>SDC Members : </strong>
                                                 <% if(field.sdcMember.length){ %>
                                                     <% field.sdcMember.forEach((member) => { %>
                                                         <a <%if(member.ID){%> href = "/supervisor/<%= member.ID%>"<%}%> class="text-dark">

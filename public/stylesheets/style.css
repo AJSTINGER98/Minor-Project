@@ -725,14 +725,22 @@ opacity:0.2;
     height: 160px;
 }
 
+.dropdown-row-active td .delBtn{
+    height: 70px;
+}
+
 .dropdown-row .row{
     padding-top: 10px;
+}
+
+.dropdown-row .row div:nth-of-type(2) > p > a:nth-of-type(n+2){
+    padding-left: 120px;
 }
 
 
 @media screen and (max-width: 440px){
     #scheduleFormTable #scheduleTable{
-        transform: scale(0.7) translateX(70px);
+        transform: scale(0.7) translateX(-70px);
     
     }
     
@@ -751,17 +759,9 @@ opacity:0.2;
 #scheduleModal #scheduleTable{
     transform:scale(0.95);
 }
-@media screen and (max-width: 480px){
-    #scheduleModal #scheduleTable{
-        transform: scale(0.7) translateX(-40px)
-    
+
+@media only screen and (max-width:768px){
+    #scheduleModal table{
+        font-size: 0.75em;
     }
-    
-}
-@media screen and (max-width: 380px){
-    #scheduleModal #scheduleTable{
-        transform: scale(0.5) translateX(-60px)
-    
-    }
-    
 }

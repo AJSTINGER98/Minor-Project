@@ -84,8 +84,7 @@
                         <th scope="row" class="d-none d-sm-table-cell"><%= field.scholarDetails.scID %></th>
                         <td>
                             <a href="/scholar/<%= field.ID%>" class="text-dark">
-                                <%= `${field.scholarDetails.title} ${field.scholarDetails.firstName} ${field.scholarDetails.middleName} ${field.scholarDetails.lastName}`%>
-                            
+                                <%= `${field.scholarDetails.title} ${field.scholarDetails.firstName} ${field.scholarDetails.middleName} ${field.scholarDetails.lastName}`%> 
                             </a>
                         </td>
 
@@ -106,44 +105,45 @@
                                     <%=member.name%>
                             <%});%>
                         </td>
-                        <td><%= field.presentation.first.toDateString()%></td>
-                        <td><%= field.presentation.second.toDateString()%></td>
-                        <td><%= field.presentation.final.toDateString()%></td>
+                        <td><%= field.presentation.first.toDateString().split(' ').slice(1,5).join('-') %></td>
+                        <td><%= field.presentation.second.toDateString().split(' ').slice(1,5).join('-') %></td>
+                        <td><%= field.presentation.final.toDateString().split(' ').slice(1,5).join('-') %> <i class="fas fa-chevron-right float-right d-none d-sm-block"></i></td>
                     </tr>
-                    <tr class="dropdown-row">
+                    <tr id="schForm" class="dropdown-row">
                         <td colspan="6">
-                            <div class="row w-100">
+                            <div class="row px-1">
                                 <div class="col-6 px-2 text-left">
                                     <p>
-                                        <strong>Supervisor : </strong> <a href="<%=`/supervisor/${field.supervisedBy.ID}`%>" class="text-dark"><%= field.supervisedBy.supBy%></a><br>
+                                        <strong>Supervisor <span style="padding-left: 26px;">:</span> </strong> 
+                                        <a href="<%=`/supervisor/${field.supervisedBy.ID}`%>" class="text-dark">
+                                            <%= field.supervisedBy.supBy%>
+                                        </a><br>
                                         <strong>Co-Supervisor : </strong> 
-                                    <a <%if(field.cosupervisor.ID){%> href = "/supervisor/<%= field.cosupervisor.ID%>"<%}%> class="text-dark">
+                                        <a <%if(field.cosupervisor.ID){%> href = "/supervisor/<%= field.cosupervisor.ID%>"<%}%> class="text-dark">
                                             <%=field.cosupervisor.cosup && field.cosupervisor.cosup != '' ? field.cosupervisor.cosup : 'NA'%> <br>
                                         </a>
-                                        <strong>SDC Members : </strong><br>
-                                        <% field.sdcMember.forEach((member) =>{%>
-                                            <a <%if(member.ID){%> href = "/supervisor/<%= member.ID%>"<%}%> class="text-dark">
-                                                <%=` ${member.name}`%> <br>
-
-                                            </a>
-                                        <%});%>
+                                        <strong>Mode of PhD <span style="padding-left:8px;" >:</span> </strong> <%= field.scholarDetails.mode %> <br>
                                     </p>
                                 </div>
                                 <div class="col-6 px-2 text-left">
-                                    <div class="w-100 h-50">
-                                        <p>
-                                            <strong>Mode of PhD : </strong> <%= field.scholarDetails.mode %> <br>
-                                            <strong>Research Title: </strong> <%= field.scholarDetails.reschTitle %> <br>
-                                        </p>
-
-                                    </div>
-                                    <div class="w-100 h-50 d-flex align-items-end justify-content-end">
-                                        <form action="/schedule/<%=field._id%>?_method=DELETE" method="POST">
-                                            <button class="btn btn-outline-danger float-right mb-3"><i class="fas fa-trash"></i></button>
-                                        </form>
-                                    </div>
+                                    <p>
+                                        <strong>SDC Members : </strong>
+                                        <% if(field.sdcMember.length){ %>
+                                            <% field.sdcMember.forEach((member) => { %>
+                                                <a <%if(member.ID){%> href = "/supervisor/<%= member.ID%>"<%}%> class="text-dark">
+                                                    <%= ` ${member.name}`%> <br> 
+                                                </a>
+                                            <% }); %>
+                                        <% } else{ %>
+                                            NA
+                                        <% } %>
+                                    </p>
                                 </div>
-
+                            </div>
+                            <div class="d-flex align-items-end justify-content-end delBtn">
+                                <form action="/schedule/<%=field._id%>?_method=DELETE" method="POST">
+                                    <button class="btn btn-outline-danger float-right mb-3"><i class="fas fa-trash"></i></button>
+                                </form>
                             </div>
                         </td>
                     </tr>
