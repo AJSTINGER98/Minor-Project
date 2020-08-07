@@ -7,34 +7,50 @@
         <ol type="1">            
             <% notify.forEach(function(nf){ %>
                 <li>
-                    <!-- EDIT OR DELETE NOTIFICATION -->
-                    <span class="float-right">
-                        <!-- EDIT BUTTON -->
-                        <a href="/notification/<%= nf._id %>/edit" data-val='{"text" : "<%= nf.text %>", "link" : "<%= nf.link %>"}' class="btn btn-outline-warning btn-sm py-0 px-1" data-toggle="modal" data-target="#editnotification">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <!-- DELETE BUTTON -->
-                        <form action="/notification/<%= nf._id%>?_method=DELETE" method="POST">
-                            <button class="btn px-1">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                    </span>
+                    <% if(currentUser) {%>
+                        <% if(currentUser.isAdmin){ %>
+                            <!-- EDIT OR DELETE NOTIFICATION -->
+                            <span class="float-right">
+                                <!-- EDIT BUTTON -->
+                                <a href="/notification/<%= nf._id %>/edit" data-val='{"text" : "<%= nf.text %>", "link" : "<%= nf.link %>"}' class="btn btn-outline-warning btn-sm py-0 px-1" data-toggle="modal" data-target="#editnotification">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <!-- DELETE BUTTON -->
+                                <form action="/notification/<%= nf._id%>?_method=DELETE" method="POST">
+                                    <button class="btn px-1">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </span>
+                        <% } %>
+                    <% } %>
                     <!-- ANNOUNCEMENT TEST & LINK -->
                     <h6>Announcement :</h6> 
-                    <ul>
-                       <li><strong>Text</strong> - <%= nf.text %></li>
-                        <li>
-                            <strong>Link</strong> - 
-                            <% if(nf.link){ %>
-                                <a href="<%= nf.link %>" target="_blank">
-                                    <%= nf.link %>
-                                </a>
-                            <% } else { %>
-                                No Link Associated
-                            <% } %>
-                        </li> 
-                    </ul>
+                    <% if(currentUser){ %>
+                        <% if(currentUser.isAdmin) { %>
+                            <ul>
+                                <li><strong>Text</strong> - <%= nf.text %></li>
+                                <li>
+                                    <strong>Link</strong> - 
+                                    <% if(nf.link){ %>
+                                        <a href="<%= nf.link %>" target="_blank">
+                                            <%= nf.link %>
+                                        </a>
+                                    <% } else { %>
+                                        No Link Associated
+                                    <% } %>
+                                </li> 
+                            </ul>
+                        <% } else { %>
+                            <a id="notifyAll" href="<%= nf.link == '' ? '#' : nf.link %>" target="<%= nf.link == '' ? '' : '_blank' %>">
+                                <%= nf.text %>
+                            </a>
+                        <% } %>
+                    <% } else { %>
+                            <a id="notifyAll" href="<%= nf.link == '' ? '#' : nf.link %>" target="<%= nf.link == '' ? '' : '_blank' %>">
+                                <%= nf.text %>
+                            </a>
+                    <% } %> 
                     <div class="createNotify float-right">
                         <% var istDate = nf.createdAt.toString().split(' '); %>
                         <em>Created : <%= `${istDate[2]}-${istDate[1]}-${istDate[3]}` %></em>
@@ -43,98 +59,109 @@
             <% }); %>
         </ol>
         <hr>
-        <div class="float-right">
-            <a href="/notification/new" class="btn btn-primary py-1 px-1" data-toggle="modal" data-target="#newnotification">
-                ADD NOTIFICATION
-            </a>
-        </div>
-    </div>
-
-    <!-- EDIT MODAL -->
-    <div class="modal fade" id="editnotification" tabindex="-1" role="dialog" aria-labelledby="editnotification" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <!-- Header -->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+        <% if(currentUser){ %>
+            <% if(currentUser.isAdmin) {%>
+                <div class="float-right">
+                    <a href="/notification/new" class="btn btn-primary py-1 px-1" data-toggle="modal" data-target="#newnotification">
+                        ADD NOTIFICATION
+                    </a>
                 </div>
-
-                <form action="#" method="POST">
-                    <!-- Body -->
-                    <div class="modal-body">
-                        <h5>EDIT NOTIFICATION</h5>
-                        <hr width="30%" style="padding-bottom: 15px;">
-                            <!-- Content -->
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text" id="text">Text</span>
-                                </div>
-                                <input type="text" class="form-control" id="notifyText" value="" name="text" aria-describedby="text">
-                            </div>
-                            <!-- Links -->
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text" id="link">Link</span>
-                                </div>
-                                <input type="text" class="form-control" id="notifyLink" value="" name="link" aria-describedby="link">
-                            </div>
-                    </div>
-                    <!-- Footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success btn-sm">Save Changes</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
+            <% } %>
+        <% } %>
     </div>
 
-    <!-- NEW MODAL -->
-    <div class="modal fade" id="newnotification" tabindex="-1" role="dialog" aria-labelledby="newnotification" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <!-- Header -->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <% if(currentUser) { %>
+        <% if(currentUser.isAdmin) {%>
+            <!-- EDIT MODAL -->
+            <div class="modal fade" id="editnotification" tabindex="-1" role="dialog" aria-labelledby="editnotification" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <!-- Header -->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+    
+                        <form action="#" method="POST">
+                            <!-- Body -->
+                            <div class="modal-body">
+                                <h5>EDIT NOTIFICATION</h5>
+                                <hr width="30%" style="padding-bottom: 15px;">
+                                    <!-- Content -->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="text">Text</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="notifyText" value="" name="text" aria-describedby="text">
+                                    </div>
+                                    <!-- Links -->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="link">Link</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="notifyLink" value="" name="link" aria-describedby="link">
+                                    </div>
+                            </div>
+                            <!-- Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success btn-sm">Save Changes</button>
+                            </div>
+                        </form>
+    
+                    </div>
                 </div>
-
-                <form action="/notification" method="POST">
-                    <!-- Body -->
-                    <div class="modal-body">
-                        <h5>ADD NOTIFICATION</h5>
-                        <hr width="30%" style="padding-bottom: 15px;">
-                        
-                            <!-- Content -->
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="text">Text</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Enter Notification Content" name ="text" aria-describedby="text">
-                            </div>
-                            <!-- Links -->
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="link">Link</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Link Associated With Notification (if any)" name="link" aria-describedby="link">
-                            </div>
-                        
-                    </div>
-                    <!-- Footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success btn-sm">Create</button>
-                    </div>
-                </form>
-
             </div>
-        </div>
-    </div>
+    
+        
+            <!-- NEW MODAL -->
+            <div class="modal fade" id="newnotification" tabindex="-1" role="dialog" aria-labelledby="newnotification" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <!-- Header -->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+    
+                        <form action="/notification" method="POST">
+                            <!-- Body -->
+                            <div class="modal-body">
+                                <h5>ADD NOTIFICATION</h5>
+                                <hr width="30%" style="padding-bottom: 15px;">
+                                
+                                    <!-- Content -->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="text">Text</span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Enter Notification Content" name ="text" aria-describedby="text">
+                                    </div>
+                                    <!-- Links -->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="link">Link</span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Link Associated With Notification (if any)" name="link" aria-describedby="link">
+                                    </div>
+                                
+                            </div>
+                            <!-- Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success btn-sm">Create</button>
+                            </div>
+                        </form>
+    
+                    </div>
+                </div>
+            </div>
+        <% } %>    
+    <% } %>
+
+    
 </div>  
 
 <%- include ("partials/footer") %>

@@ -23,7 +23,7 @@ mongoose.connect(mongoURI,{useNewUrlParser : true , useUnifiedTopology : true , 
 
 
 // SETUP CONNECTION TO LOCAL DATABASE
-// mongoURI = "mongodb://localhost:27017/mydb";
+// mongoURI =
 // mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify : false});
 
 // SET "EJS" AS DEFAULT VIEWING TEMPLATE

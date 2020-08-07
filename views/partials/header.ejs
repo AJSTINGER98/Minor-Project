@@ -105,9 +105,14 @@
 							<%}%>
 						</div>
 					</li>
+					<!-- Notifications for all -->
+					<li>
+						<a id="notifyMenu" href="/notification" class="nav-link hvr-wobble-horizontal px-3"><i class="fas fa-flag"></i> Notifications</a>
+					</li>
 				</ul>
 
 				<ul id="afterLogin" class="navbar-nav ml-auto" style="font-size: 1.0rem;">
+
 					<% if(!currentUser){%>
 						<li>
 							<a href="/login" class="nav-link hvr-wobble-horizontal">Login <i class="fas fa-user"></i></a>

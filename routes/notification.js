@@ -6,7 +6,7 @@ const router = express.Router();
 const Notification  = require('../models/notification');
 
 // INDEX ROUTE TO RENDER NOTIFICATION PAGE
-router.get('/', middleware.isLoggedIn, middleware.isAdmin, (req,res) =>{
+router.get('/', (req,res) =>{
     Notification.find({},(err,foundNotification) =>{
         if(err) {
             req.flash('error','Please Refresh The Page and Try Again');
