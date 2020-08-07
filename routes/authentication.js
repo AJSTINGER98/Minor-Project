@@ -37,7 +37,13 @@ router.post('/signup' ,middleware.isLoggedIn,middleware.isAdmin,(req,res) =>{
 
 // RENDER LOGIN PAGE
 router.get('/login', (req, res) => {
-    res.render('login');
+    if(!req.user){
+        res.render('login');
+
+    } else {
+        req.flash('warning','You are already logged in!!');
+        res.redirect('back');
+    }
 });
 
 // TEST FOR AUTHENTICATION

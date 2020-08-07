@@ -343,7 +343,7 @@
                 <%}%>
             <% if (path == 'scholar' && (isOwner || currentUser.isSupervisor || currentUser.isAdmin)){%> 
                 <div id="info1" class="container">
-                    <h5>REPORTS</h5>
+                    <h5> PRESENTATIONS & REPORTS</h5>
                     <table class="table table-hover">
                     <% if(person.report && person.report != []){%>
                         <tbody>
@@ -368,7 +368,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="2">
-                                    <span class="d-flex justify-content-end"><button class="btn btn-success py-0 px-1" style="cursor: pointer;" data-toggle="modal" data-target="#uploadReport">ADD REPORT</button></span>      
+                                    <span class="d-flex justify-content-end"><button class="btn btn-outline-success py-1 px-2" style="cursor: pointer;" data-toggle="modal" data-target="#uploadReport"> <i class="fas fa-plus fa-sm"></i> ADD</button></span>      
                                 </td>
                             </tr>
                         </tfoot>
@@ -410,7 +410,7 @@
                                         <div class="col-sm-8 form-group">
                                             <div class="custom-file h-50">
                                             <%if(path == 'scholar'){%>
-                                                <input type="file" name="report" id="report" class="custom-file-input" accept="application/pdf" required>
+                                                <input type="file" name="report" id="report" class="custom-file-input" accept=".pdf,.pptx,.ppt,.pptm    " required>
                                             <%} else if(path == 'supervisor'){%>
                                                     <input type="file" name="report" id="report" class="custom-file-input" accept=".xls,.xlsx,.csv" required>
                                             
@@ -431,14 +431,14 @@
                 <%}%>
 
             <%if(isOwner || currentUser.isAdmin || (person.supervisedBy && person.supervisedBy.ID.toString() == currentUser.refID)){%>
-                <div class="float-right mb-3">
+                <div class="float-sm-right mb-3">
                     <a class="btn btn-xs btn-warning px-2 py-1" href="/<%= path %>/<%= person._id %>/edit">EDIT PROFILE</a>
                 </div>
             <%}%>
             <%if(currentUser.isAdmin){%>
                 <div class="float-sm-right mb-3 float-left">
                     <form class="delete float-right" action="/<%= path %>/<%= person._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-xs btn-danger px-3 py-1">DELETE PROFILE</button>
+                        <button class="btn btn-xs btn-danger px-2 py-1">DELETE PROFILE</button>
                     </form>
                 </div>
             <%}%>

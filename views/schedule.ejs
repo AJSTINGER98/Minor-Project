@@ -1,5 +1,5 @@
 <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="dept" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg ">
         <div class="modal-content">
             <div class="modal-header py-1">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -58,7 +58,7 @@
                                 </td>
                                 <td><%= field.presentation.first.toDateString().split(' ').slice(1,5).join('-') %></td>
                                 <td><%= field.presentation.second.toDateString().split(' ').slice(1,5).join('-') %></td>
-                                <td><%= field.presentation.final.toDateString().split(' ').slice(1,5).join('-') %> <i class="fas fa-chevron-right float-right"></i> </td>
+                                <td><%= field.presentation.final.toDateString().split(' ').slice(1,5).join('-') %> <i class="fas fa-chevron-right float-right d-none d-sm-block"></i> </td>
                             </tr>
                             <tr class="dropdown-row">
                                 <td colspan="6">
@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="col-6 text-left">                                           
                                             <p>
-                                                <strong>SDC Members : </strong>
+                                                <strong>SDC Members : </strong> <br>
                                                 <% if(field.sdcMember.length){ %>
                                                     <% field.sdcMember.forEach((member) => { %>
                                                         <a <%if(member.ID){%> href = "/supervisor/<%= member.ID%>"<%}%> class="text-dark">

@@ -591,7 +591,7 @@ opacity:0.2;
 /* PRESENTATION SCHEDULE MODAL DESIGN */
 
 #scheduleModal .modal-lg{
-    max-width: 70%;
+    min-width: 70%;
 }
 
 #scheduleModal .modal-header > button{
@@ -629,10 +629,6 @@ opacity:0.2;
     cursor: pointer;
 }
 
-.dropdown-row .col-6{
-    padding: 0 50px;
-}
-
 .dropdown-row td{
     height: 0px;
     padding: 0px 12px;
@@ -653,13 +649,10 @@ opacity:0.2;
     padding-top: 10px;
 }
 
-.dropdown-row .row div:nth-of-type(2) > p > a:nth-of-type(n+2){
-    padding-left: 120px;
-}
 
 @media screen and (max-width: 440px){
     #scheduleFormTable #scheduleTable{
-        transform: scale(0.7) translateX(-70px);
+        transform: scale(0.7) translateX(70px);
     
     }
     
